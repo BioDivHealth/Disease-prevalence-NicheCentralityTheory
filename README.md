@@ -25,3 +25,4 @@ Based on the modelling of the species habitat, this method will first build a Sp
 - Select the algorithm to calculate species SDM (right now only GLMs are implemented)
 - Download the spatial information for the different rodent species
 - Get the disease prevalence data
+- Add a distance to border and distance to polygon (size) arguments to distnce_p_points functiom
