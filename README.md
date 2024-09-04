@@ -24,5 +24,8 @@ Based on the modelling of the species habitat, this method will first build a Sp
 - Select the set of environmental variables to model species habitat suitability
 - Select the algorithm to calculate species SDM (right now only GLMs are implemented)
 - Download the spatial information for the different rodent species
-- Get the disease prevalence data
+- Get the disease prevalence data, prepare the data into format
+	vlance patogen prevalence
+	group by desease and host
+	
 - Add a distance to border and distance to polygon (size) arguments to distnce_p_points functiom
