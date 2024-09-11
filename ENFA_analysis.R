@@ -1,156 +1,138 @@
-library(adehabitatHS)# Run the ENFA analysis
-
-#
-
-
-
-
-
-
-
-
-
+rm(list=ls())
+setwd(dirname(rstudioapi::getSourceEditorContext()$path)) # Set the working directory to the directory in which the code is stored
 #
 #
+#/\/\/\/\/\/\/\/\\/\/\/\/\/\/\/\/\/\/\/\/\/////\/\/\/\/\/\//\/\/\/>//\/\///\
+##                                                                          \//\/|/      
+#### Script/Function to perform a Environmental Niche Factor Analysis (ENFA)   
+##                                                                          \//\/\/\
+#/\/\/\/\/\/\/\/\\/\/\/\/\/\/\//\/\/\/\/\/\/////\/\/\/\/\/\///\/\\//\/\/\///\
 #
 #
-#
-data(lynxjura)
+list.of.packages<-c("tidyr","terra","sf","raster","data.table","dplyr","bestNormalize")
 
-map <- lynxjura$map
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
 
-## We keep only "wild" indices.
-locs <- lynxjura$locs
-locs <- locs[slot(locs, "data")[,2]!="D",]
+lapply(list.of.packages,require,character.only=TRUE)
+rm(list.of.packages,new.packages)
 
-hist(map, type = "l")
-## The variable artif is far from symetric
+# Load the functions----
+# 0.1 Load the needed functions----
+functions<-"./Functions" %>% list.files(recursive = FALSE,pattern = ".R$",full.names = TRUE)
+lapply(functions,function(x) source(x))
 
-## We perform a square root transformation
-## of this variable
-## We therefore normalize the variable 'artif'
-slot(map,"data")[,4] <- sqrt(slot(map,"data")[,4])
-hist(map, type = "l")
+# 1. Prepare the spatial information----
+# a. Load the spatial data----
+env<-rast("./ResultsRast/Resample_rast.tif")
+points<-read.csv("./Data/Sp_info/raw_records/Peromyscus californicus.csv")
+range<-sf::st_read("./Data/Species_ranges/IUCN_range.gpkg")
 
-## We prepare the data for the ENFA
-tab <- slot(map, "data")
-pr <- slot(count.points(locs, map), "data")[,1]
+plot(env[[c(1:8)]])
 
-## We then perform the PCA before the ENFA
-pc <- dudi.pca(tab, scannf = FALSE)
+# b. Select the environmental variables of interest----
+#env<-env[[c(1:8)]]
+points <- points %>% 
+          sf::st_as_sf(coords=c("decimalLongitude","decimalLatitude"),crs=crs(env)) %>% 
+          st_transform(crs=crs(env))
 
-## The object 'pc' contains the transformed table (i.e.
-## centered so that all columns have a mean of 0
-## and scaled so that all columns have a variance of 1
-## 'pc' also contains the weights of the habitat variables,
-## and the weights of the pixels in the analysis
+# c. Crop the environmental information to mach our study area
+sty_area <- st_bbox(points) 
+sty_area <- sty_area + c(-1,-1,1,1) # Add a degree to the bounding box
+sty_area <- sty_area %>% poly_from_ext(crs_p=crs(points)) # Create the study area polygon
 
-# The FULL ENFA FUNCTION to addapt to make it work with spat raster data
+env2 <- env %>% crop(sty_area %>%vect()) # crop the raster-stack
 
+plot(env2[[1]],axes=F,bty="n")
+sty_area %>% plot(add=TRUE,lwd=2,border="tomato")
+plot(points %>% sf::st_geometry(),add=TRUE,pch=19)
+mtext(side=3,adj=0,text="Study area & species records")
 
-#######################################################################
-#######################################################################
-#######                                                          ######
-#######                                                          ######
-#######                  Generalized ENFA                        ######
-#######                                                          ######
-#######                                                          ######
-#######################################################################
-#######################################################################
+# 2. Prepare the information for the analysis----
+# a. Extract the values from the raster stack and retain the na and index information ----
+env_values<-rast_to_vect(env2)
 
+# b. Extract the position of the presence points----
+cells_points <- env2 %>% terra::cellFromXY(xy=st_coordinates(points))
+cells_points <-xtabs(~cells_points)
 
-enfa <- function(dudi, pr, scannf = TRUE, nf = 1)
-{
-  ## Verifications
-  if (!inherits(dudi, "dudi"))
-    stop("object of class dudi expected")
-  call <- match.call()
-  if (any(is.na(dudi$tab)))
-    stop("na entries in table")
-  if (!is.vector(pr))
-    stop("pr should be a vector")
-  
-  ## Bases of the function
-  prb <- pr
-  pr <- pr/sum(pr)
-  row.w <- dudi$lw/sum(dudi$lw)
-  col.w <- dudi$cw
-  Z <- as.matrix(dudi$tab)
-  n <- nrow(Z)
-  f1 <- function(v) sum(v * row.w)
-  center <- apply(Z, 2, f1)
-  Z <- sweep(Z, 2, center)
-  
-  
-  ## multiply with the square root of the column weights
-  Ze <- sweep(Z, 2, sqrt(col.w), "*")
-  
-  ## Inertia matrices S and G
-  DpZ <- apply(Ze, 2, function(x) x*pr)
-  
-  ## Marginality computation
-  mar <- apply(Z,2,function(x) sum(x*pr))
-  me <- mar*sqrt(col.w)
-  Se <- crossprod(Ze, DpZ)
-  Ge <- crossprod(Ze, apply(Ze,2,function(x) x*row.w))
-  
-  ## Computation of S^(-1/2)
-  eS <- eigen(Se)
-  kee <- (eS$values > 1e-9)     ## keep only the positive values
-  S12 <- eS$vectors[,kee] %*% diag(eS$values[kee]^(-0.5)) %*% t(eS$vectors[,kee])
-  
-  ## Passage to the third problem
-  W <- S12 %*% Ge %*% S12
-  x <- S12%*%me
-  b <- x / sqrt(sum(x^2))
-  
-  ## Eigenstructure of H
-  H <- (diag(ncol(Ze)) - b%*%t(b)) %*% W %*% (diag(ncol(Ze)) - b%*%t(b))
-  s <- eigen(H)$values[-ncol(Z)]
-  
-  ## Number of eigenvalues
-  if (scannf) {
-    barplot(s)
-    cat("Select the number of specialization axes: ")
-    nf <- as.integer(readLines(n = 1))
+# c. Presence absence index:----
+# For the ENFA analysis we need a vector of values that reflect the number of presence records
+# for each "row" or cell of the raster
+p_index <- rep(0,times=ncell(env2))
+p_index[cells_points %>% names() %>% as.numeric()]<-cells_points
+p_index <- p_index[-c(env_values$index_missin)]
+
+# d. Check the data (it needs to be normalize and standarize for the analysis)----
+t_env <- list()
+
+for(i in 2:ncol(env_values$tab)){
+  x<-env_values$tab[,i]
+  t_env[[i-1]]<-best_normalization(x)
   }
-  if (nf <= 0 | nf > (ncol(Ze) - 1))
-    nf <- 1
-  
-  ## coordinates of the columns on the specialization axes
-  co <- matrix(nrow = ncol(Z), ncol = nf + 1)
-  tt <- data.frame((S12 %*% eigen(H)$vectors)[, 1:nf])
-  ww <- apply(tt, 2, function(x) x/sqrt(col.w))
-  norw <- sqrt(diag(t(as.matrix(tt))%*%as.matrix(tt)))
-  co[, 2:(nf + 1)] <- sweep(ww, 2, norw, "/")
-  
-  ## coordinates of the columns on the marginality axis
-  m <- me/sqrt(col.w)
-  co[, 1] <- m/sqrt(sum(m^2))
-  
-  ## marginality
-  m <- sum(m^2)
-  
-  ## Coordinates of the rows on these axes
-  li <- Z %*% apply(co, 2, function(x) x*col.w)
-  
-  ## Output
-  co <- as.data.frame(co)
-  li <- as.data.frame(li)
-  names(co) <- c("Mar", paste("Spe", (1:nf), sep = ""))
-  row.names(co) <- dimnames(dudi$tab)[[2]]
-  names(li) <- c("Mar", paste("Spe", (1:nf), sep = ""))
-  enfa <- list(call = call, tab = data.frame(Z), pr = prb, cw = col.w,
-               nf = nf, m = m, s = s, lw = row.w, li = li,
-               co = co, mar = mar)
-  class(enfa) <- "enfa"
-  return(invisible(enfa))
+names(t_env)<-names(env_values$tab)[-1]
+
+#apply(env_values$tab[,-1],2,function(x) best_normalization(x)) # normalization of the data
+# Extract the normalize data
+x<-data.frame(cells=env_values$tab$cell)
+
+for(i in 1:length(t_env)){
+  x<-cbind(x,t_env[[i]]$t.values)
+  names(x)[i+1]<-names(t_env)[i]
+  if(i==1){
+    t.method<-t_env[[i]]$method
+  }else{
+    t.method <- c(t.method,t_env[[i]]$method)
+  }
 }
 
+# Compare the transformed and not transformed data
+par(mfrow=c(5,5)) # check this before plotting
+apply(env_values$tab[,!colnames(env_values$tab)%in% "cell"],2,hist,col="skyblue")
+par(mfrow=c(5,5)) # check this before plotting
+apply(x[,-1],2,hist,col="firebrick") # Compare transformed and raw data
 
+# d.2 Standardize the data (x-mean)/sd (since the data has been transformed using the Ordered Quantile Normalization there is no need for this)
+# x<-apply(x[,-1],2,function(p) y=(p-mean(p,na.rm=TRUE))/sd(p,na.rm = TRUE))
 
+# 3. Run the ENFA analysis----
+head(x)
+enfa.1<-ENFA_function(data=x[,-1], # exclude the index
+                        presence_index = p_index,
+                        n_speciation_axes=1)
 
+enfa.1$coordinates_axis
 
+# 3.a Plot the results----
+plot_enfa(mar=enfa.1$marginality_specificity_vals$Marginality,
+          spc=enfa.1$marginality_specificity_vals$Specialization1,
+          m=enfa.1$niche_centroid_coordinates,
+          sp_rec=enfa.1$presence_index,pts=T)
 
+arrows(x0=0,y0=0,x1=enfa.1$coordinates_axis$Marginality,
+       y1=enfa.1$coordinates_axis$Specialization1,length = 0)
 
+text(x=enfa.1$coordinates_axis$Marginality,
+     y=enfa.1$coordinates_axis$Specialization1,
+     labels=row.names(enfa.1$coordinates_axis),cex=0.5)
 
+# 3.b Get the suitability projections----
+# Configure the data to follow the same structure as the original raster
+y <- cbind(x,enfa.1$marginality_specificity_vals,enfa.1$prediction)
+y.na <-data.frame(cells=env_values$index_missin) ; y.na[,names(y)[-1]]<-NA
+                  
+suit.1 <- rbind(y,y.na) ; suit.1<-suit.1[order(suit.1$cells),]
+
+# Create the raster stack with the new data (need to check if the results make sense)
+data_analysis<-list()
+
+for(i in 2:length(suit.1)){ # the first column is the cell index of the original raster
+  data_analysis[[i-1]] <- rast(x=matrix(suit.1[,i],
+                                nrow=env_values$dim["rows"],
+                                ncol=env_values$dim["colums"],byrow = TRUE),
+                                  crs=env_values$crs,
+                                    extent=env_values$entent)
+  }
+
+data_analysis<-rast(data_analysis) ; names(data_analysis)<-names(suit.1)[-1]
+plot(data_analysis)
