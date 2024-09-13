@@ -43,63 +43,76 @@ paste(td,"iucn_pols",sep="/") %>% dir.create(showWarnings = FALSE,recursive = TR
 range_route <-"./Data/Species_Ranges" %>% list.files(pattern=".zip$",full.names = TRUE)
 
 range_route %>% unzip(exdir=paste(td,"iucn_pols",sep="/")) # Unzip the spatial information into the temporal folder
-range_sp <- paste(td,"iucn_pols",sep="/") %>% list.files(pattern = ".dbf$",recursive = TRUE,full.names = TRUE) %>% st_read()
+range_spp <- paste(td,"iucn_pols",sep="/") %>% list.files(pattern = ".dbf$",recursive = TRUE,full.names = TRUE) %>% st_read()
 
-range_sp <- range_sp %>% filter(sci_name %in% sp_list$IUCN_name)
-range_sp %>% st_write(paste("./Data/Species_ranges","Range_analysis.gpkg",sep="/"))
+range_spp <- range_spp %>% filter(sci_name %in% sp_list$IUCN_name)
+range_spp %>% st_write(paste("./Data/Species_ranges","Range_analysis.gpkg",sep="/"),append=FALSE)
 
-range_sp <-paste("./Data/Species_ranges","Range_analysis.gpkg",sep="/") %>% st_read()
+range_spp <-paste("./Data/Species_ranges","Range_analysis.gpkg",sep="/") %>% st_read()
 paste(td,"iucn_pols",sep="/") %>% unlink(recursive = T)
 
-# 2. Clean the spatial records---- 
+# 2. Clean the spatial records----
+sp_info <- list()
+r_route <- "./Data/Sp_info/clean_records" ; r_route %>% dir.create(recursive = TRUE,showWarnings = FALSE)
 
-
-# 1.d. Check the IUCN Red List Spatial information ----
-# Look for the polygon
-
-# collect and save
-# RM the unzipped data
-
-# 2. Clean species records ----
-
-
-
-
-# 3. Collect the spatial information
-species_occ_list
-species_polygons_list
-
-
-
-
-
-
-
-
-
-# 1.c Check for spatial data for the species----
-pol_route <- "D:/Data/Spatial information/IUCN spatial data/All polygons"
-range_pols <- data.frame(route=pol_route %>% list.files(pattern = ".shp$",recursive=TRUE,full.names = TRUE),
-                         species=pol_route %>% list.files(pattern = ".shp$",recursive=TRUE,full.names = TRUE) %>% 
-                           basename() %>% gsub(pattern=".shp$",replacement=""))
-
-# 2. Download the spatial information for the species ----
-for(i in 417:length(species)){
+for(p in 1:length(sp_points)){
+  # a Load the point data----
+  p.x <- sp_points[p] %>% read.csv()
+  sp <- sp_points[p] %>% basename() %>% gsub(pattern=".csv",replacement="")
   
-  # if(species[i] %in% range_pols$species){
-  #                     y_range<-range_pols %>% filter(species == species[i]) %>% 
-  #                                   dplyr::select("route") %>% sf::read_sf() %>% 
-  #                                                 sf::st_as_sfc() %>% sf::st_convex_hull() %>% sf::st_as_text()
-  #                     
-  #                 }else{
-  #               y_range<-NULL
-  #                   }
+  init.rec <- nrow(p.x)
   
-  try(Spatial_spp(sci_sp = species[i], start_date = 2019),silent=FALSE)# range_sp=y_range)
+  p.x <- p.x[!c(is.na(p.x$decimalLatitude)|is.na(p.x$decimalLongitude)),]
+  
+  if(nrow(p.x)<1){
+    print(paste("No spatial informatoin for",sp))
+  }
+  
+  # b. Check the range data----
+  sp <- sp_points[p] %>% basename() %>% gsub(pattern=".csv",replacement="")
+  IUCN.sp <-sp_list[sp_list$Or_name==sp,"IUCN_name"]
+  
+  if(length(IUCN.sp)<1){
+   r.x <- NULL
+   IUCN.sp  <- NA
+    }else{
+  r.x <- range_spp %>% filter(sci_name == IUCN.sp)
+  if(nrow(r.x)<1){
+    r.x <-NULL
+    }
+  }
+  # c. Clean the Gbif points----
+  p.y <- Prepare_points(points_sp=p.x,
+                        range_sp=r.x,
+                        xy.c=c("decimalLongitude","decimalLatitude"), # Variables describing the points coordinates (check GBIF variable naming to correctly assign thsi)
+                        b.width=1, 
+                        crs.r=crs_p)
+  
+  # d. Additional filters----
+  # Coordinate uncertainty
+  # Incidents
+  
+  p.y %>% write.csv(paste(r_route,paste0("C_",sp,".csv"),sep="/"))
+  
+  # Display the data
+  # plot(p.x$decimalLongitude,p.x$decimalLatitude,pch=19,col="grey88")
+  # points(x=p.y$decimalLongitude,y=p.y$decimalLatitude,pch=19,col="firebrick")
+  # plot(r.x %>% st_geometry(),add=TRUE)
+  
+  end.rec <- nrow(p.y)
+  
+  sp_info[[p]]<- data.frame(Species=sp,IUCN_name=IUCN.sp,
+                            Initial.Records=init.rec,FinalRecords=end.rec,
+                            IUCN_range=ifelse(is.null(r.x),FALSE,TRUE),
+                            route.points=paste(r_route,paste0("C_",sp,".csv"),sep="/"))
+  
+ rm(p.x,sp,IUCN.sp,r.x,end.rec,init.rec,p.y)
+ gc()
 }
 
+sp_info<-sp_info %>% rbindlist() ; sp_info %>% write.csv(paste("./Data/Sp_info/Records_summary.csv"))
 
-
-
-
+#
+# End of the script
+#
 unlink(td,recursive=TRUE)

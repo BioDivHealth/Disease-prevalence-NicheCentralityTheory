@@ -38,60 +38,24 @@ export_route <- "./Data/IUCN_info" ; export_route %>% dir.create(recursive = TRU
 sp_names <- lapply(sp_list$Species,function(x) retrieve_syns(spp_name=x)$TaxDat) %>% rbindlist()
 sp_analysis <- sp_names %>% filter(!is.na(IUCN_name)) %>% dplyr::select(c("Or_name","IUCN_name")) # Species with different_names under the IUCN Red_list
 
+sp_names %>% write.csv(paste("./Data/Species_list","Species_analysis.csv",sep="/"),row.names = F)  
+
 # Get the Run in parallel 
   lapply(sp_analysis$IUCN_name %>% unlist(),function(y) IUCN_red_List(x=y,export=T,exit_route = export_route))
 
-# 1.c Download the spatial information from Gbif----
+# 1.c Download the spatial information from Gbif (this takes time)----
   
   points_route <- paste("./Data/Sp_info/raw_records") ; points_route %>% dir.create(recursive=TRUE,showWarnings = FALSE)
   
   for(i in 1:length(sp_analysis$IUCN_name)){
-    try(Spatial_spp(sci_sp = sp_analysis$IUCN_name[i],
-                    p.route = points_route,
-                      start_date = 2019),
+    try(Spatial_spp(#sci_sp = sp_analysis$IUCN_name[i],
+                    sci_sp="Sorex minutus",
+                      p.route = points_route,
+                      start_date = 2000),
                         silent=FALSE)
     }
 
-# 1.d. Check the IUCN Red List Spatial information ----
-# Look for the polygon
-  
-  # collect and save
-  # RM the unzipped data
-
-# 2. Clean species records ----
-  
-  
-  
-  
-# 3. Collect the spatial information
-  species_occ_list
-  species_polygons_list
-  
-  
-
-
-
-
-
-
-
-# 1.c Check for spatial data for the species----
-pol_route <- "D:/Data/Spatial information/IUCN spatial data/All polygons"
-range_pols <- data.frame(route=pol_route %>% list.files(pattern = ".shp$",recursive=TRUE,full.names = TRUE),
-                         species=pol_route %>% list.files(pattern = ".shp$",recursive=TRUE,full.names = TRUE) %>% 
-                           basename() %>% gsub(pattern=".shp$",replacement=""))
-
-# 2. Download the spatial information for the species ----
-for(i in 417:length(species)){
-  
-  # if(species[i] %in% range_pols$species){
-  #                     y_range<-range_pols %>% filter(species == species[i]) %>% 
-  #                                   dplyr::select("route") %>% sf::read_sf() %>% 
-  #                                                 sf::st_as_sfc() %>% sf::st_convex_hull() %>% sf::st_as_text()
-  #                     
-  #                 }else{
-  #               y_range<-NULL
-  #                   }
-  
-  try(Spatial_spp(sci_sp = species[i], start_date = 2019),silent=FALSE)# range_sp=y_range)
-}
+#
+# This script takes time to download the spatial information
+# End of the script
+#  
