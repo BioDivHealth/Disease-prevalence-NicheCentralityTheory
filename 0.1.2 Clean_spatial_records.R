@@ -88,7 +88,7 @@ for(p in 1:length(sp_points)){
                         b.width=1, 
                         crs.r=crs_p)
   
-  # d. Additional filters----
+  # d. Additional filters (this can be easily added if needed)----
   # Coordinate uncertainty
   # Incidents
   
