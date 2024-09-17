@@ -106,6 +106,35 @@ results_r <- "./Results/Niche_Distance" ; results_r %>% dir.create(recursive = T
                                   weights.p="Random",buffer.dist=2,
                                   cut_area = wrld_pol) # we are going to use a global polygon to delimit the sampling area and avoid sampling points in the ocean/sea
       
+    # b.2 Normalize the environmental variables----
+      # d.1.2 We are going to normalize and standardize the data----
+      # t_env <- list()
+      # 
+      # for(w in 2:nlyr(Env_variables)){ # the first column includes the cell ID so we are going to exclude it
+      #   x<-Env_variables[[w]] %>% values()
+      #   t_env[[w-1]]<-best_normalization(x,allow.norm=F)
+      # }
+      # 
+      # names(t_env)<-names(env_ENFA$tab)[-1]
+      # 
+      # # Extract the normalize data
+      # x.id<-data.frame(cells=env_ENFA$tab$cell)
+      # 
+      # for(w in 1:length(t_env)){
+      #   x.id<-cbind(x.id,t_env[[w]]$t.values)
+      #   names(x.id)[w+1]<-names(t_env)[w]
+      #   
+      #   if(w==1){
+      #     t.method<-t_env[[w]]$method  %>% class()
+      #   }else{
+      #     t.method <- c(t.method,t_env[[w]]$method %>% class())
+      #   }
+      # }
+      # 
+      # # d.1.3 Standarize the data----
+      # x.id[,-1]<-apply(x.id[,-1],2,function(x) (x-mean(x))/(sd(x)))
+      # 
+      
     # b.3 Select environmental variables (Correlation and VIF)----
     VIF.threshold <- 5 # Maximun VIF value allowed
     preserve_vars=FALSE # Do we want to preserve any specific variable for the analysis
@@ -240,32 +269,31 @@ results_r <- "./Results/Niche_Distance" ; results_r %>% dir.create(recursive = T
        
           # d.1.2 We are going to normalize and standardize the data----
           t_env <- list()
-          
+
           for(w in 2:ncol(env_ENFA$tab)){ # the first column includes the cell ID so we are going to exclude it
             x<-env_ENFA$tab[,w]
             t_env[[w-1]]<-best_normalization(x,allow.norm=F)
           }
-        
+
           names(t_env)<-names(env_ENFA$tab)[-1]
-          
+
            # Extract the normalize data
           x.id<-data.frame(cells=env_ENFA$tab$cell)
-          
+
           for(w in 1:length(t_env)){
             x.id<-cbind(x.id,t_env[[w]]$t.values)
             names(x.id)[w+1]<-names(t_env)[w]
-           
+
             if(w==1){
               t.method<-t_env[[w]]$method  %>% class()
             }else{
               t.method <- c(t.method,t_env[[w]]$method %>% class())
             }
           }
-          
+
           # d.1.3 Standarize the data----
           x.id[,-1]<-apply(x.id[,-1],2,function(x) (x-mean(x))/(sd(x)))
-          
-      
+
       # d.2 Run the ENFA function----        
        enfa.1 <- ENFA_function(data=x.id[,-1],
                       presence_index = p_index_train)
