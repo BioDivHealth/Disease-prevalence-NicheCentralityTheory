@@ -56,6 +56,7 @@ poly_from_ext<-function(x,crs_p){
 # c. Function to evaluate the best normalization method----
 # run the normalization algorithm on the environmental information
 best_normalization <- function(x, # data to normalize
+                               allow.norm=F,
                                n_cores=detectCores(logical=FALSE)-1 # to run the calculations in parallel 
                                #route=NULL # route to save the results
                                ){
@@ -76,7 +77,7 @@ best_normalization <- function(x, # data to normalize
     
     # First test
     best_normalt<-bestNormalize(x,cluster = cl,
-                                allow_orderNorm = TRUE,
+                                allow_orderNorm = allow.norm,
                                 standardize=FALSE) # We are goingo to center the data later   
     stopCluster(cl)
     
@@ -84,10 +85,37 @@ best_normalization <- function(x, # data to normalize
     
     }else{
     
-      best_normalt<-bestNormalize(x,allow_orderNorm = TRUE,
+      best_normalt<-bestNormalize(x,allow_orderNorm = allow.norm,
                                   standardize=FALSE) # We are goingo to center the data later   
       
       return(list(method=best_normalt$chosen_transform,t.values=best_normalt[["x.t"]]))
     }
   }
+
+#
+# Rescale raster layer between 0-1
+#
+rast_01 <- function(x, ...){
+  y<-terra::minmax(x)
+  y["min",]
+  
+  z<-(x - y["min",]) / (y["max",] - y["min",])
+  print("Layer rescalled betweeen 0-1")
+  
+  return(z)
+  }
+
+scale_01 <- function(x, ...){
+  z<-(x - min(x,...)) / (max(x,...) - min(x,...))
+  print("values rescalled betweeen 0-1")
+  return(z)
+}
+
+
+
+
+
+
+
+
 

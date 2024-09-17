@@ -6,6 +6,7 @@ Pred_to_polygons <- function(x, # model prediction to process
                         t_value, # (numeric) threshold value
                         plot.r=FALSE,
                         export=NULL, # do we wanto to export the plot? [Character] route to the figures folder
+                        to01=TRUE, # does the scale goes from worse to better (0-1)
                         name.mod=NULL # if export!=NULL, do we want to id the model?
   ){
   
@@ -19,7 +20,15 @@ Pred_to_polygons <- function(x, # model prediction to process
   rm(list.of.packages,new.packages)
   
   # Reclassify the rasters----
-  threshold <- matrix(c(t_value,+Inf,1,-Inf,t_value,NA),ncol=3,byrow=TRUE)
+  if(to01==TRUE){
+    threshold <- matrix(c(t_value,+Inf,1,-Inf,t_value,NA),ncol=3,byrow=TRUE)
+          
+    }else{
+    threshold <- matrix(c(t_value,+Inf,NA,-Inf,t_value,1),ncol=3,byrow=TRUE)
+          
+    }
+  
+  
   y <- terra::classify(x,rcl=threshold) # Delimitation of the more probable areas of presence for the species, according to the Kappa parameter
   
   # Transform the cut areas into polygons----
