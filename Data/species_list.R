@@ -2,9 +2,7 @@ library(dplyr)
 library(tidyr)
 library(here)
 
-write_rds(host_path_wide, file="./data/Species_list/host_path_wide.rds")
-
-host_path_wide = readRDS("./data/host_path_wide.rds")
+host_path_wide = readRDS("./data/host_path_wide_SDM.rds")
 
 # Treat coordinates as character
 host_path_wide$decimalLongitude <- as.character(host_path_wide$decimalLongitude)
@@ -27,3 +25,4 @@ host_summary <- host_path_wide %>%
 # Expand the list of coordinates into individual columns
 host_summary_coordinates <- host_summary %>%
   unnest_wider(all_coordinates, names_sep = "_coord_")
+
