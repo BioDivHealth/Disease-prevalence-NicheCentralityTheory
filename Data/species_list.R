@@ -4,7 +4,7 @@ library(here)
 
 write_rds(host_path_wide, file="./data/Species_list/host_path_wide.rds")
 
-host_path_wide = readRDS("./data/Species_list/host_path_wide.rds")
+host_path_wide = readRDS("./data/host_path_wide.rds")
 
 # Treat coordinates as character
 host_path_wide$decimalLongitude <- as.character(host_path_wide$decimalLongitude)
