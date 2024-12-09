@@ -24,7 +24,7 @@ Spatial_spp <- function(sci_sp, # Scientific name of the species from which we w
   p.route %>% dir.create(recursive=TRUE,showWarnings = FALSE)
   
   # a. Check species names and extract synonims information
-  y_sp <- retrieve_syns(spp_name=sci_sp,Gbif=TRUE)$Spp_syn
+  y_sp <- retrieve_syns(spp_name=sci_sp,Gbif=FALSE)$Spp_syn
   
   # b. with the list of synomyns, dowload all the abailable spatial information
   Dowload_gbif(sp_list=y_sp, # (Character) List of species from which to dowload spatial information
@@ -515,10 +515,10 @@ Dowload_gbif<-function(sp_list, # (Character) List of species from which to dowl
         if(is.null(points$data)){
           next
         }else{
-          if(!exists("y")){
-            y<-points$data
+          if(!exists("y_points")){
+            y_points<-points$data
           }else{
-            y<-data.table::rbindlist(list(y,points$data),fill=TRUE)
+            y_points<-data.table::rbindlist(list(y_points,points$data),fill=TRUE)
           }}
         rm(points)
         print(paste(k,j,sep="-"))
@@ -526,14 +526,14 @@ Dowload_gbif<-function(sp_list, # (Character) List of species from which to dowl
     }
     gc()
     
-    if(exists("y")){
+    if(exists("y_points")){
       
       if(is.null(sp_list)){
         sp_list<-paste("All_records",locality)
       }
       
-      write.csv(y,paste(exit_route,paste0(sp_list,".csv"),sep="/"),row.names = FALSE)
-      rm(y)
+      write.csv(y_points,paste(exit_route,paste0(sp_list,".csv"),sep="/"),row.names = FALSE)
+      rm(y_points)
     }
     
   }else{
@@ -571,10 +571,10 @@ Dowload_gbif<-function(sp_list, # (Character) List of species from which to dowl
           if(is.null(points$data)){
             next
           }else{
-            if(!exists("y")){
-              y<-points$data
+            if(!exists("y_points")){
+              y_points<-points$data
             }else{
-              y<-data.table::rbindlist(list(y,points$data),fill=TRUE)
+              y_points<-data.table::rbindlist(list(y_points,points$data),fill=TRUE)
             }}
           rm(points)
           print(paste(k,j,sep="-"))
@@ -582,9 +582,9 @@ Dowload_gbif<-function(sp_list, # (Character) List of species from which to dowl
       }
       gc()
       
-      if(exists("y")){
-        write.csv(y,paste(Temp_tax,paste0(sp,".csv"),sep="/"),row.names = FALSE)
-        rm(y)
+      if(exists("y_points")){
+        write.csv(y_points,paste(Temp_tax,paste0(sp,".csv"),sep="/"),row.names = FALSE)
+        rm(y_points)
       }
     }
     
