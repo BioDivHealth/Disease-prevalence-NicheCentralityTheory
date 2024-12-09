@@ -179,6 +179,7 @@ plot_enfa<-function(mar, # Marginality vector
          xlab="Marginality",ylab="Specificity")
     
     axis(1,col="white") ; axis(2,col="white")
+
     
     # Add the points
     if(pts){
@@ -198,6 +199,7 @@ plot_enfa<-function(mar, # Marginality vector
     
     # Add the legend
     legend("topright",legend=c("Environment","Species domain","Species niche centroid"),cex=0.8,
+
            pch=c(15,15,21),bg=c(NA,NA,"white"),col=c(col_p,"black"),pt.cex=c(1,1,1.5),bty="n")
   }
   
