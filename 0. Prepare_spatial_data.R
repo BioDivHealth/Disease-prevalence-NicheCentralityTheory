@@ -45,7 +45,8 @@ sp_names %>% write.csv(paste("./Data/Species_list","Species_analysis.csv",sep="/
 
 # 1.c Download the spatial information from Gbif (this takes time)----
   
-  points_route <- paste("./Data/Sp_info/raw_records") ; points_route %>% dir.create(recursive=TRUE,showWarnings = FALSE)
+  points_route <- paste("./Data/Sp_info/raw_records") 
+  points_route %>% dir.create(recursive=TRUE,showWarnings = FALSE)
   
   for(i in 1:length(sp_analysis$IUCN_name)){
     try(Spatial_spp(#sci_sp = sp_analysis$IUCN_name[i],

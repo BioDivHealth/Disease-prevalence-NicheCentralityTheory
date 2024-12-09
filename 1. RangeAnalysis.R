@@ -102,7 +102,7 @@ results_r <- "./Results/Niche_Distance" ; results_r %>% dir.create(recursive = T
       }
       
       points_bk<-backgroundPOINTS(presence=points,background_n=num_bk, # we select the default method for maxent
-                                  TrainTest=c(0.7),range_samp=range.sp,
+                                  TrainTest=c(0.7),range_samp=range.sp %>% st_bbox() %>% poly_from_ext(crs=crs(Env_variables)),
                                   weights.p="Random",buffer.dist=2,
                                   cut_area = wrld_pol) # we are going to use a global polygon to delimit the sampling area and avoid sampling points in the ocean/sea
       
@@ -170,80 +170,6 @@ results_r <- "./Results/Niche_Distance" ; results_r %>% dir.create(recursive = T
     # C. Run the MaxEnt----
         MaxEnt_route  <- paste("./Results/Niche_Distance",sp,"MaxEnt",sep="/") ; MaxEnt_route %>% dir.create(recursive = TRUE,showWarnings = FALSE)
         
-        # c.1 shuffle the presence data----
-        points <- points[sample(1:nrow(points),size=nrow(points)),]
-        
-        points.t <- points[sample(1:nrow(points),size=round(nrow(points)*0.7,digits=0)),]
-        points.test <- points[!points$ID_p %in% points.t$ID_p,]
-        
-        print(paste("the sample size for training MaxEnt is of",nrow(points.t),"!"))
-        dismo::maxent() # check if you can r
-        
-        # par(mfrow=c(2,2))
-        MaxEnt_md<-run_maxent(train.p = points.t,test.p = points.test,
-                              bk.train = points_bk$Train,bk.test = points_bk$Test,
-                              predictors = env_study,
-                              random_features = FALSE,
-                              dp.t = FALSE,
-                              n.m=10, # since random_features is equal to FALSE, all possible models will be run
-                              results.maxent = MaxEnt_route,
-                              mod.name = sp,
-                              plot.maxent=FALSE,
-                              jackknife = TRUE,
-                              return = TRUE)
-        
-        # c.2 Select the 10 best performing models----
-        # Get an index with performance metrics
-        mod_selection<-data.frame(index=1:length(MaxEnt_md),
-                                  AUC=lapply(MaxEnt_md,function(x) x$Test_evaluate@auc) %>% unlist(),
-                                  TypeI=lapply(MaxEnt_md,function(x) x$Test_evaluate@FPR[x$Test_evaluate@t %in% 
-                                                                                             x$Threshold_kappa]) %>% unlist())
-        
-        # Select the models with the highest AUC and lower TYPEI error
-        mod_selection <- mod_selection[!duplicated(paste(mod_selection$AUC,mod_selection$TypeI)),] # remove the duplicated models (We can ensure no duplication by trying all possible combinaitons of autofeatures)
-        mod_selection <- mod_selection %>% filter(AUC>0.7,TypeI < 0.1)
-        
-        if(nrow(mod_selection)>10){
-          mod_selection <- mod_selection[order(mod_selection$AUC,decreasing=TRUE),]
-          mods<-MaxEnt_md[c(mod_selection$index[1:10])]
-          
-        }else{
-          mods <- MaxEnt_md[c(mod_selection$index[1:nrow(mod_selection)])]
-        }      
-        
-        # c.3 Export the selected models----
-        save(mods,file = paste(MaxEnt_route,paste0(sp,".Rdata"),sep="/"))
-        
-        # c.4 Run the model predictions and save them----  
-        pred_maxend <- lapply(mods, function(x) terra::predict(model=x$Train_model,env_study,na.rm=TRUE)) %>% rast()# %>% mean(na.rm=TRUE)
-        
-        mean_maxent <-  pred_maxend %>% mean(na.rm=TRUE)
-        sd_maxent <- pred_maxend %>% stdev(na.rm=TRUE)
-        
-        # c.5 Transform the predictions of the models into polygons using the kappa parameter----
-        pols_pred <- list()
-        
-        for(w in 1:nlyr(pred_maxend)){
-          pols_pred[[w]] <-  Pred_to_polygons(pred_maxend[[w]],pol.x=range.sp,
-                           t_value = mods[[w]]$Threshold_kappa,
-                           plot.r = F)$pol_mod #%>% st_geometry() %>% plot(add=ifelse(w==1,FALSE,TRUE),col=w)
-          }
-        
-        pols_pred <- do.call("rbind",pols_pred)
-        pols_pred <- pols_pred %>% st_union(by_feature = F) #%>% st_cast("POLYGON") %>% sf::st_as_sf()# merge the polygons that toucht
-        pols_pred <- pols_pred[st_geometry_type(pols_pred) %in% c("MULTIPOLYGON","POLYGON")] %>% st_cast("POLYGON") %>% sf::st_as_sf()# merge the polygons that toucht
-        
-        pols_pred$Id <- 1:nrow(pols_pred)  
-        
-        if(FALSE %in% c(pols_pred %>% st_is_valid())){
-          pols_pred <- pols_pred %>% st_make_valid()
-          }
-        
-        pols_pred$area <- st_area(pols_pred) ; units(pols_pred$area)<-"km^2"
-        pols_pred$intersects <- pols_pred %>% st_intersects(range.sp) %>% as.numeric()
-        pols_pred$intersects <- ifelse(pols_pred$intersects==1,TRUE,FALSE)
-        
-        pols_pred_cut <- pols_pred %>% st_intersection(y=range.sp)
         
       # D. ENFA analysis----
         ENFA_route  <- paste("./Results/Niche_Distance",sp,"ENFA",sep="/") ; ENFA_route %>% dir.create(recursive = TRUE,showWarnings = FALSE)
@@ -285,9 +211,9 @@ results_r <- "./Results/Niche_Distance" ; results_r %>% dir.create(recursive = T
             names(x.id)[w+1]<-names(t_env)[w]
 
             if(w==1){
-              t.method<-t_env[[w]]$method  %>% class()
+              t.method<-t_env[[w]]$method  %>% class() %>% paste(collapse="-")
             }else{
-              t.method <- c(t.method,t_env[[w]]$method %>% class())
+              t.method <- c(t.method,t_env[[w]]$method %>% class() %>% paste(collapse="-"))
             }
           }
 
@@ -374,7 +300,7 @@ results_r <- "./Results/Niche_Distance" ; results_r %>% dir.create(recursive = T
             summary.2 %>% write.csv(paste("./Results/Niche_Distance",sp,"Var_transformation.csv",sep="/"))
             
           # f.2 Group the result layers into a raster-stack----
-            dist_r <- c(mean_maxend,sd_maxent,
+            dist_r <- c(mean_maxent,sd_maxent,
                         data_ENFA$Marginality,
                         data_ENFA$Specialization1,
                         data_ENFA$Mahalanobis.Dist,
@@ -388,45 +314,45 @@ results_r <- "./Results/Niche_Distance" ; results_r %>% dir.create(recursive = T
                          MaxEnt_cut=pols_pred_cut)
           
           # f.3 Export the results----
-            terra::writeRaster(dist_r,paste("./Results/Niche_Distance",sp,"Dist_metrics.tiff",sep="/"))
+            terra::writeRaster(dist_r,paste("./Results/Niche_Distance",sp,"Dist_metrics.tiff",sep="/"),overwrite=TRUE)
             
             for(w in 1:length(vect_r)){
-              vect_r[[w]] %>% st_write(paste("./Results/Niche_Distance",sp,paste0(names(vect_r)[w],".shp"),sep="/"))
+              vect_r[[w]] %>% st_write(paste("./Results/Niche_Distance",sp,paste0(names(vect_r)[w],".shp"),sep="/"),append=FALSE)
               }
           # f.4 Display the results of the anaylsis and export the results----
-          png(paste("./Results/Niche_Distance",sp,paste0("Distance_metrics_",sp,".png"),sep="/"),
-              height = nrow(mean_maxent)*3,width = ncol(mean_maxent),units="px",res=600)
-            
-            lt<-layout(matrix(c(rep(1,4),2,2,4,4,3,3,4,4),byrow=TRUE,ncol=4))
-            layout.show(lt)
-            
-             colfun_p<-colorRampPalette(c("#e77c71ff","#e7d771ff","#71e7b2ff","#71b9e1ff")%>%rev())
-             colfun_p2<-colorRampPalette(c("#e77c71ff","#e7d771ff","white"))
-             
-             # Display the maxent results----
-             terra::plot(mean_maxent,col=colfun_p(200),main="",axes=F) ; plot(range.sp %>% st_geometry(),add=TRUE,border="grey25") 
-             mtext(side=3,adj=0,"MaxEnt Model Average")
-             
-             
-            # ENFA results ----
-             terra::plot(dist_r$Mahalanobis.Dist,col=colfun_p2(1000),main="Distance to niche centroid") ; plot(range.sp %>% st_geometry(),add=TRUE,border="grey25") 
-             terra::plot(dist_r$Suitability_class,col=colfun_p2(1000) %>% rev(),main="Suitability map (1-0 Scalled)") ; plot(range.sp %>% st_geometry(),add=TRUE,border="grey25") 
-             
-             par(col.axis="black")
-             plot_enfa(mar=enfa.1$marginality_specificity_vals$Marginality,
-                       spc=enfa.1$marginality_specificity_vals$Specialization1,
-                       m=enfa.1$niche_centroid_coordinates,
-                       sp_rec=enfa.1$presence_index,pts=F)
-             axis(1); axis(2)
-             mtext(side=3,adj=0,"ENFA results")
-             # arrows(x0=0,y0=0,x1=enfa.1$coordinates_axis$Marginality,col="black",
-             #        y1=enfa.1$coordinates_axis$Specialization1,length = 0)
-             # 
-             # text(x=enfa.1$coordinates_axis$Marginality,
-             #      y=enfa.1$coordinates_axis$Specialization1,
-             #      labels=row.names(enfa.1$coordinates_axis),cex=0.5,col="black")
-             
-             dev.off()
+          # png(paste("./Results/Niche_Distance",sp,paste0("Distance_metrics_",sp,".png"),sep="/"),
+          #     height = nrow(mean_maxent)*3,width = ncol(mean_maxent),units="px",res=600)
+          #   
+          #   lt<-layout(matrix(c(rep(1,4),2,2,4,4,3,3,4,4),byrow=TRUE,ncol=4))
+          #   layout.show(lt)
+          #   
+          #    colfun_p<-colorRampPalette(c("#e77c71ff","#e7d771ff","#71e7b2ff","#71b9e1ff")%>%rev())
+          #    colfun_p2<-colorRampPalette(c("#e77c71ff","#e7d771ff","white"))
+          #    
+          #    # Display the maxent results----
+          #    terra::plot(mean_maxent,col=colfun_p(200),main="",axes=F) ; plot(range.sp %>% st_geometry(),add=TRUE,border="grey25") 
+          #    mtext(side=3,adj=0,"MaxEnt Model Average")
+          #    
+          #    
+          #   # ENFA results ----
+          #    terra::plot(dist_r$Mahalanobis.Dist,col=colfun_p2(1000),main="Distance to niche centroid") ; plot(range.sp %>% st_geometry(),add=TRUE,border="grey25") 
+          #    terra::plot(dist_r$Suitability_class,col=colfun_p2(1000) %>% rev(),main="Suitability map (1-0 Scalled)") ; plot(range.sp %>% st_geometry(),add=TRUE,border="grey25") 
+          #    
+          #    par(col.axis="black")
+          #    plot_enfa(mar=enfa.1$marginality_specificity_vals$Marginality,
+          #              spc=enfa.1$marginality_specificity_vals$Specialization1,
+          #              m=enfa.1$niche_centroid_coordinates,
+          #              sp_rec=enfa.1$presence_index,pts=F)
+          #    axis(1); axis(2)
+          #    mtext(side=3,adj=0,"ENFA results")
+          #    # arrows(x0=0,y0=0,x1=enfa.1$coordinates_axis$Marginality,col="black",
+          #    #        y1=enfa.1$coordinates_axis$Specialization1,length = 0)
+          #    # 
+          #    # text(x=enfa.1$coordinates_axis$Marginality,
+          #    #      y=enfa.1$coordinates_axis$Specialization1,
+          #    #      labels=row.names(enfa.1$coordinates_axis),cex=0.5,col="black")
+          #    
+          #    dev.off()
              
             # End of the loop
             print(paste0(sp,paste(rep("---",times=25),collapse="")))
