@@ -178,7 +178,11 @@ plot_enfa<-function(mar, # Marginality vector
          # col="grey85" %>% adjustcolor(alpha.f = 0.3),
          xlab="Marginality",ylab="Specificity")
     
+<<<<<<< HEAD
     axis(1,col="white") ; axis(2,col="white")
+=======
+    axis(1) ; axis(2)
+>>>>>>> main
     
     # Add the points
     if(pts){
@@ -197,7 +201,11 @@ plot_enfa<-function(mar, # Marginality vector
     abline(h=0,v=0,lty=3)
     
     # Add the legend
+<<<<<<< HEAD
     legend("topright",legend=c("Environment","Species domain","Species niche centroid"),cex=0.8,
+=======
+    legend("topright",legend=c("Environment","Species domain","Species niche centroid"),
+>>>>>>> main
            pch=c(15,15,21),bg=c(NA,NA,"white"),col=c(col_p,"black"),pt.cex=c(1,1,1.5),bty="n")
   }
   
@@ -206,6 +214,7 @@ plot_enfa<-function(mar, # Marginality vector
               prop.overlap=prop_spp_area))
   }
 
+<<<<<<< HEAD
 #######################################
 # Function to evaluate ENFA results   #----
 #######################################
@@ -275,4 +284,6 @@ performance_ENFA<-function(EnFa_p, # model to test
   }
 }
 
+=======
+>>>>>>> main
 # End of the function

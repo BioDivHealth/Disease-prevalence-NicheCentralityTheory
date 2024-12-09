@@ -56,7 +56,10 @@ poly_from_ext<-function(x,crs_p){
 # c. Function to evaluate the best normalization method----
 # run the normalization algorithm on the environmental information
 best_normalization <- function(x, # data to normalize
+<<<<<<< HEAD
                                allow.norm=F,
+=======
+>>>>>>> main
                                n_cores=detectCores(logical=FALSE)-1 # to run the calculations in parallel 
                                #route=NULL # route to save the results
                                ){
@@ -77,7 +80,11 @@ best_normalization <- function(x, # data to normalize
     
     # First test
     best_normalt<-bestNormalize(x,cluster = cl,
+<<<<<<< HEAD
                                 allow_orderNorm = allow.norm,
+=======
+                                allow_orderNorm = TRUE,
+>>>>>>> main
                                 standardize=FALSE) # We are goingo to center the data later   
     stopCluster(cl)
     
@@ -85,13 +92,18 @@ best_normalization <- function(x, # data to normalize
     
     }else{
     
+<<<<<<< HEAD
       best_normalt<-bestNormalize(x,allow_orderNorm = allow.norm,
+=======
+      best_normalt<-bestNormalize(x,allow_orderNorm = TRUE,
+>>>>>>> main
                                   standardize=FALSE) # We are goingo to center the data later   
       
       return(list(method=best_normalt$chosen_transform,t.values=best_normalt[["x.t"]]))
     }
   }
 
+<<<<<<< HEAD
 #
 # Rescale raster layer between 0-1
 #
@@ -119,3 +131,5 @@ scale_01 <- function(x, ...){
 
 
 
+=======
+>>>>>>> main
