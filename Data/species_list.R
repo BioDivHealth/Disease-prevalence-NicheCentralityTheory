@@ -40,6 +40,7 @@ top_20 <- species_list %>%
   arrange(desc(positives), desc(unique_coordinates)) %>%
   slice_head(n = 20) 
 
+write.csv(top_20, "data/top_20.csv", row.names = FALSE)
 
 # Barplot
 ggplot(top_20, aes(x = reorder(host_name, -unique_coordinates), y = unique_coordinates)) +
@@ -53,3 +54,4 @@ ggplot(top_20, aes(x = reorder(host_name, -unique_coordinates), y = unique_coord
     y = "Number of Unique Coordinates"
   ) +
   theme_minimal()
+
