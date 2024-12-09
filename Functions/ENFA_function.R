@@ -179,10 +179,15 @@ plot_enfa<-function(mar, # Marginality vector
          xlab="Marginality",ylab="Specificity")
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     axis(1,col="white") ; axis(2,col="white")
 =======
     axis(1) ; axis(2)
 >>>>>>> main
+=======
+    axis(1,col="white") ; axis(2,col="white")
+
+>>>>>>> 544e2e25a5d5afcfe013c30e874aead411d2da14
     
     # Add the points
     if(pts){
@@ -202,10 +207,15 @@ plot_enfa<-function(mar, # Marginality vector
     
     # Add the legend
 <<<<<<< HEAD
+<<<<<<< HEAD
     legend("topright",legend=c("Environment","Species domain","Species niche centroid"),cex=0.8,
 =======
     legend("topright",legend=c("Environment","Species domain","Species niche centroid"),
 >>>>>>> main
+=======
+    legend("topright",legend=c("Environment","Species domain","Species niche centroid"),cex=0.8,
+
+>>>>>>> 544e2e25a5d5afcfe013c30e874aead411d2da14
            pch=c(15,15,21),bg=c(NA,NA,"white"),col=c(col_p,"black"),pt.cex=c(1,1,1.5),bty="n")
   }
   
@@ -215,6 +225,9 @@ plot_enfa<-function(mar, # Marginality vector
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 544e2e25a5d5afcfe013c30e874aead411d2da14
 #######################################
 # Function to evaluate ENFA results   #----
 #######################################
@@ -284,6 +297,9 @@ performance_ENFA<-function(EnFa_p, # model to test
   }
 }
 
+<<<<<<< HEAD
 =======
 >>>>>>> main
+=======
+>>>>>>> 544e2e25a5d5afcfe013c30e874aead411d2da14
 # End of the function

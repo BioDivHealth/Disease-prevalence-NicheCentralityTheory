@@ -57,11 +57,17 @@ poly_from_ext<-function(x,crs_p){
 # run the normalization algorithm on the environmental information
 best_normalization <- function(x, # data to normalize
 <<<<<<< HEAD
+<<<<<<< HEAD
                                allow.norm=F,
 =======
 >>>>>>> main
                                n_cores=detectCores(logical=FALSE)-1 # to run the calculations in parallel 
                                #route=NULL # route to save the results
+=======
+                   allow.norm=F,
+                   n_cores=detectCores(logical=FALSE)-1 # to run the calculations in parallel 
+                  # route=NULL # route to save the results
+>>>>>>> 544e2e25a5d5afcfe013c30e874aead411d2da14
                                ){
   # Load the needed packages
   list.of.packages<-c("tidyr","parallel","data.table","dplyr","bestNormalize")
@@ -81,22 +87,30 @@ best_normalization <- function(x, # data to normalize
     # First test
     best_normalt<-bestNormalize(x,cluster = cl,
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 allow_orderNorm = allow.norm,
 =======
                                 allow_orderNorm = TRUE,
 >>>>>>> main
                                 standardize=FALSE) # We are goingo to center the data later   
+=======
+                                allow_orderNorm = allow.norm,
+                                 standardize=FALSE) # We are goingo to center the data later   
+>>>>>>> 544e2e25a5d5afcfe013c30e874aead411d2da14
     stopCluster(cl)
-    
-    return(list(method=best_normalt$chosen_transform,t.values=best_normalt[["x.t"]]))
+      return(list(method=best_normalt$chosen_transform,t.values=best_normalt[["x.t"]]))
     
     }else{
+<<<<<<< HEAD
     
 <<<<<<< HEAD
       best_normalt<-bestNormalize(x,allow_orderNorm = allow.norm,
 =======
       best_normalt<-bestNormalize(x,allow_orderNorm = TRUE,
 >>>>>>> main
+=======
+      best_normalt<-bestNormalize(x,allow_orderNorm = allow.norm,
+>>>>>>> 544e2e25a5d5afcfe013c30e874aead411d2da14
                                   standardize=FALSE) # We are goingo to center the data later   
       
       return(list(method=best_normalt$chosen_transform,t.values=best_normalt[["x.t"]]))
@@ -104,17 +118,20 @@ best_normalization <- function(x, # data to normalize
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 544e2e25a5d5afcfe013c30e874aead411d2da14
 #
 # Rescale raster layer between 0-1
 #
 rast_01 <- function(x, ...){
   y<-terra::minmax(x)
-  y["min",]
   
   z<-(x - y["min",]) / (y["max",] - y["min",])
   print("Layer rescalled betweeen 0-1")
   
   return(z)
+<<<<<<< HEAD
   }
 
 scale_01 <- function(x, ...){
@@ -133,3 +150,6 @@ scale_01 <- function(x, ...){
 
 =======
 >>>>>>> main
+=======
+  }
+>>>>>>> 544e2e25a5d5afcfe013c30e874aead411d2da14
