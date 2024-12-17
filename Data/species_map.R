@@ -1,28 +1,27 @@
-# Load necessary libraries
 library(leaflet)
-library(dplyr)  # For data manipulation
-library(tidyr)  # For reshaping the data
+library(dplyr)  
+library(tidyr)  
 
-# Step 1: Reshape the data to gather coordinate columns into a single column
+# Reshape the data to gather coordinate columns into a single column
 top_20_long <- top_20 %>%
   pivot_longer(
-    cols = starts_with("all_coordinates_coord_"),  # Selects coordinate columns
+    cols = starts_with("all_coordinates_coord_"),
     names_to = "coord_number", 
     values_to = "coords"
   ) 
 
-# Step 2: Remove rows where 'coords' is NA
+# Remove rows where 'coords' is NA
 top_20_long <- top_20_long %>%
   filter(!is.na(coords)) 
 
-# Step 3: Split 'coords' into longitude and latitude
+# Split 'coords' into longitude and latitude
 top_20_long <- top_20_long %>%
   mutate(
     longitude = as.numeric(sapply(strsplit(coords, ","), `[`, 1)),
     latitude = as.numeric(sapply(strsplit(coords, ","), `[`, 2))
   )
 
-# Step 4: Plot with a natural color map (using Esri World Imagery or CartoDB Positron)
+# Plot with a natural color map (using Esri World Imagery or CartoDB Positron)
 m <- leaflet() %>% 
   addTiles() %>%  # Default tiles for zoom levels
   setView(lng = mean(top_20_long$longitude, na.rm = TRUE), 
@@ -38,5 +37,5 @@ m <- leaflet() %>%
     fillOpacity = 0.8
   )
 
-# View the map
+# View
 m
