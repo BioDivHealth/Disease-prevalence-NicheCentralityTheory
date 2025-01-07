@@ -1,6 +1,7 @@
 library(dplyr)
 library(ggplot2)
 library(maps)
+library(sf)
 
 top_20_df <- readRDS("./Data/clean_site_data.rds")
 
@@ -75,7 +76,24 @@ ggplot(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude)) +
   coord_fixed(xlim = c(-59, -53), ylim = c(-35, -30)) +  # Zoom into Uruguay's coordinates
   theme_minimal()
 
+#### with shapefile of species range
 
+# Load the Shapefile (replace 'path_to_shapefile' with the actual path to your .shp file)
+shapefile_path <- "./Data/data_0.shp"  # Adjust this path
+polygon_data <- st_read(shapefile_path)
+
+
+
+# Plot the map of Uruguay with the Shapefile overlay
+ggplot() +
+  borders("world", region = "Uruguay", colour = "gray85", fill = "gray80") +  # Base map of Uruguay
+  geom_sf(data = polygon_data, fill = NA, color = "blue", size = 0.5) +  # Overlay the Shapefile polygon
+  geom_point(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude), color = "red", size = 3) +  # Plot points
+  labs(title = paste("Locations for Host:", host_name_group, "with Shapefile Overlay"),
+       x = "Longitude",
+       y = "Latitude") +
+  coord_sf(xlim = c(-59, -53), ylim = c(-35, -30)) +  # Zoom into Uruguay's coordinates
+  theme_minimal()
 
 
 
