@@ -1,9 +1,8 @@
 library(dplyr)
 library(ggplot2)
-library(maps)
 
 
-df <- readRDS("./Data/host_path_wide_SDM.rds")
+df <- readRDS("./Data/trapping_data_NC.rds")
 
 unique_sites_df <- df %>%
   count(host_name, sort = TRUE) %>%        # Count occurrences of each host_name and sort by frequency

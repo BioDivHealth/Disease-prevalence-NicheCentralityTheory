@@ -4,6 +4,21 @@ library(maps)
 
 df <- readRDS("./Data/clean_sdm_data.rds")
 
+
+
+
+
+
+
+
+
+
+
+
+#########
+# Maps of trapped rodents
+###
+
 # plot mus musculus sites in uruguay
 host_name_group <- "Mus musculus"
 filtered_df <- unique_sites_df %>%
