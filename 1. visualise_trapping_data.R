@@ -2,6 +2,9 @@ library(dplyr)
 library(ggplot2)
 library(maps)
 library(sf)
+library(tidyr)
+library(scatterpie)
+library(rnaturalearth)
 
 top_20_df <- readRDS("./Data/clean_site_data.rds")
 
@@ -51,6 +54,67 @@ ggplot(data = top_20_df, aes(x = decimalLongitude, y = decimalLatitude, color = 
   )  # Adjust legend position
 
 ggsave("Results/Figures/world_sites_map.png", dpi=500)
+
+
+### SCATTERPIE WORLD MAP
+
+# Load continent data
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Function to find continent for a given coordinate
+get_continent <- function(latitude, longitude) {
+  point <- st_point(c(longitude, latitude)) %>%
+    st_sfc(crs = st_crs(world))  # Create a spatial point with the same CRS as the continent data
+  
+  continent <- world %>%
+    st_contains(point, sparse = FALSE) %>%
+    apply(1, any) %>%
+    which() %>%
+    {if (length(.) > 0) world$continent[.] else NA}
+  
+  return(continent)
+}
+a
+
+# Add continent information to the data
+top_20_df <- top_20_df %>%
+  rowwise() %>%
+  mutate(continent = get_continent(decimalLatitude, decimalLongitude)) %>%
+  ungroup()
+
+# Summarize the data by continent and host_name
+continent_summary <- top_20_df %>%
+  group_by(continent, host_name) %>%
+  summarize(tested = n(), .groups = 'drop') %>%
+  pivot_wider(names_from = host_name, values_from = tested, values_fill = 0)
+
+# Create a dataframe with the centroids of continents for plotting pie charts
+continent_centroids <- world %>%
+  group_by(continent) %>%
+  summarize(geometry = st_union(geometry), .groups = 'drop') %>%
+  st_centroid() %>%
+  filter(continent %in% unique(continent_summary$continent))
+
+# Merge centroid coordinates with the summary data
+continent_pie_data <- left_join(continent_centroids, continent_summary, by = "continent")
+
+# Plot the map with pie charts
+ggplot() +
+  geom_sf(data = world, fill = "orange", color = "gray85", size = 0.5, alpha = 0.5) +  # World map
+  geom_scatterpie(data = continent_pie_data,
+                  aes(x = st_coordinates(geometry)[,1], y = st_coordinates(geometry)[,2]),
+                  cols = names(continent_summary)[-1], pie_scale = 0.1) +  # Add pie charts
+  coord_sf() +
+  labs(title = "Proportion of Hosts by Continent",
+       x = "Longitude",
+       y = "Latitude") +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    panel.background = element_rect(fill = "white"),
+    panel.grid = element_blank(),
+    panel.border = element_blank()
+  )
 
 ##### UKRAINE
 
