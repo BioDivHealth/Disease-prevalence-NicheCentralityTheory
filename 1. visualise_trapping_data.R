@@ -135,14 +135,21 @@ polygon_data <- st_read(shapefile_path)
 
 # Plot the map of Uruguay with the Shapefile overlay
 ggplot() +
-  borders("world", region = "Uruguay", colour = "gray85", fill = "gray80") +  # Base map of Uruguay
-  geom_sf(data = polygon_data, color = "darkorange", fill = "orange", alpha = 0.5, size = 0.5) +  # Overlay the Shapefile polygon
-  geom_point(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude), color = "red", size = 3) +  # Plot points
-  labs(title = paste("Locations for Host:", host_name_group, "with Shapefile Overlay"),
+  borders("world", colour = "grey30", fill = "lightgrey", size = 1) +  # Base map of Uruguay
+  geom_sf(data = polygon_data, color = "darkgreen", fill = "springgreen3", alpha = 0.5, linewidth = 1) +  # Overlay the Shapefile polygon
+  geom_point(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude), color = "red", size = 5, shape = 18) +  # Plot points
+  labs(title = paste("Trapping locations for Mus musculus"),
        x = "Longitude",
        y = "Latitude") +
-  coord_sf(xlim = c(-59, -53), ylim = c(-35, -30)) +  # Zoom into Uruguay's coordinates
-  theme_minimal()
+  coord_sf(xlim = c(-64, -50), ylim = c(-38, -27)) +  # Zoom into Uruguay's coordinates
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",          # Adjust legend position
+    plot.background = element_rect(fill = "white"),# Set panel background to white
+    panel.grid = element_blank()         # Remove grid lines
+  )
+
+ggsave("Results/Figures/Mus_musculus_uruguay.png", dpi=500)
 
 #### TEXAS
 
