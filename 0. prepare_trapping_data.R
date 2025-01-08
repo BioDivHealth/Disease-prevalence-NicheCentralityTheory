@@ -22,7 +22,7 @@ unique_sites_df <- df %>%
 ### Keep only the top 20 species
 
 # Filter to keep only the 20 most common host_name values
-top_20_host_names <- unique_df %>%
+top_20_host_names <- unique_sites_df %>%
   count(host_name, sort = TRUE) %>%       # Count occurrences of each host_name and sort by frequency
   slice(1:20) %>%                         # Keep only the top 20 most frequent host_name values
   select(host_name)                       # Select only the host_name column
