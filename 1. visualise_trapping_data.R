@@ -26,7 +26,24 @@ ggplot(host_site_summary, aes(x = reorder(host_name, unique_coordinates), y = un
 # Maps of trapped rodents
 ###
 
-# Filter the data for a specific host_name
+### ALL ON ONE MAP
+
+# Use the filtered unique_top_20_df directly
+# Plot the coordinates on a world map with color representing different host_name groups
+ggplot(data = top_20_df, aes(x = decimalLongitude, y = decimalLatitude, color = host_name)) +
+  borders("world", colour = "gray85", fill = "gray80") +  # Add world map borders
+  geom_point(size = 3) +  # Plot the points
+  labs(title = "Locations by Host Name on World Map",
+       x = "Longitude",
+       y = "Latitude",
+       color = "Host Name") +
+  theme_minimal() +
+  theme(legend.position = "bottom")  # Adjust legend position
+
+
+##### UKRAINE
+
+# Filter the data for Apodemus flavicolus
 host_name_group <- "Apodemus flavicolus"  # Change to your desired host_name
 filtered_df <- top_20_df %>%
   filter(host_name == host_name_group)
@@ -41,30 +58,52 @@ ggplot(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude)) +
   coord_fixed(xlim = c(23.96, 24.13), ylim = c(51.175, 51.3)) +  # Zoom into Volyn Oblast's coordinates
   theme_minimal()
 
+#### ASIA
 
-
-# Filter the data for a specific host_name
+# Filter the data for Suncus murinus
 host_name_group <- "Suncus murinus"  # Change to your desired host_name
 filtered_df <- top_20_df %>%
   filter(host_name == host_name_group)
 
 # Plot the coordinates on a map of Asia
 ggplot(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude)) +
-  borders("world", colour = "gray85", fill = "gray80") +  # Add map borders for Asia
+  borders("world", colour = "grey30", fill = "lightgrey") +  # Add map borders for Asia
   geom_point(color = "red", size = 3) +  # Plot the points
   labs(title = paste("Locations for Host:", host_name_group, "in Asia"),
        x = "Longitude",
        y = "Latitude") +
-  coord_fixed(xlim = c(60, 135), ylim = c(-10, 38)) +  # Adjust limits for Asia
+  coord_fixed(xlim = c(25, 135), ylim = c(-25, 35)) +  # Adjust limits for Asia
   theme_minimal()
 
+### now overlay shapefile
 
+# Load the Shapefile (replace 'path_to_shapefile' with the actual path to your .shp file)
+shapefile_path <- "./Data//iucn_data/iucn_data_suncus_murinus/data_0.shp" 
+polygon_data <- st_read(shapefile_path)
 
+#### URUGUAY
 
+# Plot the map of Uruguay with the Shapefile overlay
+ggplot() +
+  borders("world", colour = "grey30", fill = "lightgrey") +  # Add map borders for Asia
+  geom_sf(data = polygon_data, color = "darkorange", fill = "orange", alpha = 0.5, size = 0.5) +  # Overlay the Shapefile polygon
+  geom_point(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude), color = "red", size = 3, shape = 18) +  # Plot points
+  labs(title = paste(host_name_group, "trapping locations and species range"),
+       x = "Longitude",
+       y = "Latitude") +
+  coord_sf(xlim = c(25, 135), ylim = c(-25, 35)) +  # Adjust limits for Asia
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",          # Adjust legend position
+    panel.background = element_rect(fill = "white"),  # Set panel background to white
+    panel.grid = element_blank()         # Remove grid lines
+  )
+
+ggsave("Results/Figures/Suncus_murinus_map.png", dpi=500)
 
 # plot mus musculus sites in uruguay
 host_name_group <- "Mus musculus"
-filtered_df <- unique_sites_df %>%
+filtered_df <- top_20_df %>%
   filter(host_name == host_name_group)
 
 ggplot(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude)) +
@@ -79,15 +118,14 @@ ggplot(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude)) +
 #### with shapefile of species range
 
 # Load the Shapefile (replace 'path_to_shapefile' with the actual path to your .shp file)
-shapefile_path <- "./Data/data_0.shp"  # Adjust this path
+shapefile_path <- "./Data//iucn_data/iucn_data_mus_musculus/data_0.shp"   # Adjust this path
 polygon_data <- st_read(shapefile_path)
-
 
 
 # Plot the map of Uruguay with the Shapefile overlay
 ggplot() +
   borders("world", region = "Uruguay", colour = "gray85", fill = "gray80") +  # Base map of Uruguay
-  geom_sf(data = polygon_data, fill = NA, color = "blue", size = 0.5) +  # Overlay the Shapefile polygon
+  geom_sf(data = polygon_data, color = "darkorange", fill = "orange", alpha = 0.5, size = 0.5) +  # Overlay the Shapefile polygon
   geom_point(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude), color = "red", size = 3) +  # Plot points
   labs(title = paste("Locations for Host:", host_name_group, "with Shapefile Overlay"),
        x = "Longitude",
@@ -95,12 +133,11 @@ ggplot() +
   coord_sf(xlim = c(-59, -53), ylim = c(-35, -30)) +  # Zoom into Uruguay's coordinates
   theme_minimal()
 
+#### TEXAS
 
-
-
-# plot mus musculus sites in uruguay
+# plot Baiomys taylori sites in texas
 host_name_group <- "Baiomys taylori"
-filtered_df <- unique_sites_df %>%
+filtered_df <- top_20_df %>%
   filter(host_name == host_name_group)
 
 # Plot the coordinates on a map of Texas
