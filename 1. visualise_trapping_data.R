@@ -13,14 +13,20 @@ host_site_summary <- top_20_df %>%
 # Barplot of number of locations per species
 
 ggplot(host_site_summary, aes(x = reorder(host_name, unique_coordinates), y = unique_coordinates)) +
-  geom_bar(stat = "identity", fill = "steelblue", alpha = 0.7) +
+  geom_bar(stat = "identity", fill = "orangered", alpha = 0.7) +
   coord_flip() +
   labs(
     title = "Species list by unique coordinates and prevalence",
     x = "Species",
     y = "Number of Unique Coordinates"
   ) +
-  theme_minimal()
+  theme(
+    legend.position = "bottom",          # Adjust legend position
+    plot.background = element_rect(fill = "white"),# Set panel background to white
+  )  # Adjust legend position)
+
+
+ggsave("Results/Figures/n_unique_sites.png", dpi=500)
 
 #########
 # Maps of trapped rodents
@@ -33,13 +39,18 @@ ggplot(host_site_summary, aes(x = reorder(host_name, unique_coordinates), y = un
 ggplot(data = top_20_df, aes(x = decimalLongitude, y = decimalLatitude, color = host_name)) +
   borders("world", colour = "gray85", fill = "gray80") +  # Add world map borders
   geom_point(size = 3) +  # Plot the points
-  labs(title = "Locations by Host Name on World Map",
+  labs(title = "Locations by species",
        x = "Longitude",
        y = "Latitude",
        color = "Host Name") +
   theme_minimal() +
-  theme(legend.position = "bottom")  # Adjust legend position
+  theme(
+    legend.position = "bottom",          # Adjust legend position
+    plot.background = element_rect(fill = "white"),# Set panel background to white
+    panel.grid = element_blank()         # Remove grid lines
+  )  # Adjust legend position
 
+ggsave("Results/Figures/world_sites_map.png", dpi=500)
 
 ##### UKRAINE
 
@@ -95,7 +106,7 @@ ggplot() +
   theme_minimal() +
   theme(
     legend.position = "bottom",          # Adjust legend position
-    panel.background = element_rect(fill = "white"),  # Set panel background to white
+    plot.background = element_rect(fill = "white"),# Set panel background to white
     panel.grid = element_blank()         # Remove grid lines
   )
 
