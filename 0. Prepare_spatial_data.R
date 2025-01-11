@@ -10,7 +10,7 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path)) # Set the working dire
 #
 # 0. load the needed libraries----
 list.of.packages<-c("tidyverse","doParallel","foreach","rstudioapi","colorspace","readxl",
-                    "data.table","parallel","rredlist")
+                    "data.table","parallel","rredlist","sf")
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
@@ -42,56 +42,91 @@ sp_analysis <- sp_names %>% filter(!is.na(IUCN_name)) %>% dplyr::select(c("Or_na
   lapply(sp_analysis$IUCN_name %>% unlist(),function(y) IUCN_red_List(x=y,export=T,exit_route = export_route))
 
 # 1.c Download the spatial information from Gbif----
-  
   points_route <- paste("./Data/Sp_info/raw_records") ; points_route %>% dir.create(recursive=TRUE,showWarnings = FALSE)
   
   for(i in 1:length(sp_analysis$IUCN_name)){
     try(Spatial_spp(sci_sp = sp_analysis$IUCN_name[i],
                     p.route = points_route,
-                      start_date = 2019),
+                      start_date = 2015),
                         silent=FALSE)
     }
 
 # 1.d. Check the IUCN Red List Spatial information ----
-# Look for the polygon
+# 1.d.1 Look for the polygon
+route_to_polygons <- "D:/Data/Spatial information/IUCN spatial data/All polygons"
+  IUCN_pols <- lapply(sp_analysis$IUCN_name,function(w){ p <- route_to_polygons %>% 
+                                                             list.files(pattern=paste0(w,".shp"),recursive = TRUE,
+                                                             full.names = TRUE)
+                                                              ifelse(length(p)==0,return(NA),return(p))})
+
+  sp_analysis <- cbind(sp_analysis,polygons=unlist(IUCN_pols))  
+
+# 1.d.2 Collect the spatial data and save them----
+  polygons <- lapply(sp_analysis$polygons[!is.na(sp_analysis$polygons)],sf::st_read)
+  polygons_species <- do.call("rbind",polygons)
   
-  # collect and save
-  # RM the unzipped data
+  # Check the spatial data  
+  if(FALSE %in% polygons_species %>% st_is_valid()){
+    xp <- polygons_species %>% st_is_valid()
+    polygons_species <- polygons_species[xp,]
+    
+  }
+  
+  polygons_species %>% st_geometry() %>% plot(col=viridis::viridis(nrow(polygons_species))%>% 
+                                                adjustcolor(alpha.f = 0.25))
 
 # 2. Clean species records ----
-  
-  
-  
-  
-# 3. Collect the spatial information
-  species_occ_list
-  species_polygons_list
-  
-  
+records_route <- data.frame(Species=points_route %>% list.files(pattern = ".csv") %>% basename() %>% gsub(pattern=".csv",replacement=""),
+                            route=points_route %>% list.files(pattern = ".csv",full.names = TRUE))   
+records_sp <- list()  
 
-
-
-
-
-
-
-# 1.c Check for spatial data for the species----
-pol_route <- "D:/Data/Spatial information/IUCN spatial data/All polygons"
-range_pols <- data.frame(route=pol_route %>% list.files(pattern = ".shp$",recursive=TRUE,full.names = TRUE),
-                         species=pol_route %>% list.files(pattern = ".shp$",recursive=TRUE,full.names = TRUE) %>% 
-                           basename() %>% gsub(pattern=".shp$",replacement=""))
-
-# 2. Download the spatial information for the species ----
-for(i in 417:length(species)){
+for(i in 1:nrow(records_route)){  
   
-  # if(species[i] %in% range_pols$species){
-  #                     y_range<-range_pols %>% filter(species == species[i]) %>% 
-  #                                   dplyr::select("route") %>% sf::read_sf() %>% 
-  #                                                 sf::st_as_sfc() %>% sf::st_convex_hull() %>% sf::st_as_text()
-  #                     
-  #                 }else{
-  #               y_range<-NULL
-  #                   }
+  range_x <- polygons_species %>% filter(BINOMIAL==records_route$Species[i])
   
-  try(Spatial_spp(sci_sp = species[i], start_date = 2019),silent=FALSE)# range_sp=y_range)
-}
+  if(nrow(range_x)==0) range_x <- NULL
+    
+  records_x <- records_route %>% filter(Species==records_route$Species[i]) %>% dplyr::select("route") %>% unlist()
+  records_x <- records_x %>% read.csv()
+  
+  # Check coordinates for missing values
+  obs_index <- cbind(records_x$decimalLatitude %>% is.na(),records_x$decimalLongitude %>% is.na()) %>% rowSums()
+  records_x <- records_x[obs_index==0,]
+  
+  #
+  records_sp[[i]] <- Prepare_points(points_sp=records_x, range_sp=range_x)
+  names(records_sp)[i] <- records_route$Species[i]
+  print(records_route$Species[i])
+  
+  }
+  
+# 3. Export the species spatial data----
+# Summary of the data
+summary_data <- lapply(records_sp,nrow)
+summary_data <- do.call("rbind",summary_data) %>% as.data.frame()
+
+summary_data <- cbind(species=row.names(summary_data),summary_data)
+summary_data <- cbind(sp_names[match(summary_data$species,sp_names$IUCN_name),],summary_data)
+
+"./Data/Summary_data" %>% dir.create(recursive = TRUE,showWarnings = FALSE)
+write.csv(summary_data,"./Data/Summary_data/Summary_sp_records.csv")
+
+# Export the species records
+"./Data/Sp_records" %>% dir.create(recursive = TRUE,showWarnings = FALSE)
+
+for(i in 1:length(records_sp)){
+  w  <- records_sp[[i]]
+  if(nrow(w)<1) next()
+  sp <- names(records_sp)[i]
+  
+  write.csv(w,paste("./Data/Sp_records",paste0(sp,".csv"),sep="/"))
+  print(sp)
+  }
+
+# Exports the range data
+st_write(polygons_species,paste("./Data/Species_Ranges",paste0("SpeciesRanges",".shp"),sep="/"))
+
+#
+# ~~~~The species data is ready for the analysis~~~~
+# End of the script
+#

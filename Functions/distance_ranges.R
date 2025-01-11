@@ -10,8 +10,8 @@ distance_ranges<-function(range_sp, # [sf or sfc] Polygon containing the range o
                           id_field=NULL, # [character] Colum in points with the observation identifiers, if this is not provided a new d_id field is created
                           plot=FALSE, # [logical] Should we plot the results of the spatial query? (default set to FALSE)
                           full=FALSE,  # [logical] If TRUE, the function returns the point distances along with all the complementary information
-                          units_d="m" # [Character] In which units should the calculations be presented
-                          # points_fig=NULL # if "soviet", things happen to the map
+                          units_d="m", # [Character] In which units should the calculations be presented
+                          points_fig=NULL # if "soviet", things happen to the map
 ){
   # 0. Get the needed packages ready----
   list.of.packages<-c("sf","tidyverse")
@@ -48,16 +48,27 @@ distance_ranges<-function(range_sp, # [sf or sfc] Polygon containing the range o
     
     # Complementary information:
     # a. Are points intersecting with the polygons
-    in_range<-st_intersects(points,range_sp,sparse=FALSE)
+    in_range <- st_intersects(points,range_sp,sparse=FALSE)
     
     # b. get the links and the points nearest points of species with the boundary of the range/study area
-    boundary_links<-st_nearest_points(points,boundary_r) # Links
-    boundary_points<-st_cast(boundary_links,"POINT") # Links points (point of origin and location in the boundary)
+    boundary_links <- st_nearest_points(points,boundary_r) # Links
+    boundary_points <- st_cast(boundary_links,"POINT") # Links points (point of origin and location in the boundary)
     
-    db_2<-st_distance(boundary_points,boundary_r) #== dboundary
-    units(db_2)<-units_d
+    # db_2 <- st_distance(boundary_points,boundary_r) #== dboundary
+    # units(db_2) <- units_d
     
-    boundary_points <- boundary_points[!db_2 %in% dboundary]
+    # we have two columns of values corresponding to the origin and end of 
+    # the link between the points and the species range
+    if(length(boundary_points)>nrow(dat_base)){ 
+      # duplicated(db_2)
+      # px <- !db_2 %in% dboundary
+      # 
+      # px[duplicated(db_2)]<-TRUE
+      # 
+      #   boundary_points <- boundary_points[px]
+      index_points <- rep(c(TRUE,FALSE),length.out=length(boundary_points))
+      boundary_points <- boundary_points[index_points]
+      }
     
     # Transform into a data.frame
     boundary_points <- st_coordinates(boundary_points) %>% as.data.frame()
@@ -95,7 +106,7 @@ distance_ranges<-function(range_sp, # [sf or sfc] Polygon containing the range o
       pch=c("\U2B1B","\U25CF","\U25CF",ifelse(points_fig=="soviet","\U262D","\U2605")),
       col=c("grey88","black","black" %>% adjustcolor(alpha.f = 0.35),ifelse(points_fig=="soviet","tomato","skyblue")),
       lty=c(NA,1,3,NA),
-      pt.cex = 3,inset=c(0,-0.1),
+      pt.cex = 1.5,inset=c(0,-0.1),
       adj=0,lwd=2,
       horiz=TRUE)
     
@@ -126,6 +137,7 @@ distance_p_pols<-function(points.d, # Points to calculated the distance
          crs.p=NULL, # Do you want to specify a CRS? Otherwise the crs of the polygons is used for all the spatial features
          plot.r=FALSE, # Should the results be plotted?
          id_field=NULL, # Does the points have an individual identifier? if not and 'ID' field is created based on its row number
+         geometry.f="geometry",
          full=FALSE # Does links and other spatial features need to be exported (usefull for plotting)
 ){
   
@@ -186,12 +198,12 @@ distance_p_pols<-function(points.d, # Points to calculated the distance
                                                                  units_d="km",id_field=id_field)$links)
     
     links<-do.call("rbind",d_links) 
-    dat_end <- points.d %>% dplyr::select(id_field,"geom") ; dat_end<-cbind(dat_end,d_pol)
+    dat_end <- points.d %>% dplyr::select(id_field,geometry.f) ; dat_end<-cbind(dat_end,d_pol)
     
     return(list(data=dat_end,links=links))
     
   }else{
-    dat_end <- points.d %>% dplyr::select(id_field,"geom") ; dat_end<-cbind(dat_end,d_pol)
+    dat_end <- points.d %>% dplyr::select(id_field,geometry.f) ; dat_end<-cbind(dat_end,d_pol)
     return(dat_end)
   }
 }

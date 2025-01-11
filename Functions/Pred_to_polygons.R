@@ -48,13 +48,13 @@ Pred_to_polygons <- function(x, # model prediction to process
   
   # 1 mod predictions
   plot(x,axes=T,legend=F,bg=NA,mar=c(2,2,3,4),alpha=0.35,box="n",col=colfun_p(200))
-  plot(x %>% mask(pol.x),legend=TRUE,col=colfun_p(200),add=TRUE)
+  plot(x %>% mask(pol.x %>% vect()),legend=TRUE,col=colfun_p(200),add=TRUE)
   plot(pol.x %>% st_geometry(),add=TRUE,border="black",lwd=1)
   mtext(side=3,adj=0,"Model Predictions",font=2)
   
   # 2 mod selection
   plot(y,axes=T,col="#c9e771ff",legend=F,bg=NA,mar=c(2,2,3,4),alpha=0.35,box="n")
-  plot(y %>% mask(pol.x),add=TRUE,col="#c9e771ff" %>% darken(0.15),legend=FALSE)
+  plot(y %>% mask(pol.x %>% vect()),add=TRUE,col="#c9e771ff" %>% darken(0.15),legend=FALSE)
   plot(pol.x %>% st_geometry(),add=TRUE,border="black",lwd=1)
   legend("right",legend="Presence",pch=15,xpd=TRUE,
          pt.cex=1.2,col="#c9e771ff" %>% darken(0.15))

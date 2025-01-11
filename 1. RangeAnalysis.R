@@ -1,4 +1,9 @@
 rm(list=ls())
+gc()
+#.rs.restartR()
+options(java.parameters = "-Xmx15g") # increase the memory space for jave before loading any package
+options("rgdal_show_exportToProj4_warnings"="none") # Silence packages updates warnings
+
 setwd(dirname(rstudioapi::getSourceEditorContext()$path)) # Set the working directory to the directory in which the code is stored
 td<-tempdir()
 dir.create(td,showWarnings = FALSE)
@@ -25,149 +30,173 @@ functions<-"./Functions" %>% list.files(recursive = FALSE,pattern = ".R$",full.n
 lapply(functions,function(x) source(x))
 
 # 0.2 Data for the analysis----
-# Species range
-rX <- st_read("./Data/Sp_info" %>% list.files(pattern = "range.gpkg",full.names = TRUE)) 
-study_area <-st_read("./Data/Sp_info" %>% list.files(pattern = "study_area.gpkg",full.names = TRUE))
+crs.r = "EPSG:4326"
 
-# Species points
-pX <- st_read("./Data/Sp_info" %>% list.files(pattern = "presence.gpkg",full.names = TRUE))
-pBk <- st_read("./Data/Sp_info" %>% list.files(pattern = "absence.gpkg",full.names = TRUE))
+# a. Route for the analysis----
+records_r <- "./Data/Sp_records"
+range_r <- "./Data/Species_Ranges"
+env_r <- "./Data/Env_vars/Process"
 
-pX$presence<-1 ; pBk$presence<-0 # add a column to the dataset to mark presence and absence/Background data
-points <- rbind(pX,pBk) # Combine the data
+# b. Species records----
+sp_records <- records_r %>% list.files(pattern=".csv$",full.names = TRUE)
 
-# display the data
-plot(rX %>% st_geometry(),col="grey90")
+# c. Environmental variables---
+env_data <- env_r %>% list.files(pattern=".tif",full.names = TRUE) %>% rast()
 
-p.col=ifelse(points$presence==1,"firebrick3","cyan4")
-plot(points %>% st_geometry(),pch=19,col=p.col,add=TRUE)
-legend("bottom",legend=c("Range","Presence","Absence"),col=c("grey90","firebrick3","cyan4"),
-       pt.cex=1.2,pch=c(15,19,19),horiz=T,bty="o",xpd=TRUE)
+# d. Range species----
+range_sp <- range_r %>% list.files(pattern=".shp$",full.names = TRUE) %>% st_read()
 
-# 1. Range distance analysis----
-# Testing the function with our data
-route_figs <- "./Results/Figures"; route_figs %>% dir.create(recursive=TRUE,showWarnings = FALSE)
-png(paste(route_figs,"Distance_range.png",sep="/"),res=600,units="cm",height=14,width=18)
-
-distance_ranges(range_sp = rX ,points = points,plot=TRUE,
-                full=TRUE,units_d="km")
-
-dev.off()
-
-# 2.b Simple SDM (using glm)----
-# Get the environmental data
-env_route <-"./Data/Env_vars"; env_route %>% dir.create(recursive=TRUE,showWarnings = FALSE)
-
-if(c("./Data/Env_vars/Processed" %>% list.files(recursive=FALSE) %>% length())==0){
-  
-  if(list.files(env_route,pattern = ".tif$",recursive = TRUE)%>%length()==0){
-    # Prepare the routes to the environmental data
-    paste0(env_route,"/land_cover") %>% dir.create()
-    paste0(env_route,"/bioclim") %>% dir.create()
+# 1. Run the environmental suitability and ENFA analysis----
+for(i in 1:length(sp_records)){
+  # 1.1 Get the species information----
+    sp <- sp_records[i]
+    species <- sp %>% basename() %>% gsub(pattern=".csv$",replacement="")  
+    Sp_dist <- sp %>% read.csv() %>% st_as_sf(coords=c("decimalLongitude","decimalLatitude"),crs=crs.r)
     
-    # Dowload and export the data
-    geodata::worldclim_global(var="bio",res=2.5,path=paste(env_route,"bioclim",sep="/"))
-    geodata::landcover(var="trees",path=paste(env_route,"land_cover",sep="/"))
-    geodata::landcover(var="grassland",path=paste(env_route,"land_cover",sep="/"))
-    geodata::landcover(var="cropland",path=paste(env_route,"land_cover",sep="/"))
-  }else{
-    # Get the spatial information
-    env_list<-list.files(env_route,recursive = TRUE,full.names = TRUE,pattern=".tif$")
+  # 1.2 Prepare the spatial information----
+    rX <- range_sp %>% filter(BINOMIAL == species)
+  
+  # If there is no range data
+    if(nrow(rX)<1){
+      # Create mcp from points
+        p.index <- chull(Sp_dist %>% st_coordinates())
+        xy.hull <- st_coordinates(Sp_dist)[c(p.index,p.index[1]),]
+        
+        sp.pol <- st_sf(data.frame(ID=1,geom=st_sfc(st_polygon(list(xy.hull)))),crs=crs.r)
+        rX <- sp.pol %>% st_cast("POLYGON") %>% st_geometry()
+        
+  # # Get the study area (bounding box)
+  #     rX <- sp.pol %>% st_bbox() %>% poly_from_ext(crs_p = NULL)
+  #     st_crs(rX) <- crs.r ; rX <- rX %>% st_transform(crs.r)
+  #     st_crs(Sp_dist) 
+  #     
+  #     rX <- rX %>% st_buffer(dist=25*1000)
   }
   
-  # Environmental data harmonization---- 
-  # We only need the data for the extension of our data
-  st_crs(study_area)$units
-  env_info<-resample.rast(y=env_list,paralell = TRUE,
-                          ex=st_bbox(rX),
-                          results.r="./Data/Env_vars/Processed",
-                          mask_r=study_area %>% sf::st_buffer(dist=100000) # we wanto to preserve the data from the study area with a 100k buffer
-                          )
-  env <- "./Data/Env_vars/Processed" %>% list.files(full.names = TRUE) %>% rast()
+  # 1.3 Distance of the distribution points to the centroid and boundary of the species distribution
+    # Repeat this step for the points with the disease prevalence!
+    dist_range <- distance_ranges(range_sp = rX ,points = Sp_dist,plot=TRUE,
+                                  full=TRUE,units_d="km")
   
-}else{
-  env <- "./Data/Env_vars/Processed" %>% list.files(full.names = TRUE) %>% rast() 
-  }
-
-# Check the variables (We need to reproject the points)
-plot(env[[1]],alpha=0.3,bg="white",box="n",mar=c(2,3,5,5),legend=F) ; plot(env[[1]] %>% mask(rX %>% st_geometry() %>% st_transform(crs(env)) %>% vect()),add=TRUE,legend=T)
-#plot(study_area %>% st_transform(crs(env)) %>% st_geometry(),add=TRUE,border="white",lwd=2)
-plot(rX %>% st_transform(crs(env)) %>% st_geometry(),add=TRUE,border="black",lwd=1)
-plot(points %>% st_transform(crs(env)) %>% st_geometry(),col=ifelse(points$presence==1,"skyblue2","grey33"),add=TRUE,pch=19)
-legend("topleft",legend=c("Presence","Background"),pch=19,col=c("skyblue2","grey33"),bty="n",xpd=TRUE)
-mtext(side=3,adj=0,"Distribution of observations",line=2,font=2)
-
-# 2.c Extract the data from the rasters (terra::rast object) using the species points
-Values_env <- terra::extract(x=env,y=points %>% st_transform(crs(env)) %>% vect())
-points <- cbind(points,Values_env) ; class(points)
-
-set.seed(14)
-points<-points[sample(1:nrow(points)),] # randomize the order of the observations
-
-index_t <- sample(1:nrow(points),size=c(nrow(points)*0.3) %>% round(digits=0))
-
-train_d <- points[!c(1:nrow(points)) %in% index_t,]
-test_d <- points[index_t,]
-
-mod.full <- glm(presence~.,data=train_d[,c("presence",names(env))] %>% st_drop_geometry(),
-                family=binomial) #simple glm using all environmental variables
-
-# Very basic checks
-summary(mod.full) ; performance::model_performance(mod.full)
-car::Anova(mod.full) # check parameters influence
-
-test.m<-dismo::evaluate(p=test_d[test_d$presence==1,] %>% st_drop_geometry(),
-                        a=test_d[test_d$presence==0,] %>% st_drop_geometry(),
-                        model=mod.full,tr=seq(0,1,by=0.015))
-
-max(test.m@kappa) # Which is the maximun value of Kappa?
-treshold_kappa<-dismo::threshold(test.m)$kappa # At which threshold we obtain the maximun value of Kappa?
-
-# 2.d Use the model to make predictions over the data----
-m.pr <- terra::predict(env,mod.full,type="response") # Raw predictions with present data
-
-# 3. Prepare the polygons and calculate the minimun distances----
-# 3.1 Extract the polygons with the best areas for the species
-p.model <- Pred_to_polygons(x=m.pr,
-                 pol.x= rX %>% st_transform(crs(m.pr)),
-                 t_value=treshold_kappa,
-                 plot.r=TRUE,
-                 export="./Results/Figures",
-                 name.mod="dummy")
+    gc() ; gc()
     
-# 3.2 Calculate the mininum distance of the points to the polygons----
-dist.list<-distance_p_pols(points.d = points,
-                polygons.d = p.model$pol_intersects,
-                full = TRUE,
-                id_field="ID")
-
-# 4. Plot the results----
-# Model predictions:
-# Configure the plotting area
-route_figs <- "./Results/Figures"; route_figs %>% dir.create(recursive=TRUE,showWarnings = FALSE)
-png(paste(route_figs,"Polygons_AMPO.png",sep="/"),res=600,units="cm",height=14,width=18)
-lt<-layout(matrix(c(rep(c(1,1,1,1,2,2),2),rep(1,30)),ncol=6,nrow=7,byrow = TRUE))
-layout.show(lt)
-colfun_p<-colorRampPalette(c("#e77c71ff","#e7d771ff","#71e7b2ff","#71b7e7ff")%>%rev())
-# colfun_p<-colorRampPalette(c("#E40303ff","#FF8C00ff","#FFED00ff","#008026ff","#004CFFff","#732982ff")%>%rev())
-#colfun_p<-colorRampPalette(c("black","grey50","white"))
-
-# 1 mod predictions
-plot(m.pr,axes=T,legend=F,bg=NA,mar=c(2,2,3,4),alpha=0.35,box="n",col=colfun_p(200))
-plot(m.pr %>% mask(rX %>% st_transform(crs(m.pr))),legend=TRUE,col=colfun_p(200),add=TRUE)
-plot(p.model$pol_intersects %>% st_geometry(),add=TRUE,border="grey36",lwd=0.5)
-mtext(side=3,adj=0,"Model Predictions",font=2)
-
-# Add the points
-plot(points %>% st_transform(crs(m.pr)) %>% st_geometry(),col=ifelse(points$presence==1,"firebrick","grey50" %>% adjustcolor(alpha.f = 0.5)),
-     cex=ifelse(points$presence==1,1.5,0.75),pch=19,add=TRUE)
-plot(dist.list$links %>% st_geometry(),add=TRUE,lwd=0.5,col="grey32",lty=3)
-
-# add the distance frequency
-par(mar=c(5,2,5,5))
-p<-hist(dist.list$data$Boundary_d,plot=F)
-hist(dist.list$data$Boundary_d,main="Distances of points\nto AMPO polygons",
-     xlab="Distance (km)",ylab="Frequency",col=colfun_p(p$breaks %>% length())%>%rev())
-dev.off()
+  # 1.4 Species Presence Probabilities or SDM----
+    r.maxent <- Auto_maxent(presence_dat=Sp_dist, 
+                            predictors=env_data %>% crop(rX %>% vect), 
+                            rm.dp = TRUE,
+                            crs.r = crs.r,
+                            name.mod = species, 
+                            type_bk = "Random", #[Random,BwData,BwData_inv,EnvBK]
+                            world_pol = NULL, 
+                            select_var = F, 
+                            sp_range = rX,
+                            random_features = TRUE,
+                            n.m=1,
+                            beta.val = c(1:15),
+                            n_bk = 10000,
+                            Test_n = 20,
+                            # Model Selection
+                            mod.select = F, n.mods = 10)
+    
+    gc() ; gc()
+    
+    # 1.4.2 Transform the probabilities into ranges
+    # Extract the polygons with the best areas for the species
+    p.model <- Pred_to_polygons(x=r.maxent$avr.preds,
+                                pol.x= rX,
+                                t_value=r.maxent$params$TSS.mean.TEST %>% mean(na.rm=T),
+                                plot.r=FALSE,
+                                export=NULL,
+                                name.mod="dummy")
+    
+    gc() ; gc()
+    
+    # 3.2 Calculate the mininum distance of the points to the polygons----
+    dist.list<-distance_p_pols(points.d = Sp_dist,
+                               polygons.d = p.model$pol_intersects,
+                               full = TRUE,
+                               id_field="X")
+    
+    gc() ; gc()
+    
+    # 3.3 Run the ENFA analysis----
+    ind_x <- env_data %>% crop(rX %>% vect)
+    
+    r.dat <- rast_to_vect(ind_x)
+    n.row.dat <- prod(r.dat[["dim"]])
+    
+    pres_index<-rep(0,times=n.row.dat)
+    
+    obs <- terra::extract(x=ind_x, y=Sp_dist %>% vect(), cells=T)$cell
+    pres_index[obs]<-1
+    
+    obs_index <- pres_index[-r.dat$index_missin]
+    
+    ENFA.r <- ENFA_function(data = r.dat$tab[,!colnames(r.dat$tab) %in% "cell"], # Data.frame containing the environmental information with no NAs
+                            presence_index = obs_index)
+    
+    # Transform the ENFA_results into rasters for the export
+    empty_rast <- ind_x[[1]] ; empty_rast[-is.na(empty_rast)] <- NA
+    
+    # Get the different ENFA values
+    maha <- empty_rast ; maha[r.dat$tab$cell] <- ENFA.r$prediction
+    Marginality <- empty_rast ; Marginality[r.dat$tab$cell] <- ENFA.r$marginality_specificity_vals$Marginality
+    Specialization <- empty_rast ; Specialization[r.dat$tab$cell] <- ENFA.r$marginality_specificity_vals$Specialization1
+    
+    ENFA_rast <- c(maha,Marginality,Specialization) ; names(ENFA_rast) <- c("Mahalanobis_dist","Marginality","Specificity")
+    
+    # 3.3.b Get the rest of the ENFA parameters
+    ENFA_extra<- plot_enfa(mar=ENFA.r$marginality_specificity_vals$Marginality, # Marginality vector
+                            spc=ENFA.r$marginality_specificity_vals$Specialization1, # Specialization vector
+                              m=ENFA.r$niche_centroid_coordinates, # Niche centroid
+                                sp_rec=obs_index, # Species records index
+                                  plot_sp=TRUE, # should we plot the results
+                                    pts=FALSE)
+                  
+    # 4. Export the results ----
+    exit_route <- paste("./Results/Distance_metrics/",species,sep="/")
+    exit_route %>% dir.create(recursive = TRUE,showWarnings = FALSE)
+    
+    # Numerical results
+    write_rds(list(r.maxent[c(1:7)],ENFA.r),paste(exit_route,paste0("Dist_num",".rds"),sep="/"))
+    
+    # Combine and export the needed raster objects----
+    rast_res<-c(r.maxent$avr.preds,p.model$trim_mod,ENFA_rast)
+    writeRaster(rast_res,paste(exit_route,paste0("Distance_metrics",".tif"),sep="/"),overwrite=T)
+    
+    # Get the polygons for the distance calculations----
+    write_rds(list(rX,p.model$pol_mod,p.model$pol_intersects),paste(exit_route,paste0("Dist_polygons",".rds"),sep="/"))
+    
+        # # Plot the results
+    # # 4. Plot the results----
+    # # Model predictions:
+    # # Configure the plotting area
+    # route_figs <- "./Results/Figures"; route_figs %>% dir.create(recursive=TRUE,showWarnings = FALSE)
+    # png(paste(route_figs,"Polygons_AMPO.png",sep="/"),res=600,units="cm",height=14,width=18)
+    # lt<-layout(matrix(c(rep(c(1,1,1,1,2,2),2),rep(1,30)),ncol=6,nrow=7,byrow = TRUE))
+    # layout.show(lt)
+    # colfun_p<-colorRampPalette(c("#e77c71ff","#e7d771ff","#71e7b2ff","#71b7e7ff")%>%rev())
+    # # colfun_p<-colorRampPalette(c("#E40303ff","#FF8C00ff","#FFED00ff","#008026ff","#004CFFff","#732982ff")%>%rev())
+    # #colfun_p<-colorRampPalette(c("black","grey50","white"))
+    # 
+    # # 1 mod predictions
+    # plot(m.pr,axes=T,legend=F,bg=NA,mar=c(2,2,3,4),alpha=0.35,box="n",col=colfun_p(200))
+    # plot(m.pr %>% mask(rX %>% st_transform(crs(m.pr))),legend=TRUE,col=colfun_p(200),add=TRUE)
+    # plot(p.model$pol_intersects %>% st_geometry(),add=TRUE,border="grey36",lwd=0.5)
+    # mtext(side=3,adj=0,"Model Predictions",font=2)
+    # 
+    # # Add the points
+    # plot(points %>% st_transform(crs(m.pr)) %>% st_geometry(),col=ifelse(points$presence==1,"firebrick","grey50" %>% adjustcolor(alpha.f = 0.5)),
+    #      cex=ifelse(points$presence==1,1.5,0.75),pch=19,add=TRUE)
+    # plot(dist.list$links %>% st_geometry(),add=TRUE,lwd=0.5,col="grey32",lty=3)
+    # 
+    # # add the distance frequency
+    # par(mar=c(5,2,5,5))
+    # p<-hist(dist.list$data$Boundary_d,plot=F)
+    # hist(dist.list$data$Boundary_d,main="Distances of points\nto AMPO polygons",
+    #      xlab="Distance (km)",ylab="Frequency",col=colfun_p(p$breaks %>% length())%>%rev())
+    # dev.off()
+   print(paste("ALL metrics calculated for",species))
+    }
 
 # End of the script
