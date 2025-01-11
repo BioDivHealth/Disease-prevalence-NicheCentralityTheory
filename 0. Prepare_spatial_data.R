@@ -38,9 +38,12 @@ export_route <- "./Data/IUCN_info" ; export_route %>% dir.create(recursive = TRU
 sp_names <- lapply(sp_list$Species,function(x) retrieve_syns(spp_name=x)$TaxDat) %>% rbindlist()
 sp_analysis <- sp_names %>% filter(!is.na(IUCN_name)) %>% dplyr::select(c("Or_name","IUCN_name")) # Species with different_names under the IUCN Red_list
 
+sp_names %>% write.csv(paste("./Data/Species_list","Species_analysis.csv",sep="/"),row.names = F)  
+
 # Get the Run in parallel 
   lapply(sp_analysis$IUCN_name %>% unlist(),function(y) IUCN_red_List(x=y,export=T,exit_route = export_route))
 
+<<<<<<< HEAD
 # 1.c Download the spatial information from Gbif----
   points_route <- paste("./Data/Sp_info/raw_records") ; points_route %>% dir.create(recursive=TRUE,showWarnings = FALSE)
   
@@ -130,3 +133,22 @@ st_write(polygons_species,paste("./Data/Species_Ranges",paste0("SpeciesRanges","
 # ~~~~The species data is ready for the analysis~~~~
 # End of the script
 #
+=======
+# 1.c Download the spatial information from Gbif (this takes time)----
+  
+  points_route <- paste("./Data/Sp_info/raw_records") 
+  points_route %>% dir.create(recursive=TRUE,showWarnings = FALSE)
+  
+  for(i in 1:length(sp_analysis$IUCN_name)){
+    try(Spatial_spp(#sci_sp = sp_analysis$IUCN_name[i],
+                    sci_sp="Sorex minutus",
+                      p.route = points_route,
+                      start_date = 2000),
+                        silent=FALSE)
+    }
+
+#
+# This script takes time to download the spatial information
+# End of the script
+#  
+>>>>>>> b8acd646b26c63d02cee91d8c054094dbe869975

@@ -2,3 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
+<<<<<<< HEAD
+=======
+*.shp
+*.shx
+iucn_data/
+>>>>>>> b8acd646b26c63d02cee91d8c054094dbe869975
