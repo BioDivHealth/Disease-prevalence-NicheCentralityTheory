@@ -95,7 +95,8 @@ retrieve_syns<-function(spp_name,   # [Character] The species name from which to
   rm(t_11)  
   
   # Summarize the results of the name checking and correction
-  if (!is.null(correct_name)|nrow(correct_name)!=0){
+  if (!is.null(correct_name)){
+    if(nrow(correct_name)!=0){
     y.d<-cbind(spp.x,correct_name[,colnames(correct_name)%in%
                                     c("data_source_title","score","matched_name2")]) #
     
@@ -107,7 +108,7 @@ retrieve_syns<-function(spp_name,   # [Character] The species name from which to
            y.d$Status<-"Correct",
            y.d$Status<-"Incorrect")
     
-  } else {
+  }} else {
     y.d<-data.frame(or_name=spp.x,
                     matched_name2=NA,
                     Status="Not_found",
