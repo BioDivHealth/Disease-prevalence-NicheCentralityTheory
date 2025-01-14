@@ -41,12 +41,20 @@ Prepare_points<-function(points_sp, # Gbif data output
     
      }
    
+   if(nrow(points_sp)==0){
+     return(points_sp)
+   }
+   
    # b.1 Check the overlap of the data with the designated range information----
    if(!is.null(range_sp)){
       
-      # configure the range data
-      range_sp <- range_sp %>% sf::st_read() %>% st_transform(crs=crs.r)
-      range_sp <- range_sp %>% sf::st_buffer(b.width_F) %>% st_union()
+    # load the data
+      if(is.character(range_sp)){     
+         range_sp <- range_sp %>% sf::st_read() %>% st_transform(crs=crs.r)
+      }
+     
+    # configure the range data
+      range_sp <- range_sp %>% sf::st_buffer(b.width) %>% st_union()
       
       # Check the geometries
       if(st_is_valid(range_sp)==FALSE){
