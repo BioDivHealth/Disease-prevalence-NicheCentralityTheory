@@ -43,7 +43,6 @@ sp_names %>% write.csv(paste("./Data/Species_list","Species_analysis.csv",sep="/
 # Get the Run in parallel 
   lapply(sp_analysis$IUCN_name %>% unlist(),function(y) IUCN_red_List(x=y,export=T,exit_route = export_route))
 
-<<<<<<< HEAD
 # 1.c Download the spatial information from Gbif----
   points_route <- paste("./Data/Sp_info/raw_records") ; points_route %>% dir.create(recursive=TRUE,showWarnings = FALSE)
   
@@ -69,14 +68,14 @@ route_to_polygons <- "D:/Data/Spatial information/IUCN spatial data/All polygons
   polygons_species <- do.call("rbind",polygons)
   
   # Check the spatial data  
-  if(FALSE %in% polygons_species %>% st_is_valid()){
+  if(FALSE %in% c(polygons_species %>% st_is_valid())){
     xp <- polygons_species %>% st_is_valid()
     polygons_species <- polygons_species[xp,]
     
   }
   
   polygons_species %>% st_geometry() %>% plot(col=viridis::viridis(nrow(polygons_species))%>% 
-                                                adjustcolor(alpha.f = 0.25))
+                                                adjustcolor(alpha.f = 0.15))
 
 # 2. Clean species records ----
 records_route <- data.frame(Species=points_route %>% list.files(pattern = ".csv") %>% basename() %>% gsub(pattern=".csv",replacement=""),
@@ -88,15 +87,35 @@ for(i in 1:nrow(records_route)){
   range_x <- polygons_species %>% filter(BINOMIAL==records_route$Species[i])
   
   if(nrow(range_x)==0) range_x <- NULL
-    
-  records_x <- records_route %>% filter(Species==records_route$Species[i]) %>% dplyr::select("route") %>% unlist()
-  records_x <- records_x %>% read.csv()
   
-  # Check coordinates for missing values
+  # load the records  
+  records_x <- records_route %>% filter(Species==records_route$Species[i]) %>% dplyr::select("route") %>% unlist()
+  
+  skip_to_next <- FALSE
+  
+  # Note that print(b) fails since b doesn't exist
+  tryCatch(records_x <- records_x %>% read.csv(), error = function(e) { skip_to_next <<- TRUE})
+  
+  if(skip_to_next){ 
+    print(paste("no records for",records_route$Species[i]))
+    next
+    }  
+  
+  if(ncol(records_x)<10){
+    print(paste("no records for",records_route$Species[i]))
+    next
+  }
+  
+    # Check coordinates for missing values
   obs_index <- cbind(records_x$decimalLatitude %>% is.na(),records_x$decimalLongitude %>% is.na()) %>% rowSums()
   records_x <- records_x[obs_index==0,]
   
-  #
+  if(nrow(records_x)==0){
+    print(paste("no records for",records_route$Species[i]))
+    next
+  }
+  
+  # Filter the points  
   records_sp[[i]] <- Prepare_points(points_sp=records_x, range_sp=range_x)
   names(records_sp)[i] <- records_route$Species[i]
   print(records_route$Species[i])
@@ -105,20 +124,21 @@ for(i in 1:nrow(records_route)){
   
 # 3. Export the species spatial data----
 # Summary of the data
-summary_data <- lapply(records_sp,nrow)
-summary_data <- do.call("rbind",summary_data) %>% as.data.frame()
-
-summary_data <- cbind(species=row.names(summary_data),summary_data)
-summary_data <- cbind(sp_names[match(summary_data$species,sp_names$IUCN_name),],summary_data)
-
-"./Data/Summary_data" %>% dir.create(recursive = TRUE,showWarnings = FALSE)
-write.csv(summary_data,"./Data/Summary_data/Summary_sp_records.csv")
+  summary_data <- lapply(records_sp,nrow)
+  summary_data <- do.call("rbind",summary_data) %>% as.data.frame()
+  
+  summary_data <- cbind(species=row.names(summary_data),summary_data)
+  summary_data <- cbind(sp_names[match(summary_data$species,sp_names$IUCN_name),],summary_data)
+  
+  "./Data/Summary_data" %>% dir.create(recursive = TRUE,showWarnings = FALSE)
+  write.csv(summary_data,"./Data/Summary_data/Summary_sp_records.csv")
 
 # Export the species records
 "./Data/Sp_records" %>% dir.create(recursive = TRUE,showWarnings = FALSE)
 
 for(i in 1:length(records_sp)){
   w  <- records_sp[[i]]
+  if(is.null(w)) next()
   if(nrow(w)<1) next()
   sp <- names(records_sp)[i]
   
@@ -133,22 +153,3 @@ st_write(polygons_species,paste("./Data/Species_Ranges",paste0("SpeciesRanges","
 # ~~~~The species data is ready for the analysis~~~~
 # End of the script
 #
-=======
-# 1.c Download the spatial information from Gbif (this takes time)----
-  
-  points_route <- paste("./Data/Sp_info/raw_records") 
-  points_route %>% dir.create(recursive=TRUE,showWarnings = FALSE)
-  
-  for(i in 1:length(sp_analysis$IUCN_name)){
-    try(Spatial_spp(#sci_sp = sp_analysis$IUCN_name[i],
-                    sci_sp="Sorex minutus",
-                      p.route = points_route,
-                      start_date = 2000),
-                        silent=FALSE)
-    }
-
-#
-# This script takes time to download the spatial information
-# End of the script
-#  
->>>>>>> b8acd646b26c63d02cee91d8c054094dbe869975
