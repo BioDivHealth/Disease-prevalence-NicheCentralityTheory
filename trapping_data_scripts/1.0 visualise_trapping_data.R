@@ -6,7 +6,7 @@ library(tidyr)
 library(scatterpie)
 library(rnaturalearth)
 
-top_20_df <- readRDS("./Data/clean_site_data.rds")
+top_20_df <- readRDS("../Data/clean_site_data.rds")
 
 host_site_summary <- top_20_df %>%
   group_by(host_name) %>%
@@ -29,7 +29,7 @@ ggplot(host_site_summary, aes(x = reorder(host_name, unique_coordinates), y = un
   )  # Adjust legend position)
 
 
-ggsave("Results/Figures/n_unique_sites.png", dpi=500)
+ggsave("../Results/Figures/n_unique_sites.png", dpi=500)
 
 #########
 # Maps of trapped rodents
@@ -53,7 +53,7 @@ ggplot(data = top_20_df, aes(x = decimalLongitude, y = decimalLatitude, color = 
     panel.grid = element_blank()         # Remove grid lines
   )  # Adjust legend position
 
-ggsave("Results/Figures/world_sites_map.png", dpi=500)
+ggsave("../Results/Figures/world_sites_map.png", dpi=500)
 
 
 ### SCATTERPIE WORLD MAP
@@ -153,7 +153,7 @@ ggplot(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude)) +
 ### now overlay shapefile
 
 # Load the Shapefile (replace 'path_to_shapefile' with the actual path to your .shp file)
-shapefile_path <- "./Data//iucn_data/iucn_data_suncus_murinus/data_0.shp" 
+shapefile_path <- "../Data//iucn_data/iucn_data_suncus_murinus/data_0.shp" 
 polygon_data <- st_read(shapefile_path)
 
 #### URUGUAY
@@ -174,7 +174,7 @@ ggplot() +
     panel.grid = element_blank()         # Remove grid lines
   )
 
-ggsave("Results/Figures/Suncus_murinus_map.png", dpi=500)
+ggsave("../Results/Figures/Suncus_murinus_map.png", dpi=500)
 
 # plot mus musculus sites in uruguay
 host_name_group <- "Mus musculus"
@@ -193,7 +193,7 @@ ggplot(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude)) +
 #### with shapefile of species range
 
 # Load the Shapefile (replace 'path_to_shapefile' with the actual path to your .shp file)
-shapefile_path <- "./Data//iucn_data/iucn_data_mus_musculus/data_0.shp"   # Adjust this path
+shapefile_path <- "../Data//iucn_data/iucn_data_mus_musculus/data_0.shp"   # Adjust this path
 polygon_data <- st_read(shapefile_path)
 
 
@@ -213,7 +213,7 @@ ggplot() +
     panel.grid = element_blank()         # Remove grid lines
   )
 
-ggsave("Results/Figures/Mus_musculus_uruguay.png", dpi=500)
+ggsave("../Results/Figures/Mus_musculus_uruguay.png", dpi=500)
 
 #### TEXAS
 

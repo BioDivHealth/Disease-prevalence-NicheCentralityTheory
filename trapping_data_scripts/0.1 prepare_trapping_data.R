@@ -2,7 +2,7 @@ library(dplyr)
 library(ggplot2)
 
 
-df <- readRDS("./Data/trapping_data_NC.rds")
+df <- readRDS("../Data/trapping_data_NC.rds")
 
 df <- df %>%
   filter(!is.na(decimalLatitude) & !is.na(decimalLongitude))
@@ -32,4 +32,4 @@ unique_sites_top_20 <- unique_sites_df %>%
   semi_join(top_20_host_names, by = "host_name")  # Keep only rows with host_name in top 20
 
 
-saveRDS(unique_sites_top_20, file = "./Data/clean_site_data.rds")
+saveRDS(unique_sites_top_20, file = "../Data/clean_site_data.rds")
