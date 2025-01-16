@@ -5,7 +5,8 @@ library(sf)
 library(tidyr)
 library(scatterpie)
 library(rnaturalearth)
-
+library(ggspatial)
+setwd("./trapping_data_scripts/")
 top_20_df <- readRDS("../Data/clean_site_data.rds")
 
 host_site_summary <- top_20_df %>%
@@ -130,8 +131,28 @@ ggplot(data = filtered_df, aes(x = decimalLongitude, y = decimalLatitude)) +
   labs(title = paste("Locations for Host:", host_name_group, "in Volyn Oblast, Ukraine"),
        x = "Longitude",
        y = "Latitude") +
-  coord_fixed(xlim = c(23.96, 24.13), ylim = c(51.175, 51.3)) +  # Zoom into Volyn Oblast's coordinates
+  coord_fixed(xlim = c(23.99, 24.10), ylim = c(51.195, 51.275)) +  # Zoom into Volyn Oblast's coordinates
   theme_minimal()
+
+
+###just one transect
+
+# Plot the coordinates on a map of Volyn Oblast, Ukraine
+coordinates_sf <- st_as_sf(filtered_df, coords = c("decimalLongitude", "decimalLatitude"), crs = 4326)
+
+ggplot() +
+  geom_sf(data = coordinates_sf, color = "blue", size = 3) +  # Plot the points
+  annotation_scale(location = "bl", width_hint = 0.5, style = "bar", unit_category = "metric") +  # Add scale bar in km
+  coord_sf(xlim = c(24.08, 24.095), ylim = c(51.198, 51.208), expand = FALSE) +  # Zoom in on a specific region
+  labs(title = paste("Locations for", host_name_group, "in Volyn Oblast, Ukraine"),
+       x = "Longitude",
+       y = "Latitude") +
+  theme_minimal() +
+  theme(       
+    plot.background = element_rect(fill = "lightgrey")
+  )
+
+ggsave("../Results/Figures/Apodemus_flavicolus_Ukraine.png", dpi=500)
 
 #### ASIA
 
