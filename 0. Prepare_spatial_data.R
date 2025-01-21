@@ -23,8 +23,27 @@ functions<-"./Functions" %>% list.files(recursive = FALSE,pattern = ".R$",full.n
 lapply(functions,function(x) source(x))
 
 # 1. Load the species information----
+# Ana's list
 data_route <- "./Data/Species_list" ; data_route %>% list.files(pattern=".xlsx$")
 sp_list <- read_xlsx(data_route %>% list.files(pattern=".xlsx$",full.names = TRUE),sheet=1)
+
+# List of captured species within the sampling localities
+sp_list_site_data <- readRDS("./Data/clean_site_data.rds")
+(sp_list_site_data$host_name %>% unique()) %>% length() # number of unique species
+
+((sp_list_site_data$host_name %>% unique()) %in% sp_list$Species) %>% sum() # Species in both datasets
+
+# Create a table with the list of species
+sp_combined <- data.frame(Ana=sp_list,
+                       Harry=c(unique(sp_list_site_data$host_name),
+                               rep(NA,times=nrow(sp_list)-length(unique(sp_list_site_data$host_name))))
+                        )
+
+write.csv(sp_combined,"./Data/Species_list/Combined_list.csv")
+
+# Create a full list of host/vector species
+sp_list <- c(sp_list$Species,unique(sp_list_site_data$host_name))
+sp_list <- unique(sp_list)
 
 # Check the IUCN API and version
 # IUCN API token
@@ -35,7 +54,7 @@ RL.version<-rredlist::rl_version() ; print(paste("RedList Verion",RL.version))
 export_route <- "./Data/IUCN_info" ; export_route %>% dir.create(recursive = TRUE,showWarnings = FALSE)# output route for the IUCN information
 
 # Check species names
-sp_names <- lapply(sp_list$Species,function(x) retrieve_syns(spp_name=x)$TaxDat) %>% rbindlist()
+sp_names <- lapply(sp_list,function(x) retrieve_syns(spp_name=x)$TaxDat) %>% rbindlist()
 sp_analysis <- sp_names %>% filter(!is.na(IUCN_name)) %>% dplyr::select(c("Or_name","IUCN_name")) # Species with different_names under the IUCN Red_list
 
 sp_names %>% write.csv(paste("./Data/Species_list","Species_analysis.csv",sep="/"),row.names = F)  
@@ -49,7 +68,7 @@ sp_names %>% write.csv(paste("./Data/Species_list","Species_analysis.csv",sep="/
   for(i in 1:length(sp_analysis$IUCN_name)){
     try(Spatial_spp(sci_sp = sp_analysis$IUCN_name[i],
                     p.route = points_route,
-                      start_date = 2015),
+                      start_date = 2000),
                         silent=FALSE)
     }
 
@@ -147,7 +166,7 @@ for(i in 1:length(records_sp)){
   }
 
 # Exports the range data
-st_write(polygons_species,paste("./Data/Species_Ranges",paste0("SpeciesRanges",".shp"),sep="/"))
+st_write(polygons_species,paste("./Data/Species_Ranges",paste0("SpeciesRanges",".shp"),sep="/"), append=FALSE)
 
 #
 # ~~~~The species data is ready for the analysis~~~~
