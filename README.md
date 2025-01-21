@@ -14,6 +14,9 @@ Based on the modelling of the species habitat, this method will first build a Sp
 # Scripts
 - 0. DUummyData.R: Prepares some random spatial data to test functions and set the format for the species spatial data.
 - 1. RangeAnalysis.R: Using the prepared data, performs the spatial analysis to extract the range and niche distance for a set of species presence data.
+- ./trapping_data_scripts/0.0 filter_raw_data.R: Collates trapping data from the extraction sheets in ./Data/raw_trapping_data and filters to keep only studies with site resolution <1km. Outputs to raw_trapping_data/trapping_data_NC.rds.
+- ./trapping_data_scripts/0.1 reshape_trapping_data.R: Reshapes the filtered raw data to the desired shape. Keeps only species in top 20 for number of unique sites. outputs to clean_site_data.rds.
+- ./trapping_data_scripts/1.0 visualise_trapping_data.R: Makes some plots visualising the dataset (clean_site_data.rds). Plots are outputted in ./Results/Figures/.
 # Functions
 - distance_ranges.R: Calculates the distance of points to the perimeter and centroid of a given polygon.
 - distance_p_points (included into distance_ranges.R): Calculate the minimum distance of points to polygons.
