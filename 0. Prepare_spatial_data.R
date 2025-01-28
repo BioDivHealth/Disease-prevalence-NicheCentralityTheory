@@ -24,26 +24,23 @@ lapply(functions,function(x) source(x))
 
 # 1. Load the species information----
 # Ana's list
-data_route <- "./Data/Species_list" ; data_route %>% list.files(pattern=".xlsx$")
-sp_list <- read_xlsx(data_route %>% list.files(pattern=".xlsx$",full.names = TRUE),sheet=1)
+data_route <- "./Data" ; data_route %>% list.files(pattern=".rds$",recursive=FALSE)
+sp_list <- readRDS(data_route %>% list.files(pattern="trapping_data_NC.rds$",full.names = TRUE))
 
-# List of captured species within the sampling localities
-sp_list_site_data <- readRDS("./Data/clean_site_data.rds")
-(sp_list_site_data$host_name %>% unique()) %>% length() # number of unique species
-
-((sp_list_site_data$host_name %>% unique()) %in% sp_list$Species) %>% sum() # Species in both datasets
+# List of captured species with at least the sampling localities
+sp_obs <- xtabs(~sp_list$host_name) %>% as.data.frame()
+sp_min_sp_obs <- sp_obs[sp_obs$Freq > 20,]
 
 # Create a table with the list of species
-sp_combined <- data.frame(Ana=sp_list,
-                       Harry=c(unique(sp_list_site_data$host_name),
-                               rep(NA,times=nrow(sp_list)-length(unique(sp_list_site_data$host_name))))
-                        )
-
-write.csv(sp_combined,"./Data/Species_list/Combined_list.csv")
+write.csv(sp_obs,"./Data/Species_list/Combined_list.csv")
 
 # Create a full list of host/vector species
-sp_list <- c(sp_list$Species,unique(sp_list_site_data$host_name))
-sp_list <- unique(sp_list)
+sp_list <- sp_obs$sp_list.host_name
+sp_list <- unique(sp_list) %>% as.character()
+
+# look for sp and spp patterns
+sp_list <- sp_list[!sp_list %>% grepl(pattern = "spp.$")]
+sp_list <- sp_list[!sp_list %>% grepl(pattern = "sp.$")]
 
 # Check the IUCN API and version
 # IUCN API token
@@ -68,7 +65,7 @@ sp_names %>% write.csv(paste("./Data/Species_list","Species_analysis.csv",sep="/
   for(i in 1:length(sp_analysis$IUCN_name)){
     try(Spatial_spp(sci_sp = sp_analysis$IUCN_name[i],
                     p.route = points_route,
-                      start_date = 2000),
+                      start_date = 1970),
                         silent=FALSE)
     }
 
@@ -80,7 +77,7 @@ route_to_polygons <- "D:/Data/Spatial information/IUCN spatial data/All polygons
                                                              full.names = TRUE)
                                                               ifelse(length(p)==0,return(NA),return(p))})
 
-  sp_analysis <- cbind(sp_analysis,polygons=unlist(IUCN_pols))  
+sp_analysis <- cbind(sp_analysis,polygons=unlist(IUCN_pols))  
 
 # 1.d.2 Collect the spatial data and save them----
   polygons <- lapply(sp_analysis$polygons[!is.na(sp_analysis$polygons)],sf::st_read)
@@ -88,59 +85,59 @@ route_to_polygons <- "D:/Data/Spatial information/IUCN spatial data/All polygons
   
   # Check the spatial data  
   if(FALSE %in% c(polygons_species %>% st_is_valid())){
-    xp <- polygons_species %>% st_is_valid()
-    polygons_species <- polygons_species[xp,]
-    
-  }
+      xp <- polygons_species %>% st_is_valid()
+      polygons_species <- polygons_species[xp,]
+      
+    }
   
   polygons_species %>% st_geometry() %>% plot(col=viridis::viridis(nrow(polygons_species))%>% 
                                                 adjustcolor(alpha.f = 0.15))
 
 # 2. Clean species records ----
-records_route <- data.frame(Species=points_route %>% list.files(pattern = ".csv") %>% basename() %>% gsub(pattern=".csv",replacement=""),
-                            route=points_route %>% list.files(pattern = ".csv",full.names = TRUE))   
-records_sp <- list()  
-
-for(i in 1:nrow(records_route)){  
+  records_route <- data.frame(Species=points_route %>% list.files(pattern = ".csv") %>% basename() %>% gsub(pattern=".csv",replacement=""),
+                              route=points_route %>% list.files(pattern = ".csv",full.names = TRUE))   
+  records_sp <- list()  
   
-  range_x <- polygons_species %>% filter(BINOMIAL==records_route$Species[i])
-  
-  if(nrow(range_x)==0) range_x <- NULL
-  
-  # load the records  
-  records_x <- records_route %>% filter(Species==records_route$Species[i]) %>% dplyr::select("route") %>% unlist()
-  
-  skip_to_next <- FALSE
-  
-  # Note that print(b) fails since b doesn't exist
-  tryCatch(records_x <- records_x %>% read.csv(), error = function(e) { skip_to_next <<- TRUE})
-  
-  if(skip_to_next){ 
-    print(paste("no records for",records_route$Species[i]))
-    next
-    }  
-  
-  if(ncol(records_x)<10){
-    print(paste("no records for",records_route$Species[i]))
-    next
-  }
-  
-    # Check coordinates for missing values
-  obs_index <- cbind(records_x$decimalLatitude %>% is.na(),records_x$decimalLongitude %>% is.na()) %>% rowSums()
-  records_x <- records_x[obs_index==0,]
-  
-  if(nrow(records_x)==0){
-    print(paste("no records for",records_route$Species[i]))
-    next
-  }
-  
-  # Filter the points  
-  records_sp[[i]] <- Prepare_points(points_sp=records_x, range_sp=range_x)
-  names(records_sp)[i] <- records_route$Species[i]
-  print(records_route$Species[i])
-  
-  }
-  
+  for(i in 1:nrow(records_route)){  
+    
+    range_x <- polygons_species %>% filter(BINOMIAL==records_route$Species[i])
+    
+    if(nrow(range_x)==0) range_x <- NULL
+    
+    # load the records  
+    records_x <- records_route %>% filter(Species==records_route$Species[i]) %>% dplyr::select("route") %>% unlist()
+    
+    skip_to_next <- FALSE
+    
+    # Note that print(b) fails since b doesn't exist
+    tryCatch(records_x <- records_x %>% read.csv(), error = function(e) { skip_to_next <<- TRUE})
+    
+    if(skip_to_next){ 
+      print(paste("no records for",records_route$Species[i]))
+      next
+      }  
+    
+    if(ncol(records_x)<10){
+      print(paste("no records for",records_route$Species[i]))
+      next
+    }
+    
+      # Check coordinates for missing values
+    obs_index <- cbind(records_x$decimalLatitude %>% is.na(),records_x$decimalLongitude %>% is.na()) %>% rowSums()
+    records_x <- records_x[obs_index==0,]
+    
+    if(nrow(records_x)==0){
+      print(paste("no records for",records_route$Species[i]))
+      next
+    }
+    
+    # Filter the points  
+    records_sp[[i]] <- Prepare_points(points_sp=records_x, range_sp=range_x)
+    names(records_sp)[i] <- records_route$Species[i]
+    print(records_route$Species[i])
+    
+    }
+    
 # 3. Export the species spatial data----
 # Summary of the data
   summary_data <- lapply(records_sp,nrow)

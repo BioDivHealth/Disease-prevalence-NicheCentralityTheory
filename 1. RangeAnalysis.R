@@ -115,7 +115,7 @@ for(i in 1:length(sp_records)){
   # 1.3 Distance of the distribution points to the centroid and boundary of the species distribution
     dist_range <- distance_ranges(range_sp = rX ,points = Sp_dist,plot=TRUE,
                                   full=TRUE,units_d="km")
-  
+    gc() ; gc()
   # Repeat this step for the points with the disease prevalence
     if(species %in% (sp_site_data$host_name %>% unique())){
       samp_points <- sp_site_data %>% filter(host_name == species)
@@ -145,24 +145,29 @@ for(i in 1:length(sp_records)){
                             n_bk = 10000,
                             Test_n = 20,
                             # Model Selection
-                            mod.select = T, n.mods = 10)
+                            mod.select = T, 
+                            n.mods = 10)
     
     gc() ; gc()
     
     # 1.4.2 Transform the probabilities into ranges
     # Extract the polygons with the best areas for the species
-    p.model <- Pred_to_polygons(x=r.maxent$avr.preds,
+    p.model <- Pred_to_polygons(x=r.maxent$avr.preds, # Need to modify this function to remove the polygons that are very small, also need to export the paramters from the maxent models
                                 pol.x= rX,
-                                t_value=r.maxent$params$TSS.mean.TEST %>% mean(na.rm=T),
-                                plot.r=FALSE,
+                                t_value=r.maxent$params$TSS.threshold.MAXENT %>% mean(na.rm=T),
+                                plot.r=T,
                                 export=NULL,
                                 name.mod="dummy")
     
     gc() ; gc()
     
     # 3.2 Calculate the mininum distance of the points to the polygons----
-    dist.list<-distance_p_pols(points.d = Sp_dist,
-                               polygons.d = p.model$pol_intersects,
+    # 3.2.a Add a buffer of two cells around the polygons to smmoth the transition from suitable to unsutable
+    size <- terra::cellSize(r.maxent$avr.preds,unit="km") %>% minmax()
+    polygons_range <- p.model$pol_mod %>% filter((area %>% as.numeric()) > max(size)*4) # We are going to apply a filter of at least two cells
+    
+    dist.list<-distance_p_pols(points.d = Sp_dist %>% filter(Origin=="Sampling"),
+                               polygons.d = polygons_range,
                                full = TRUE,
                                id_field="id")
     
@@ -171,7 +176,7 @@ for(i in 1:length(sp_records)){
     # 3.3 Run the ENFA analysis----
     ind_x <- env_data %>% crop(rX %>% vect)
     
-    r.dat <- rast_to_vect(ind_x)
+    r.dat <- rast_to_vect(ind_x) : gc() : gc()
     n.row.dat <- prod(r.dat[["dim"]])
     
     pres_index<-rep(0,times=n.row.dat)
