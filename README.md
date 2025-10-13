@@ -11,7 +11,7 @@ Simple calculation of the minimum distance of a presence or disease occurrence p
 Based on the modelling of the species habitat, this method will first build a Species Distribution Model using all the available spatial information for the species. Then, the SDM model will be trim based on the maximum performance of the [Kappa]() parameter and the resulting areas will be used as references within and outside the known range of the species 
 ![Overview of the SDM analysis](Results/Figures/Polygons_AMPO.png)
 
-# Scripts
+# Scripts (update)
 - 0. DUummyData.R: Prepares some random spatial data to test functions and set the format for the species spatial data.
 - 1. RangeAnalysis.R: Using the prepared data, performs the spatial analysis to extract the range and niche distance for a set of species presence data.
 - ./trapping_data_scripts/0.0 filter_raw_data.R: Collates trapping data from the extraction sheets in ./Data/raw_trapping_data and filters to keep only studies with site resolution <1km. Outputs to raw_trapping_data/trapping_data_NC.rds.
@@ -24,11 +24,7 @@ Based on the modelling of the species habitat, this method will first build a Sp
 - rast_harmonization.R: given a list of raster routes, it performs a spatial harmonization to use the data for the SDM analysis. 
 
 # Tasks
-- Select the set of environmental variables to model species habitat suitability
-- Select the algorithm to calculate species SDM (right now only GLMs are implemented)
-- Download the spatial information for the different rodent species
-- Get the disease prevalence data, prepare the data into format
-	vlance patogen prevalence
-	group by desease and host
-	
-- Add a distance to border and distance to polygon (size) arguments to distnce_p_points functiom
+- Split the range analysis script into geographic distance metrics and environmental multidimensional metrics.
+- Load the ArHa data directly from the directory to keep a better track of data updates and changes.
+- Include the habitat/niche distance metrics in the ArHa dataset to include all the information that might be of interest for the prevalence analysis.
+- Clean up the repository to remove unwanted scripts/folders/data
