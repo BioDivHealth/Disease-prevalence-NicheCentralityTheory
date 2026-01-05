@@ -1,0 +1,1277 @@
+---
+title: 'Disease Prevalence Modeling: From Binomial to Spatial GP'
+author: "Analysis Summary"
+date: '`r Sys.Date()`'
+output:
+  html_document: 
+    toc_float: true
+    code_folding: show
+    theme: sandstone
+    highlight: tango
+    fig_width: 10
+    fig_height: 6
+  pdf_document:
+    toc: true
+subtitle: Development and selection of the disease prevalence modeling workflow
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 10,
+  fig.height = 6,
+  cache = TRUE
+)
+
+# Load packages
+pacman::p_load(
+  tidyverse, brms, loo, bayesplot, 
+  tidybayes, here, knitr, kableExtra, gridExtra
+)
+
+# Set options
+options(mc.cores = 1)  # Important for GP stability
+```
+
+# Introduction
+
+**Note**: This notebook is for **visualization and comparison** of fitted models, not for fitting models. All models should be fitted using the scripts in `code/` (especially `code/2.4_comprehensive_models.R` for the full spatial model suite).
+
+This notebook documents the development of the disease prevalence modeling workflow, starting from basic binomial models and progressing to spatial Gaussian Process models. The primary objective was to evaluate **Niche Centrality Theory** - specifically, whether hosts in optimal niche conditions (characterized by high suitability and central niche/range positions) exhibit distinct disease prevalence patterns.
+
+Key findings from this investigation include so far:
+
+-   **Beta-binomial models** provide a substantially better fit than standard binomial models (ΔELPD \~2200).
+-   **Accounting for spatial structure** is essential for accurate inference (ΔELPD \~30-40).
+-   **Within-species centrality (Suitability - Marginality)** provides a meaningful predictive signal even after controlling for spatial autocorrelation (ΔELPD \~8). Similarly meaningful results are obtained with models including Marginality + Suitability or Marginality \* Suitability.
+
+The model suite (`code/2.4_comprehensive_models.R`) systematically evaluates:
+
+-   12 single-effect spatial models (6 raw variables and 6 within-species decompositions)
+-   2 centrality models (isolating within- vs. between-species effects)
+-   32 pairwise models (8 targeted variable combinations)
+-   Non-spatial baselines for reference
+
+The following sections outline the analysis process and results.
+
+# Part 1: Initial Baseline Models - Binomial Likelihood
+
+The investigation started with a standard binomial likelihood approach incorporating basic controls.
+
+```{r load-data, echo=FALSE}
+# Load standardized data
+dat <- readRDS(here("Data", "dat_clean_agg.rds"))
+scaled_covars <- dat |>
+  mutate(
+    assay_group = factor(assay_group),
+    host_family = factor(host_family),
+    pathogen_family = factor(pathogen_family),
+    host_species = factor(host_species),
+    obs_id = row_number()
+  )
+```
+
+## Baseline Models
+
+I tested several baseline options to establish a foundation. Specifically, I tested the following models:
+
+```{r load-baseline-models, echo=FALSE}
+# Load baseline models (with error handling)
+load_model <- function(path) {
+  if (file.exists(path)) {
+    return(readRDS(path))
+  } else {
+    warning(paste("Model not found:", path))
+    return(NULL)
+  }
+}
+
+m0_base <- load_model(here("Results", "models_v1", "m0_base.rds"))
+m0_base_bb <- load_model(here("Results", "models_v1", "m0_base_bb.rds"))
+m0_controls <- load_model(here("Results", "models_v1", "m0_controls.rds"))
+m0_beta_binom <- load_model(here("Results", "models_v1", "m0_beta_binom.rds"))
+```
+
+-   m0_base: Minimal baseline (binomial)
+
+```{r echo=FALSE}
+print(m0_base$formula)
+```
+
+-   m0_base_bb: Minimal baseline (beta-binomial)
+
+```{r echo=FALSE}
+print(m0_base_bb$formula)
+```
+
+-   m0_controls: With broad biology controls (binomial)
+
+```{r echo=FALSE}
+print(m0_controls$formula)
+```
+
+-   m0_beta_binom: With controls (beta-binomial)
+
+```{r echo=FALSE}
+print(m0_beta_binom$formula)
+```
+
+## Diagnostic Evaluation: Posterior Predictive Checks
+
+Posterior predictive checks (PPCs) were used to evaluate model fit and identify areas of systematic misspecification.
+
+```{r ppc-setup, echo=FALSE}
+# Extract observed data
+y <- scaled_covars$number_positive
+n <- scaled_covars$number_tested
+p_obs <- y / n
+
+# Generate posterior predictive draws (only if models exist)
+
+if (!is.null(m0_controls)) {
+  yrep_controls <- posterior_predict(m0_controls, ndraws = 200)
+  p_rep_controls <- sweep(yrep_controls, 2, n, "/")
+} else {
+  p_rep_controls <- NULL
+}
+
+if (!is.null(m0_base)) {
+  yrep_base <- posterior_predict(m0_base, ndraws = 200)
+  p_rep_base <- sweep(yrep_base, 2, n, "/")
+} else {
+  p_rep_base <- NULL
+}
+
+if (!is.null(m0_beta_binom)) {
+  yrep_bb <- posterior_predict(m0_beta_binom, ndraws = 200)
+  p_rep_bb <- sweep(yrep_bb, 2, n, "/")
+} else {
+  p_rep_bb <- NULL
+}
+
+if (!is.null(m0_base_bb)) {
+  yrep_base_bb <- posterior_predict(m0_base_bb, ndraws = 200)
+  p_rep_base_bb <- sweep(yrep_base_bb, 2, n, "/")
+} else {
+  p_rep_base_bb <- NULL
+}
+```
+
+### Overall Prevalence Distribution
+
+```{r ppc-overall, fig.height=8, echo=FALSE}
+# Overall distribution (only plot if data exists)
+plots <- list()
+if (!is.null(p_rep_base)) {
+  plots[[length(plots) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_base[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Binomial (base): prevalence distribution") +
+    theme_minimal()
+}
+if (!is.null(p_rep_controls)) {
+  plots[[length(plots) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_controls[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Binomial (w/ ctrls): prevalence distribution") +
+    theme_minimal()
+}
+if (!is.null(p_rep_base_bb)) {
+  plots[[length(plots) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_base_bb[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Beta-binomial (base): prevalence distribution") +
+    theme_minimal()
+}
+if (!is.null(p_rep_bb)) {
+  plots[[length(plots) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_bb[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Beta-binomial (w/ ctrls): prevalence distribution") +
+    theme_minimal()
+}
+
+if (length(plots) > 0) {
+  do.call(gridExtra::grid.arrange, c(plots, ncol = 2))
+} else {
+  cat("No PPC data available. Models may not be loaded.\n")
+}
+```
+
+### Inspection of Specific Prevalence Ranges
+
+Model performance was examined across different regions of the prevalence distribution:
+
+------------------------------------------------------------------------
+
+#### Low Prevalence Region (0 to 0.025)
+
+```{r ppc-low-prev, fig.height=8, echo=FALSE}
+plots_low <- list()
+if (!is.null(p_rep_base)) {
+  plots_low[[length(plots_low) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_base[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Binomial: low prevalence (0-0.025)") +
+    coord_cartesian(xlim = c(0, 0.025)) +
+    theme_minimal()
+}
+if (!is.null(p_rep_controls)) {
+  plots_low[[length(plots_low) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_controls[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Binomial (w/ ctrls): low prevalence (0-0.025)") +
+    coord_cartesian(xlim = c(0, 0.025)) +
+    theme_minimal()
+}
+if (!is.null(p_rep_base_bb)) {
+  plots_low[[length(plots_low) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_base_bb[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Beta-binomial (base): low prevalence (0-0.025)") +
+    coord_cartesian(xlim = c(0, 0.025)) +
+    theme_minimal()
+}
+if (!is.null(p_rep_bb)) {
+  plots_low[[length(plots_low) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_bb[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Beta-binomial (w/ ctrls): low prevalence (0-0.025)") +
+    coord_cartesian(xlim = c(0, 0.025)) +
+    theme_minimal()
+}
+
+if (length(plots_low) > 0) {
+  do.call(gridExtra::grid.arrange, c(plots_low, ncol = 2))
+}
+```
+
+**Observation**: The binomial model failed to capture the high frequency of observations in the low-prevalence range. The beta-binomial models provided a more accurate representation of this feature.
+
+------------------------------------------------------------------------
+
+#### High Prevalence Region (0.999 to 1.0)
+
+```{r ppc-high-prev, fig.height=8, echo=FALSE}
+plots_high <- list()
+
+if (!is.null(p_rep_base)) {
+  plots_high[[length(plots_high) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_base[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Binomial (base): high prevalence (0.999-1.0)") +
+    coord_cartesian(xlim = c(0.99, 1.0)) +
+    theme_minimal()
+}
+if (!is.null(p_rep_controls)) {
+  plots_high[[length(plots_high) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_controls[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Binomial (w/ ctrls): high prevalence (0.999-1.0)") +
+    coord_cartesian(xlim = c(0.99, 1.0)) +
+    theme_minimal()
+}
+if (!is.null(p_rep_base_bb)) {
+  plots_high[[length(plots_high) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_base_bb[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Beta-binomial (base): high prevalence (0.999-1.0)") +
+    coord_cartesian(xlim = c(0.99, 1.0)) +
+    theme_minimal()
+}
+if (!is.null(p_rep_bb)) {
+  plots_high[[length(plots_high) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_bb[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Beta-binomial (w/ ctrls): high prevalence (0.999-1.0)") +
+    coord_cartesian(xlim = c(0.99, 1.0)) +
+    theme_minimal()
+}
+
+if (length(plots_high) > 0) {
+  do.call(gridExtra::grid.arrange, c(plots_high, ncol = 2))
+}
+```
+
+------------------------------------------------------------------------
+
+#### Middle Range (0.4975 to 0.5025)
+
+```{r ppc-mid-prev, fig.height=8, echo=FALSE}
+plots_mid <- list()
+if (!is.null(p_rep_base)) {
+  plots_mid[[length(plots_mid) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_base[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Binomial (base): middle prevalence (0.4975-0.5025)") +
+    coord_cartesian(xlim = c(0.4975, 0.5025)) +
+    theme_minimal()
+}
+if (!is.null(p_rep_controls)) {
+  plots_mid[[length(plots_mid) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_controls[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Binomial (w/ ctrls): middle prevalence (0.4975-0.5025)") +
+    coord_cartesian(xlim = c(0.4975, 0.5025)) +
+    theme_minimal()
+}
+if (!is.null(p_rep_base_bb)) {
+  plots_mid[[length(plots_mid) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_base_bb[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Beta-binomial (base): middle prevalence (0.4975-0.5025)") +
+    coord_cartesian(xlim = c(0.4975, 0.5025)) +
+    theme_minimal()
+}
+if (!is.null(p_rep_bb)) {
+  plots_mid[[length(plots_mid) + 1]] <- bayesplot::ppc_dens_overlay(p_obs, p_rep_bb[1:50, ]) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Beta-binomial (w/ ctrls): middle prevalence (0.4975-0.5025)") +
+    coord_cartesian(xlim = c(0.4975, 0.5025)) +
+    theme_minimal()
+}
+
+if (length(plots_mid) > 0) {
+  do.call(gridExtra::grid.arrange, c(plots_mid, ncol = 2))
+}
+```
+
+### Test Statistics: Mean and Zero-Mass
+
+```{r ppc-stats, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+# Test statistics: Mean and Zero-Mass
+# Define models and labels for consistent plotting
+model_list <- list(m0_base, m0_controls, m0_base_bb, m0_beta_binom )
+model_names <- c("Binomial (base)", "Binom (w/ ctrls)", "Beta-binomial (base)", "Beta-binomial (w/ ctrls)")
+
+# Helper function to create consistent stat plots
+make_stat_plot <- function(mod, label, is_mean = TRUE, show_legend = FALSE) {
+  if (is.null(mod)) return(NULL)
+  
+  # Define statistic function and axis labels
+  stat_fn <- if (is_mean) function(y) mean(y / n) else function(y) mean(y == 0)
+  x_lab <- if (is_mean) "Mean Prevalence" else "Zero-Mass Prop."
+  
+  p <- pp_check(mod, ndraws = 200, type = "stat", stat = stat_fn) +
+    labs(x = x_lab, y = "Frequency", fill = NULL, color = NULL) +
+    scale_fill_manual(values = "lightblue", labels = "Predicted") +
+    scale_color_manual(values = "darkblue", labels = "Observed") +
+    ggtitle(label) +
+    theme_minimal() +
+    theme(legend.title = element_blank())
+  
+  if (!show_legend) {
+    p <- p + theme(legend.position = "none")
+  }
+  return(p)
+}
+
+# Generate plots for both rows
+plots_mean <- list()
+plots_zero <- list()
+
+for (i in 1:4) {
+  # Mean prevalence row
+  pm <- make_stat_plot(model_list[[i]], model_names[i], is_mean = TRUE, show_legend = (i == 4))
+  if (!is.null(pm)) plots_mean[[length(plots_mean) + 1]] <- pm
+  
+  # Zero mass row
+  pz <- make_stat_plot(model_list[[i]], model_names[i], is_mean = FALSE, show_legend = (i == 4))
+  if (!is.null(pz)) plots_zero[[length(plots_zero) + 1]] <- pz
+}
+
+# Arrange with row titles
+if (length(plots_mean) > 0 || length(plots_zero) > 0) {
+  row1 <- if(length(plots_mean) > 0) {
+    gridExtra::arrangeGrob(grobs = plots_mean, ncol = 4, top = grid::textGrob("Mean Prevalence", gp = grid::gpar(fontsize = 14, fontface = "bold")))
+  } else NULL
+  
+  row2 <- if(length(plots_zero) > 0) {
+    gridExtra::arrangeGrob(grobs = plots_zero, ncol = 4, top = grid::textGrob("Zero-Mass Proportion", gp = grid::gpar(fontsize = 14, fontface = "bold")))
+  } else NULL
+  
+  grid_list <- list(row1, row2)
+  grid_list <- grid_list[!sapply(grid_list, is.null)]
+  
+  do.call(gridExtra::grid.arrange, c(grid_list, ncol = 1))
+} else {
+  cat("No models loaded for test statistics plots.\n")
+}
+```
+
+### LOO-PIT Calibration
+
+```{r ppc-loo-pit, echo=FALSE, message=FALSE, warning=FALSE, results='hide', paged.print=FALSE}
+pit_plots <- list()
+
+if (!is.null(m0_base)) {
+  pit_plots[[length(pit_plots) + 1]] <- pp_check(m0_base, type = "loo_pit_qq") +
+    ggtitle("LOO-PIT: Binom (base)") +
+    theme_minimal()
+}
+if (!is.null(m0_controls)) {
+  pit_plots[[length(pit_plots) + 1]] <- pp_check(m0_controls, type = "loo_pit_qq") +
+    ggtitle("LOO-PIT: Binom (w/ ctrls)") +
+    theme_minimal()
+}
+if (!is.null(m0_base_bb)) {
+  pit_plots[[length(pit_plots) + 1]] <- pp_check(m0_base_bb, type = "loo_pit_qq") +
+    ggtitle("LOO-PIT: Beta-binomial (base)") +
+    theme_minimal()
+}
+if (!is.null(m0_beta_binom)) {
+  pit_plots[[length(pit_plots) + 1]] <- pp_check(m0_beta_binom, type = "loo_pit_qq") +
+    ggtitle("LOO-PIT: Beta-binomial (w/ ctrls)") +
+    theme_minimal()
+}
+
+if (length(pit_plots) > 0) {
+  do.call(gridExtra::grid.arrange, c(pit_plots, ncol = 2))
+}
+```
+
+**Takeaway**: The binomial model appears misspecified. A beta-binomial approach is required to account for overdispersion.
+
+------------------------------------------------------------------------
+
+# Part 2: Accounting for Overdispersion - Beta-Binomial Models
+
+Posterior predictive checks indicate that the beta-binomial model provides a better fit than the standard binomial model. Quantitative comparison using PSIS-LOO confirms this improvement:
+
+```{r loo-baseline-comparison, echo=FALSE}
+# Compute LOO for baseline models (only if they exist)
+loo_list <- list()
+if (!is.null(m0_base)) loo_list$m0_base <- loo(m0_base)
+if (!is.null(m0_controls)) loo_list$m0_controls <- loo(m0_controls)
+if (!is.null(m0_beta_binom)) loo_list$m0_beta_binom <- loo(m0_beta_binom)
+if (!is.null(m0_base_bb)) loo_list$m0_base_bb <- loo(m0_base_bb)
+
+# Compare
+if (length(loo_list) >= 2) {
+  baseline_comp <- loo_compare(loo_list)
+  print(baseline_comp)
+} else {
+  cat("Need at least 2 models with LOO for comparison\n")
+}
+```
+
+ELPD stands for Expected Log Predictive Density, and is a measure of the predictive performance of a model here. The beta-binomial model improves ELPD by more than 2000 points, indicating that the standard binomial likelihood is misspecified for these data.
+
+## Rationale for Beta-Binomial
+
+The data shows strong **overdispersion** - variability exceeding that predicted by a binomial distribution. The beta-binomial distribution accounts for this by allowing the success probability to vary across observations according to a beta distribution, which is consistent with the hierarchical nature of prevalence data across diverse host-pathogen contexts.
+
+# Part 3: Evaluation of Niche Predictors
+
+Following the adoption of the beta-binomial likelihood, several niche predictors were evaluated:
+
+-   `prob_occur_orderNorm`: Probability of occurrence (SDM output). Renamed from the SDM `mean` column. Each trapping record inherits the MaxEnt-derived probability of host occurrence at that location
+-   `Suitability_orderNorm`: Habitat suitability. ENFA suitability prediction (0–1) reconstructed to raster form and extracted at samples (\`
+-   `Marginality_orderNorm`: The difference between the mean environmental conditions of the species and the global mean. Calculated as the ENFA marginality raster sampled at trapping sites. Quantifies how far the local environment deviates from the background environmental centroid (`code/1. RangeAnalysis.R:189-200`)
+-   `Specificity_orderNorm`: ENFA specialization axis (first factor) saved as the `Specificity` raster; higher absolute values imply tighter niche tolerance.
+-   `Centroid_d_orderNorm`: Geographic distance to range centroid
+-   `Boundary_d_orderNorm`: Geographic distance to range boundary
+
+Fitted the following models to exlore individual niche predictors:
+
+```{r load-m1-models, echo=FALSE}
+# Load M1 models (single niche predictors)
+m1prob_v2 <- load_model(here("Results", "models_v2", "m1prob_v2.rds"))
+m1suit_v2 <- load_model(here("Results", "models_v2", "m1suit_v2.rds"))
+m1marg_v2 <- load_model(here("Results", "models_v2", "m1marg_v2.rds"))
+m1spec_v2 <- load_model(here("Results", "models_v2", "m1spec_v2.rds"))
+m1centr_v2 <- load_model(here("Results", "models_v2", "m1centr_v2.rds"))
+m1bound_v2 <- load_model(here("Results", "models_v2", "m1bound_v2.rds"))
+
+cat(as.character(m1prob_v2$formula)[1], "\n", as.character(m1suit_v2$formula)[1], "\n", as.character(m1marg_v2$formula)[1], "\n", as.character(m1spec_v2$formula)[1], "\n", as.character(m1centr_v2$formula)[1], "\n", as.character(m1bound_v2$formula)[1], "\n")
+
+```
+
+Compared the models to the baseline model using PSIS-LOO:
+
+```{r m1-comparison, echo=FALSE}
+# Compute LOO for M1 models (only if they exist)
+m1_loo_list <- list()
+if (!is.null(m0_base_bb)) m1_loo_list$m0_base_bb <- loo(m0_base_bb)
+if (!is.null(m1prob_v2)) m1_loo_list$m1prob_v2 <- loo(m1prob_v2)
+if (!is.null(m1suit_v2)) m1_loo_list$m1suit_v2 <- loo(m1suit_v2)
+if (!is.null(m1marg_v2)) m1_loo_list$m1marg_v2 <- loo(m1marg_v2)
+if (!is.null(m1spec_v2)) m1_loo_list$m1spec_v2 <- loo(m1spec_v2)
+if (!is.null(m1centr_v2)) m1_loo_list$m1centr_v2 <- loo(m1centr_v2)
+if (!is.null(m1bound_v2)) m1_loo_list$m1bound_v2 <- loo(m1bound_v2)
+
+# Compare with baseline
+if (length(m1_loo_list) >= 2) {
+  m1_comp <- loo_compare(m1_loo_list)
+  print(m1_comp)
+} else {
+  cat("Need at least 2 models with LOO for comparison\n")
+}
+```
+
+Initial comparisons showed that the niche predictors had similar predictive performance, with differences typically smaller than one standard error. This lack of clear separation suggested that additional structural components, such as spatial autocorrelation, might be necessary to distinguish between competing hypotheses. Further exploration of these models (not shown here) by using pairwise comparisons showed that the models were effectively tied, and other components of the model needed to be adjusted to identify differences.
+
+# Part 4: Accounting for Spatial Autocorrelation
+
+**Spatial autocorrelation** may be incorporated into the model structure, as prevalence observations are likely to be clustered geographically.
+
+## Integration of Spatial Gaussian Processes
+
+A Gaussian Process (GP) term was added to the model using standardized longitude and latitude coordinates:
+
+```{r spatial-setup}
+# Add standardized coordinates
+scaled_covars <- scaled_covars |>
+  mutate(
+    lon_z = as.numeric(scale(longitude)),
+    lat_z = as.numeric(scale(latitude))
+  )
+```
+
+```{r load-spatial-models, echo=FALSE}
+# Load spatial baseline (will be loaded in comprehensive suite section, but load here for this section)
+if (!exists("m0_spatial") || is.null(m0_spatial)) {
+  m0_spatial <- load_model(here("Results", "models_v4", "m0_spatial.rds"))
+}
+```
+
+The spatial baseline model formulation:
+
+```{r spatial-baseline-formula, echo=FALSE}
+cat(as.character(m0_spatial$formula)[1], "\n")
+```
+
+Now we are comparing these 2 models:
+
+```{r spatial-vs-nonspatial-formula, echo=FALSE}
+
+cat("Spatial model: \n", as.character(m0_spatial$formula)[1], "\n", "\n","Non-spatial model: \n", as.character(m0_base_bb$formula)[1], "\n")
+```
+
+And here are the LOO results of the comparison:
+
+```{r spatial-vs-nonspatial, echo=FALSE}
+# Compare spatial vs non-spatial baseline
+# Use models from comprehensive suite if available
+if (exists("all_spatial_models") && !is.null(all_spatial_models$m0_spatial)) {
+  m0_spatial <- all_spatial_models$m0_spatial
+}
+
+if (!is.null(m0_spatial) && !is.null(m0_base_bb)) {
+  loo_m0_spatial <- loo(m0_spatial)
+  loo_m0_base_bb <- loo(m0_base_bb)
+  
+  spatial_comp <- loo_compare(loo_m0_base_bb, loo_m0_spatial)
+  print(spatial_comp)
+} else {
+  cat("Spatial models not available. Run code/2.4_comprehensive_models.R first.\n")
+}
+```
+
+Incorporating spatial structure results in an ELPD improvement of \~30-40 points, demonstrating the importance of accounting for spatial clustering in prevalence data.
+
+# Part 5: Within-Species Decomposition
+
+To evaluate the Niche Centrality Hypothesis, niche predictors were decomposed into two components to isolate within-species variation:
+
+-   **Between-species component**: Representing species-level average niche positions.
+-   **Within-species component**: Representing site-level deviations from the species mean.
+
+This decomposition can help determine if sites that are central relative to a species' specific niche exhibit different prevalence patterns, independent of broader species-level differences.
+
+## Centrality Score Decomposition
+
+A centrality score was calculated as `Suitability - Marginality` (where higher values indicate more central niche positions) and decomposed as follows (TBC):
+
+```{r centrality-decomp}
+# Show the decomposition (already done in data prep)
+scaled_covars <- scaled_covars |>
+  mutate(
+    centrality_score_raw = Suitability_orderNorm - Marginality_orderNorm,
+    Suitability_between_raw = ave(Suitability_orderNorm, host_species, FUN = mean),
+    Marginality_between_raw = ave(Marginality_orderNorm, host_species, FUN = mean),
+    centrality_between_raw = Suitability_between_raw - Marginality_between_raw,
+    centrality_within_raw = centrality_score_raw - centrality_between_raw,
+    centrality_within_z = as.numeric(scale(centrality_within_raw)),
+    centrality_between_z = as.numeric(scale(centrality_between_raw))
+  )
+```
+
+## Targeted Approach: Within-Species Centrality with Spatial Control
+
+The model with within-species centrality was fit with a spatial control term to account for spatial autocorrelation. The model formula was:
+
+```{r load-centrality-within-spatial-model, echo=FALSE}
+# Load the within-species centrality model (try multiple possible locations)
+# This should already be loaded in the comprehensive suite above, but load separately for this section
+if (!exists("m1centrality_within_spatial") || is.null(m1centrality_within_spatial)) {
+  m1centrality_within_spatial <- load_model(here("Results", "models_v4", "m1centrality_within_spatial.rds"))
+  if (is.null(m1centrality_within_spatial)) {
+    m1centrality_within_spatial <- load_model(here("Results", "models_v3", "m1centrality_within_spatial_k20_screen.rds"))
+  }
+} else if (exists("all_spatial_models") && !is.null(all_spatial_models$m1centrality_within_spatial)) {
+  m1centrality_within_spatial <- all_spatial_models$m1centrality_within_spatial
+}
+```
+
+```{r centrality-within-spatial-formula, echo=FALSE}
+cat(as.character(m1centrality_within_spatial$formula)[1], "\n")
+```
+
+This model was then compared to the spatial baseline model using PSIS-LOO:
+
+```{r best-model-comparison, echo=FALSE}
+# Compare with spatial baseline
+if (!is.null(m1centrality_within_spatial) && !is.null(m0_spatial)) {
+  loo_centrality_within <- loo(m1centrality_within_spatial)
+  loo_m0_spatial <- loo(m0_spatial)
+  
+  best_comp <- loo_compare(loo_m0_spatial, loo_centrality_within)
+  print(best_comp)
+} else {
+  cat("Best model or spatial baseline not available.\n")
+}
+```
+
+The inclusion of within-species centrality provides a notable predictive improvement over the spatial baseline (ΔELPD ≈ 7.2, SE ≈ 3.6), representing an improvement approximately 2.3 times the standard error.
+
+### Parameter Estimates
+
+The parameter estimates for the within-species centrality model were:
+
+```{r best-model-effect, echo=FALSE ,fig.height=2, fig.width=2}
+# Extract fixed effects (only if model exists)
+if (!is.null(m1centrality_within_spatial)) {
+  # Extract as a 1-row matrix (drop = FALSE preserves the row structure)
+  # then round for readability
+  fixef(m1centrality_within_spatial)["centrality_within_z", , drop = FALSE] |> 
+    round(3)
+} else {
+  cat("Best model not available.\n")
+}
+```
+
+**Interpretation**:
+
+-   The estimate for within-species centrality (β = 0.15, 95% CrI [0.07, 0.24]) is positive on the log-odds scale.
+-   This corresponds to an **Odds Ratio of \~1.16** per one standard deviation increase in within-species centrality.
+-   Sites that are more central relative to a species' average niche position are associated with systematically higher prevalence.
+
+This relationship remains consistent when controlling for:
+
+-   Spatial autocorrelation (GP term)
+-   Species-level heterogeneity (random effects)
+-   Methodological variation (fixed effect for assay group)
+-   Overdispersion (beta-binomial likelihood)
+
+# Part 6: Comprehensive Model Comparison
+
+The following sections present a comprehensive evaluation of the models developed.
+
+## Model Suite Overview
+
+```{r model-summary, include=FALSE}
+# Load model summary if available
+model_summary_path <- here("Results", "models_v4", "model_summary.csv")
+if (file.exists(model_summary_path)) {
+  model_summary <- read.csv(model_summary_path)
+  print(model_summary |> 
+        group_by(model_type) |>
+        summarise(
+          Total = n(),
+          Fitted = sum(fitted),
+          Has_LOO = sum(has_loo),
+          .groups = "drop"
+        ))
+  print(model_summary)
+} else {
+  cat("Model summary not found. Run code/2.4_comprehensive_models.R first.\n")
+}
+```
+
+The comprehensive suite evaluated:
+
+-   **Spatial baseline** (`m0_spatial`)
+-   **12 single-effect spatial models** (6 raw variables and 6 within-species decompositions)
+-   **2 centrality models** (isolating within- vs. between-species effects)
+-   **32 pairwise models** (8 targeted variable combinations)
+-   **Non-spatial models** from previous analysis steps
+
+## Prior Specifications
+
+Weakly informative priors were used to provide regularisation and ensure computational stability:
+
+-   **Intercept**: `Normal(0, 1.5)` — broad prior on the log-odds scale.
+-   **Regression Coefficients (b)**: `Normal(0, 1)` — regularising niche and control effects.
+-   **Random Effect SDs (sd)**: `Exponential(1)` — penalising overly complex hierarchies.
+-   **Overdispersion (phi)**: `Exponential(1)` — (Beta-Binomial only) allowing for site-level clustering.
+-   **GP Hyperparameters**: (Spatial models only)
+    -   **SD (sdgp)**: `Exponential(1)`
+    -   **Length-scale (lscale)**: `Exponential(1)` — broad scale for spatial processes.
+
+```{r load-comprehensive-models, echo=FALSE, include=FALSE}
+# Load comprehensive model suite from 2.4_comprehensive_models.R
+# These models are saved in Results/models_v4/
+
+# Single-effect raw models
+spatial_raw_models <- c(
+  "m1prob_raw_spatial", "m1suit_raw_spatial", "m1marg_raw_spatial",
+  "m1spec_raw_spatial", "m1centroid_raw_spatial", "m1boundary_raw_spatial"
+)
+
+# Single-effect within models
+spatial_within_models <- c(
+  "m1prob_within_spatial", "m1suit_within_spatial", "m1marg_within_spatial",
+  "m1spec_within_spatial", "m1centroid_within_spatial", "m1boundary_within_spatial"
+)
+
+# Centrality models
+centrality_models <- c(
+  "m1centrality_within_spatial", "m1centrality_between_spatial"
+)
+
+# Pairwise models (8 targeted pairs)
+pairwise_base_names <- c(
+  "suit_marg", "suit_spec", "marg_spec",
+  "centroid_suit", "boundary_marg", "centroid_boundary",
+  "prob_marg", "prob_spec"
+)
+
+# Generate all pairwise model names
+pairwise_models <- c(
+  paste0("m2", pairwise_base_names, "_raw_additive_spatial"),
+  paste0("m2", pairwise_base_names, "_raw_interaction_spatial"),
+  paste0("m2", pairwise_base_names, "_within_additive_spatial"),
+  paste0("m2", pairwise_base_names, "_within_interaction_spatial")
+)
+
+# Load all spatial models
+all_spatial_models <- list()
+
+# Spatial baseline
+all_spatial_models$m0_spatial <- load_model(here("Results", "models_v4", "m0_spatial.rds"))
+
+# Single-effect raw
+for (m in spatial_raw_models) {
+  all_spatial_models[[m]] <- load_model(here("Results", "models_v4", paste0(m, ".rds")))
+}
+
+# Single-effect within
+for (m in spatial_within_models) {
+  all_spatial_models[[m]] <- load_model(here("Results", "models_v4", paste0(m, ".rds")))
+}
+
+# Centrality
+for (m in centrality_models) {
+  # Try models_v4 first, then models_v3
+  mod <- load_model(here("Results", "models_v4", paste0(m, ".rds")))
+  if (is.null(mod) && m == "m1centrality_within_spatial") {
+    mod <- load_model(here("Results", "models_v3", "m1centrality_within_spatial_k20_screen.rds"))
+  }
+  all_spatial_models[[m]] <- mod
+}
+
+# Pairwise
+for (m in pairwise_models) {
+  all_spatial_models[[m]] <- load_model(here("Results", "models_v4", paste0(m, ".rds")))
+}
+
+# Remove NULL entries
+all_spatial_models <- all_spatial_models[!sapply(all_spatial_models, is.null)]
+
+cat("Loaded", length(all_spatial_models), "spatial models from 2.4_comprehensive_models.R\n")
+```
+
+```{r comprehensive-comparison, include=FALSE}
+# Try to load pre-computed comparison from 2.4 script
+loo_comparison_path <- here("Results", "models_v4", "loo_comparison.csv")
+if (file.exists(loo_comparison_path)) {
+  cat("Loading pre-computed LOO comparison from 2.4_comprehensive_models.R...\n")
+  full_comp_df <- read.csv(loo_comparison_path, row.names = 1)
+  full_comp <- as.data.frame(full_comp_df)
+  full_comp_print = round(full_comp,3)
+  full_comp_print = full_comp_print %>% select(elpd_diff, se_diff)
+  print(full_comp_print)
+} else {
+  cat("Pre-computed comparison not found. Computing LOO for all available models...\n")
+  cat("(This may take a while - consider running code/2.4_comprehensive_models.R with run_loo=TRUE first)\n\n")
+  
+  # Collect all available LOO objects
+  all_loos <- list()
+  
+  # Baselines (non-spatial)
+  if (!is.null(m0_controls)) {
+    all_loos$m0_controls <- loo(m0_controls)
+  }
+  if (!is.null(m0_beta_binom)) {
+    all_loos$m0_beta_binom <- loo(m0_beta_binom)
+  }
+  if (!is.null(m0_base_bb)) {
+    all_loos$m0_base_bb <- loo(m0_base_bb)
+  }
+  
+  # M1 non-spatial
+  if (!is.null(m1prob_v2)) all_loos$m1prob_v2 <- loo(m1prob_v2)
+  if (!is.null(m1suit_v2)) all_loos$m1suit_v2 <- loo(m1suit_v2)
+  if (!is.null(m1marg_v2)) all_loos$m1marg_v2 <- loo(m1marg_v2)
+  if (!is.null(m1spec_v2)) all_loos$m1spec_v2 <- loo(m1spec_v2)
+  if (!is.null(m1centr_v2)) all_loos$m1centr_v2 <- loo(m1centr_v2)
+  if (!is.null(m1bound_v2)) all_loos$m1bound_v2 <- loo(m1bound_v2)
+  
+  # Spatial models (compute LOO for available ones)
+  for (model_name in names(all_spatial_models)) {
+    if (!is.null(all_spatial_models[[model_name]])) {
+      tryCatch({
+        all_loos[[model_name]] <- loo(all_spatial_models[[model_name]])
+      }, error = function(e) {
+        cat("  Error computing LOO for", model_name, ":", conditionMessage(e), "\n")
+      })
+    }
+  }
+  
+  # Comprehensive comparison
+  if (length(all_loos) >= 2) {
+    full_comp <- do.call(loo_compare, all_loos)
+    #print(round(full_comp,3))
+  } else {
+    cat("Need at least 2 models with LOO for comprehensive comparison.\n")
+    cat("Available models:", length(all_loos), "\n")
+    full_comp <- NULL
+  }
+}
+```
+
+**Model notation guide**:
+
+-   **[raw]**: Predictors used as original site-level values.
+-   **[within]**: Within-species decomposed component (site-level deviation from the species mean).
+-   **(+)**: Additive model structure (sum of effects).
+-   \*\*(\*)\*\*: Interaction model (includes main effects and their interaction).
+
+```{r all-models-nice-table-print, echo=FALSE}
+if (exists("full_comp") && !is.null(full_comp) && nrow(full_comp) > 0) {
+  full_comp_print = round(full_comp,3)
+  full_comp_print = full_comp_print %>% select(elpd_diff, se_diff) %>% rownames_to_column("Model") %>% mutate(
+      Model_clean = case_when(
+        Model == "m1centrality_within_spatial" ~ "Centrality (within) + Spatial",
+        Model == "m1centrality_between_spatial" ~ "Centrality (between) + Spatial",
+        Model == "m0_spatial" ~ "Spatial baseline",
+        # Single-effect raw
+        Model == "m1prob_raw_spatial" ~ "Prob occur (raw) + Spatial",
+        Model == "m1suit_raw_spatial" ~ "Suitability (raw) + Spatial",
+        Model == "m1marg_raw_spatial" ~ "Marginality (raw) + Spatial",
+        Model == "m1spec_raw_spatial" ~ "Specificity (raw) + Spatial",
+        Model == "m1centroid_raw_spatial" ~ "Centroid dist (raw) + Spatial",
+        Model == "m1boundary_raw_spatial" ~ "Boundary dist (raw) + Spatial",
+        # Single-effect within
+        Model == "m1prob_within_spatial" ~ "Prob occur (within) + Spatial",
+        Model == "m1suit_within_spatial" ~ "Suitability (within) + Spatial",
+        Model == "m1marg_within_spatial" ~ "Marginality (within) + Spatial",
+        Model == "m1spec_within_spatial" ~ "Specificity (within) + Spatial",
+        Model == "m1centroid_within_spatial" ~ "Centroid dist (within) + Spatial",
+        Model == "m1boundary_within_spatial" ~ "Boundary dist (within) + Spatial",
+        # Pairwise Spatial Models (Generic Cleaning)
+        grepl("^m2.*_spatial$", Model) ~ {
+          m_clean <- Model %>%
+            str_replace("^m2", "") %>%
+            str_replace("_spatial$", "") %>%
+            str_replace("_additive", " (+)") %>%
+            str_replace("_interaction", " (*)") %>%
+            str_replace("_raw", " [raw]") %>%
+            str_replace("_within", " [within]") %>%
+            str_replace_all(c("suit" = "Suit", "marg" = "Marg", "spec" = "Spec", 
+                            "prob" = "Prob", "centroid" = "CentrDist", "boundary" = "BoundDist")) %>%
+            str_replace("_", " ")
+          paste0(m_clean, " + Spatial")
+        },
+        # Multivariate Non-spatial (v2)
+        Model == "m2a_v2" ~ "Prob + Marg (non-spatial)",
+        Model == "m2b_v2" ~ "Prob * Marg (non-spatial)",
+        Model == "m2c_v2" ~ "Suit + Marg (non-spatial)",
+        Model == "m2d_v2" ~ "Suit * Marg (non-spatial)",
+        # Single-effect Non-spatial (v2 and v1)
+        Model %in% c("m1prob_v2", "m1prob") ~ "Prob occur (non-spatial)",
+        Model %in% c("m1marg_v2", "m1marg") ~ "Marginality (non-spatial)",
+        Model %in% c("m1suit_v2", "m1suit") ~ "Suitability (non-spatial)",
+        Model %in% c("m1spec_v2", "m1spec") ~ "Specificity (non-spatial)",
+        Model %in% c("m1centr_v2", "m1centr") ~ "Centrality (non-spatial)",
+        Model %in% c("m1bound_v2", "m1bound") ~ "Boundary dist (non-spatial)",
+        # Baselines
+        Model == "m0_base" ~ "Binomial baseline (non-spatial)",
+        Model == "m0_base_bb" ~ "Beta-binomial baseline (non-spatial)",
+        Model == "m0_beta_binom" ~ "Beta-binom + controls (non-spatial)",
+        Model == "m0_controls" ~ "Binomial + controls (non-spatial)",
+        TRUE ~ Model
+      ),
+      Model_Type = case_when(
+        grepl("spatial", Model) ~ "Spatial",
+        TRUE ~ "Non-spatial"
+      ),
+      # Extract family directly from model objects where possible
+      Family = sapply(Model, function(m) {
+        # Check all_spatial_models list first
+        if (exists("all_spatial_models") && m %in% names(all_spatial_models)) {
+          return(all_spatial_models[[m]]$family[[1]])
+        }
+        # Check global environment for the object name
+        if (exists(m)) {
+          obj <- get(m)
+          if (inherits(obj, "brmsfit")) return(obj$family[[1]])
+        }
+        # Fallback to manual assignment if object not found (e.g. from pre-computed LOO)
+        case_when(
+          m %in% c("m0_base", "m0_controls") ~ "binomial",
+          TRUE ~ "beta_binomial"
+        )
+      }) %>% str_replace("_", "-") %>% str_to_title(),
+      Model_clean = str_remove(Model_clean, " \\+ Spatial| \\(non-spatial\\)")
+    )
+  
+  kable(full_comp_print |> select(Model_clean, Family, Model_Type, elpd_diff, se_diff), 
+        digits = 2, 
+        col.names = c("Model", "Family", "Type", "ΔELPD", "SE"),
+        caption = "All Models by ELPD") |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
+    column_spec(1, bold = TRUE) |>
+    column_spec(2, italic = TRUE) |>
+    column_spec(3, color = "steelblue") |>
+    column_spec(4, color = "blue")
+  
+} else {
+  cat("Model comparison not available. Run code/2.4_comprehensive_models.R with run_loo=TRUE first.\n")
+}
+```
+
+## Summary of Results
+
+```{r top-models-table, echo=FALSE}
+# Extract top 10 (if comparison exists)
+if (exists("full_comp") && !is.null(full_comp) && nrow(full_comp) > 0) {
+  n_top <- min(15, nrow(full_comp))  # Show top 15 to see more of the comprehensive suite
+  top_models <- full_comp[1:n_top, ] |>
+    as.data.frame() |>
+    rownames_to_column("Model") |>
+    mutate(
+      Model_clean = case_when(
+        Model == "m1centrality_within_spatial" ~ "Centrality (within) + Spatial",
+        Model == "m1centrality_between_spatial" ~ "Centrality (between) + Spatial",
+        Model == "m0_spatial" ~ "Spatial baseline",
+        # Single-effect raw
+        Model == "m1prob_raw_spatial" ~ "Prob occur (raw) + Spatial",
+        Model == "m1suit_raw_spatial" ~ "Suitability (raw) + Spatial",
+        Model == "m1marg_raw_spatial" ~ "Marginality (raw) + Spatial",
+        Model == "m1spec_raw_spatial" ~ "Specificity (raw) + Spatial",
+        Model == "m1centroid_raw_spatial" ~ "Centroid dist (raw) + Spatial",
+        Model == "m1boundary_raw_spatial" ~ "Boundary dist (raw) + Spatial",
+        # Single-effect within
+        Model == "m1prob_within_spatial" ~ "Prob occur (within) + Spatial",
+        Model == "m1suit_within_spatial" ~ "Suitability (within) + Spatial",
+        Model == "m1marg_within_spatial" ~ "Marginality (within) + Spatial",
+        Model == "m1spec_within_spatial" ~ "Specificity (within) + Spatial",
+        Model == "m1centroid_within_spatial" ~ "Centroid dist (within) + Spatial",
+        Model == "m1boundary_within_spatial" ~ "Boundary dist (within) + Spatial",
+        # Pairwise Spatial Models (Generic Cleaning)
+        grepl("^m2.*_spatial$", Model) ~ {
+          m_clean <- Model %>%
+            str_replace("^m2", "") %>%
+            str_replace("_spatial$", "") %>%
+            str_replace("_additive", " (+)") %>%
+            str_replace("_interaction", " (*)") %>%
+            str_replace("_raw", " [raw]") %>%
+            str_replace("_within", " [within]") %>%
+            str_replace_all(c("suit" = "Suit", "marg" = "Marg", "spec" = "Spec", 
+                            "prob" = "Prob", "centroid" = "CentrDist", "boundary" = "BoundDist")) %>%
+            str_replace("_", " ")
+          paste0(m_clean, " + Spatial")
+        },
+        # Multivariate Non-spatial (v2)
+        Model == "m2a_v2" ~ "Prob + Marg (non-spatial)",
+        Model == "m2b_v2" ~ "Prob * Marg (non-spatial)",
+        Model == "m2c_v2" ~ "Suit + Marg (non-spatial)",
+        Model == "m2d_v2" ~ "Suit * Marg (non-spatial)",
+        # Single-effect Non-spatial (v2 and v1)
+        Model %in% c("m1prob_v2", "m1prob") ~ "Prob occur (non-spatial)",
+        Model %in% c("m1marg_v2", "m1marg") ~ "Marginality (non-spatial)",
+        Model %in% c("m1suit_v2", "m1suit") ~ "Suitability (non-spatial)",
+        Model %in% c("m1spec_v2", "m1spec") ~ "Specificity (non-spatial)",
+        Model %in% c("m1centr_v2", "m1centr") ~ "Centrality (non-spatial)",
+        Model %in% c("m1bound_v2", "m1bound") ~ "Boundary dist (non-spatial)",
+        # Baselines
+        Model == "m0_base" ~ "Binomial baseline (non-spatial)",
+        Model == "m0_base_bb" ~ "Beta-binomial baseline (non-spatial)",
+        Model == "m0_beta_binom" ~ "Beta-binom + controls (non-spatial)",
+        Model == "m0_controls" ~ "Binomial + controls (non-spatial)",
+        TRUE ~ Model
+      ),
+      Model_Type = case_when(
+        grepl("spatial", Model) ~ "Spatial",
+        TRUE ~ "Non-spatial"
+      ),
+      # Extract family directly from model objects where possible
+      Family = sapply(Model, function(m) {
+        if (exists("all_spatial_models") && m %in% names(all_spatial_models)) {
+          return(all_spatial_models[[m]]$family[[1]])
+        }
+        if (exists(m)) {
+          obj <- get(m)
+          if (inherits(obj, "brmsfit")) return(obj$family[[1]])
+        }
+        case_when(
+          m %in% c("m0_base", "m0_controls") ~ "binomial",
+          TRUE ~ "beta_binomial"
+        )
+      }) %>% str_replace("_", "-") %>% str_to_title(),
+      Model_clean = str_remove(Model_clean, " \\+ Spatial| \\(non-spatial\\)")
+    )
+
+  kable(top_models |> select(Model_clean, Family, Model_Type, elpd_diff, se_diff), 
+        digits = 2, 
+        col.names = c("Model", "Family", "Type", "ΔELPD", "SE"),
+        caption = paste("Top", n_top, "Models by ELPD")) |>
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed")) |>
+    column_spec(1, bold = TRUE) |>
+    column_spec(2, italic = TRUE) |>
+    column_spec(3, color = "steelblue") |>
+    column_spec(4, color = "blue")
+} else {
+  cat("Model comparison not available. Run code/2.4_comprehensive_models.R with run_loo=TRUE first.\n")
+}
+```
+
+**Key Findings**:
+
+1.  **Spatial may be a primary driver**: An ELPD difference of \~30-40 exists between spatial and non-spatial models.
+2.  **Beta-binomial likelihood is required**: Binomial models are severely misspecified (ΔELPD \~2200).
+3.  **Within-species effects provide greater explanatory power**: Decomposing niche predictors into within- and between-species components reveals stronger predictive signals.
+4.  **Centrality hypothesis is supported**: Within-species centrality adds significant predictive value beyond spatial autocorrelation.
+
+# Part 7: Visualizing Top Models
+
+The following sections provide visualizations of the top-performing models:
+
+```{r best-model-ppc, fig.height=6, echo=FALSE, include=FALSE}
+# Overall distribution (only if model exists)
+if (!is.null(m1centrality_within_spatial)) {
+  pp_check(m1centrality_within_spatial, ndraws = 50) +
+    labs(y = "Density", color = "") +
+    scale_color_manual(values = c("y" = "black", "yrep" = "steelblue"), 
+                       labels = c("y" = "Observed", "yrep" = "Predicted")) +
+    ggtitle("Top Model: Within-Species Centrality + Spatial Control - Overall Distribution") +
+    theme_minimal()
+} else {
+  cat("Top model not available for PPC.\n")
+}
+```
+
+## Test Statistics
+
+```{r best-model-ppc-stats, fig.height=4, warning=FALSE, echo=FALSE, results='hide'}
+# Test statistics (only if model exists)
+if (!is.null(m1centrality_within_spatial)) {
+  p1 <- pp_check(m1centrality_within_spatial, ndraws = 200, type = "stat",
+           stat = function(y) mean(y / n)) +
+    labs(x = "Mean Prevalence", y = "Frequency", fill = NULL, color = NULL) +
+    scale_fill_manual(values = "lightblue", labels = "Predicted") +
+    scale_color_manual(values = "darkblue", labels = "Observed") +
+    ggtitle("Mean Prevalence") +
+    theme_minimal() +
+    theme(legend.title = element_blank())
+
+  p2 <- pp_check(m1centrality_within_spatial, ndraws = 200, type = "stat",
+           stat = function(y) mean(y == 0)) +
+    labs(x = "Zero-Mass Prop.", y = "Frequency", fill = NULL, color = "") +
+    scale_fill_manual(values = "lightblue", labels = "Predicted") +
+    scale_color_manual(values = "darkblue", labels = "Observed") +
+    ggtitle("Zero Mass") +
+    theme_minimal() +
+    theme(legend.title = element_blank(), legend.position = "none")
+
+  p3 <- pp_check(m1centrality_within_spatial, type = "loo_pit_qq") +
+    ggtitle("LOO-PIT Calibration") +
+    theme_minimal()
+
+  gridExtra::grid.arrange(p1, p2, p3, ncol = 3)
+} else {
+  cat("Top model not available for PPC.\n")
+}
+```
+
+## Parameter Estimation
+
+```{r effect-plot, echo=FALSE}
+# Extract posterior samples for centrality effect (only if model exists)
+if (!is.null(m1centrality_within_spatial)) {
+  posterior_samples <- posterior_samples(m1centrality_within_spatial, 
+                                        pars = "b_centrality_within_z")
+
+  # Create effect plot
+  p_effect <- posterior_samples |>
+    ggplot(aes(x = b_centrality_within_z)) +
+    geom_density(fill = "steelblue", alpha = 0.7) +
+    geom_vline(xintercept = 0, linetype = "dashed", color = "red") +
+    labs(
+      title = "Posterior Distribution: Within-Species Centrality Effect",
+      subtitle = "β coefficient on log-odds scale",
+      x = "Effect Size (log-odds per SD)",
+      y = "Density"
+    ) +
+    theme_minimal()
+
+  print(p_effect)
+} else {
+  cat("Top model not available for parameter visualization.\n")
+}
+```
+
+## Model Comparison Summary
+
+```{r comparison-plot, echo=FALSE}
+# Create comparison plot (only if data exists)
+if (exists("top_models") && !is.null(top_models) && nrow(top_models) > 0) {
+  # Use Model_clean if it exists, otherwise Model
+  plot_data <- top_models
+  if ("Model_clean" %in% names(plot_data)) {
+    plot_data$plot_label <- plot_data$Model_clean
+  } else {
+    plot_data$plot_label <- plot_data$Model
+  }
+  
+  comp_plot <- plot_data |>
+    ggplot(aes(x = reorder(plot_label, elpd_diff), y = elpd_diff)) +
+    geom_col(aes(fill = Model_Type), alpha = 0.7) +
+    geom_errorbar(aes(ymin = elpd_diff - se_diff, 
+                      ymax = elpd_diff + se_diff),
+                  width = 0.2) +
+    scale_fill_manual(values = c("Spatial" = "steelblue", "Non-spatial" = "darkorange")) +
+    coord_flip() +
+    labs(
+      title = "Model Comparison: ELPD Differences",
+      subtitle = "Error bars show ±1 SE. Colors indicate spatial vs non-spatial models.",
+      x = "Model",
+      y = "ΔELPD (relative to top model)",
+      fill = "Model Type"
+    ) +
+    theme_minimal() +
+    theme(axis.text.y = element_text(size = 7))
+
+  print(comp_plot)
+} else {
+  cat("Comparison data not available.\n")
+}
+```
+
+# Part 8: Detailed Exploration of Production Models
+
+The top-performing models identified in the screening phase were refitted using production-level settings (2000 iterations, 4 chains, and increased `adapt_delta = 0.99`) to ensure robust posterior estimation and convergence.
+
+## Production Model Parameters
+
+The table below summarizes the fixed-effect estimates and Bayes $R^2$ for the production model suite. All models listed here use the **Beta-Binomial** likelihood and include **Spatial GP** controls.
+
+```{r production-coefficients-table, echo=FALSE}
+prod_coefs_path <- here("Results", "models_v4", "top_models_exploration.csv")
+
+if (file.exists(prod_coefs_path)) {
+  prod_df <- read.csv(prod_coefs_path)
+  
+  # Filter for fixed effects and clean up parameter names
+  prod_summary <- prod_df %>%
+    filter(type == "fixed_effect") %>%
+    # Remove Intercept and assay_group for clarity in niche comparison
+    filter(!parameter %in% c("Intercept", "assay_groupSerology")) %>%
+    mutate(
+      Model = case_when(
+        model == "m1centrality_within_spatial" ~ "Centrality (within)",
+        model == "m2suit_marg_raw_additive_spatial" ~ "Suit + Marg [raw] (+)",
+        model == "m2suit_marg_within_additive_spatial" ~ "Suit + Marg [within] (+)",
+        model == "m2suit_marg_raw_interaction_spatial" ~ "Suit * Marg [raw] (*)",
+        model == "m2suit_marg_within_interaction_spatial" ~ "Suit * Marg [within] (*)",
+        TRUE ~ model
+      ),
+      Parameter = parameter,
+      `Estimate (logit)` = round(Estimate, 3),
+      `95% CrI` = paste0("[", round(Q2.5, 3), ", ", round(Q97.5, 3), "]"),
+      `Bayes R2` = round(r2_mean, 3)
+    ) %>%
+    select(Model, Parameter, `Estimate (logit)`, `95% CrI`, `Bayes R2`)
+
+  kable(prod_summary, 
+        caption = "Production Model Fixed Effects (Niche Predictors)") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed")) %>%
+    column_spec(1, bold = TRUE) %>%
+    collapse_rows(columns = 1, valign = "top")
+} else {
+  cat("Production summary CSV not found. Run code/2.4_comprehensive_models.R first.\n")
+}
+```
+
+## Visual Comparison of Production Models
+
+The following figures provide a visual summary of the production results, including coefficient comparisons, the relationship between niche variables and predicted prevalence, and host species random effects.
+
+### Fixed Effects Comparison
+
+This plot compares the effect sizes of niche predictors across the top 5 models. Consistent positive effects of suitability/centrality and negative effects of marginality are observed.
+
+```{r prod-coef-comparison, echo=FALSE, out.width="100%"}
+knitr::include_graphics(here("Results", "models_v4", "top_models_coef_comparison.png"))
+```
+
+### Predicted Prevalence Curves
+
+Overlaid prediction curves showing how disease prevalence changes across the range of Suitability or Centrality (standardized units). Shaded regions represent 95% credibility intervals.
+
+```{r prod-prediction-comparison, echo=FALSE, out.width="100%"}
+knitr::include_graphics(here("Results", "models_v4", "model_prediction_comparison.png"))
+```
+
+### Host Species Heterogeneity
+
+Random intercepts (on the log-odds scale) for host species from the best-performing model (`m1centrality_within_spatial`). This highlights the substantial variation in baseline prevalence across the host community.
+
+```{r prod-species-re, echo=FALSE, out.width="100%"}
+knitr::include_graphics(here("Results", "models_v4", "species_random_effects.png"))
+```
+
+# Part 9: Key Conclusions and Next Steps
+
+## Key Conclusions
+
+1.  **Likelihood Selection**: A beta-binomial likelihood is necessary to account for strong overdispersion in prevalence data.
+2.  **Spatial Structure**: Incorporating spatial structure via Gaussian Processes is essential for capturing geographical clustering and ensuring accurate inference.
+3.  **Variable Decomposition**: Isolating within-species variation is critical for evaluating niche-based hypotheses, as centrality effects are most evident at the site level within each species.
+4.  **Niche Centrality Support**: The analysis provides strong evidence for the Niche Centrality Hypothesis; sites that are central relative to a species' niche are associated with higher disease prevalence. This is confirmed across the production model suite, with **within-species centrality** (`Suitability - Marginality`) emerging as a robust predictor with a positive effect (β ≈ 0.15 on the log-odds scale).
+5.  **Multi-Predictor Robustness**: Additive models combining Suitability and Marginality show that both components contribute independently to prevalence patterns, with higher habitat suitability and lower niche marginality both associated with increased pathogen prevalence.
+
+## Model Architecture (best so far)
+
+The validated model structure used for analysis:
+
+```         
+number_positive | trials(number_tested) ~ 
+  1 + centrality_within_z + assay_group + 
+  (1 | host_species) + gp(lon_z, lat_z, k = 20)
+```
+
+**Family**: `beta_binomial(link = "logit")`

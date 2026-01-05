@@ -1,0 +1,38 @@
+Assay Group vs. Spatial Location Overlap Report
+==============================================
+
+Date:  2026-01-02 
+
+Summary Statistics:
+------------------
+Total unique sites (lon/lat):  1351 
+Sites with multiple assay groups:  367  ( 27.17 %)
+Total individuals tested:  78104 
+Individuals tested at overlapping sites:  10622  ( 13.6 %)
+
+Interpretation Guide:
+--------------------
+1. If overlap is low (<5%): Assay group is largely redundant with the spatial GP.
+   Consider removing assay_group from fixed effects or merging it with the spatial term.
+2. If overlap is moderate/high (>15%): Assay group captures within-site methodological
+   variation that the GP cannot. Keep as a fixed effect.
+
+Top Species with Assay Overlap:
+# A tibble: 15 × 5
+   host_species            n_sites n_overlap_sites pct_overlap n_assays_used
+   <chr>                     <int>           <int>       <dbl>         <int>
+ 1 Akodon montensis            225             210       93.3              2
+ 2 Oligoryzomys nigripes        75              59       78.7              2
+ 3 Hylomyscus alleni             9               6       66.7              2
+ 4 Mus setulosus                24              16       66.7              2
+ 5 Thaptomys nigrita            11               7       63.6              2
+ 6 Hylaeamys megacephalus       74              38       51.4              2
+ 7 Arvicanthis niloticus        14               7       50                2
+ 8 Crocidura lasiura            32              14       43.8              2
+ 9 Praomys rostratus            22               8       36.4              2
+10 Lemniscomys striatus         44               9       20.5              2
+11 Apodemus agrarius           187              37       19.8              2
+12 Rattus rattus               162              32       19.8              2
+13 Apodemus flavicollis        202              32       15.8              2
+14 Zygodontomys brevicauda      34               4       11.8              2
+15 Oligoryzomys flavescens      42               4        9.52             2

@@ -1,0 +1,54 @@
+Assay Type Balance across Host Species Report
+=============================================
+
+Date:  2026-01-02 
+
+Summary Statistics:
+------------------
+Total species analyzed:  29 
+  - Balanced (>=10 obs per type):  16 
+  - Strongly Imbalanced (<10 obs):  9 
+  - Single Assay Only:  4 
+
+Species List and Status:
+----------------------
+# A tibble: 29 × 4
+   host_species               culture_molecular serology status                 
+   <chr>                                  <int>    <int> <chr>                  
+ 1 Akodon montensis                         215      241 Balanced               
+ 2 Apodemus flavicollis                     124      183 Balanced               
+ 3 Apodemus agrarius                        158      143 Balanced               
+ 4 Rattus rattus                            140       86 Balanced               
+ 5 Oligoryzomys longicaudatus                19      113 Balanced               
+ 6 Oligoryzomys nigripes                     51       73 Balanced               
+ 7 Abrothrix olivaceus                        0      110 Single Assay           
+ 8 Hylaeamys megacephalus                    19       74 Balanced               
+ 9 Suncus murinus                            66        9 Strongly Imbalanced (<…
+10 Abrothrix longipilis                       2       68 Strongly Imbalanced (<…
+11 Lemniscomys striatus                      55       13 Balanced               
+12 Sorex araneus                             48       16 Balanced               
+13 Crocidura lasiura                         13       42 Balanced               
+14 Reithrodontomys fulvescens                 1       47 Strongly Imbalanced (<…
+15 Oligoryzomys flavescens                    6       40 Strongly Imbalanced (<…
+16 Mus setulosus                             23       21 Balanced               
+17 Zygodontomys brevicauda                   16       24 Balanced               
+18 Aethomys chrysophilus                     31        0 Single Assay           
+19 Reithrodontomys megalotis                 17       14 Balanced               
+20 Praomys rostratus                         11       19 Balanced               
+21 Arvicanthis niloticus                     16       10 Balanced               
+22 Neotoma micropus                          14       12 Balanced               
+23 Apodemus speciosus                         0       21 Single Assay           
+24 Baiomys taylori                            1       20 Strongly Imbalanced (<…
+25 Lemniscomys rosalia                       20        1 Strongly Imbalanced (<…
+26 Rattus exulans                             0       20 Single Assay           
+27 Crocidura shantungensis                   13        6 Strongly Imbalanced (<…
+28 Thaptomys nigrita                          9        9 Strongly Imbalanced (<…
+29 Hylomyscus alleni                          7        8 Strongly Imbalanced (<…
+
+Interpretation and Robustness Note:
+----------------------------------
+16  species provide direct within-species contrasts between assays.
+
+Robustness of Assay-Effect Estimate:
+HIGH: More than 50% of species have balanced assay representation. The assay effect
+is likely robust and reflects methodological differences.

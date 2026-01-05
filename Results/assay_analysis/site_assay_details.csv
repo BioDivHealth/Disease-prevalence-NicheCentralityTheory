@@ -1,0 +1,1352 @@
+"longitude","latitude","n_records","n_assays","assays_present","n_species","species_present","total_tested","has_multiple_assays"
+-119.976786092526,38.9881960185605,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",3,FALSE
+-119.01008120748,43.5163578082442,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",5,FALSE
+-117.757122415277,33.7032338355635,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",32,FALSE
+-117.498123,33.430074,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",417,FALSE
+-115.089326703488,30.3547825650981,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",11,FALSE
+-112.383372022642,34.9812823015648,1,1,"Serology",1,"Reithrodontomys megalotis",4,FALSE
+-110.8526,31.833,1,1,"Serology",1,"Reithrodontomys fulvescens",12,FALSE
+-109.428620627328,35.4237462297485,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",15,FALSE
+-108.817254561906,32.2794853143171,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",48,FALSE
+-108.195563633162,30.8870810294834,1,1,"Serology",1,"Baiomys taylori",26,FALSE
+-108.062755326966,39.1892711440133,1,1,"Serology",1,"Reithrodontomys megalotis",2,FALSE
+-108.06,39.189,1,1,"Serology",1,"Reithrodontomys megalotis",2,FALSE
+-108.032374670917,30.6819435129956,2,1,"Serology",2,"Baiomys taylori, Reithrodontomys megalotis",27,FALSE
+-107.986114888878,34.9514012325882,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",18,FALSE
+-106.901616829298,34.0637259215334,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",46,FALSE
+-106.300126526449,35.8506013502825,1,1,"Serology",1,"Reithrodontomys megalotis",67,FALSE
+-105.942446291511,32.924610939087,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",6,FALSE
+-105.912729124181,32.6678411495977,1,1,"Serology",1,"Neotoma micropus",29,FALSE
+-105.892960188179,32.7330089933547,2,1,"Serology",2,"Neotoma micropus, Reithrodontomys megalotis",36,FALSE
+-105.884444,32.524167,1,1,"Culture/molecular",1,"Neotoma micropus",1,FALSE
+-105.701389,32.471111,1,1,"Culture/molecular",1,"Neotoma micropus",2,FALSE
+-105.684444,32.456111,1,1,"Culture/molecular",1,"Neotoma micropus",1,FALSE
+-105.682778,32.458333,1,1,"Culture/molecular",1,"Neotoma micropus",1,FALSE
+-105.340447403629,35.9698785564408,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",7,FALSE
+-105.221242770297,39.8764892322106,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",29,FALSE
+-104.445335,19.831666,1,1,"Serology",1,"Baiomys taylori",13,FALSE
+-103.898472222222,37.52575,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",580,FALSE
+-103.823,37.545,1,1,"Serology",1,"Reithrodontomys megalotis",451,FALSE
+-103.003184880222,31.5181618829879,1,1,"Serology",1,"Neotoma micropus",5,FALSE
+-102.924444,36.880556,1,1,"Culture/molecular",1,"Neotoma micropus",1,FALSE
+-102.587553873445,34.9628135081689,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",69,FALSE
+-101.8367,33.7372,2,1,"Serology",2,"Reithrodontomys fulvescens, Reithrodontomys megalotis",18,FALSE
+-101.82,33.61,1,1,"Serology",1,"Reithrodontomys megalotis",8,FALSE
+-100.996111,34.215833,1,1,"Culture/molecular",1,"Neotoma micropus",4,FALSE
+-100.831743,23.818103,2,1,"Serology",2,"Reithrodontomys fulvescens, Reithrodontomys megalotis",10,FALSE
+-100.812222,33.76,1,1,"Culture/molecular",1,"Neotoma micropus",5,FALSE
+-100.812175577374,33.7599760628045,1,1,"Serology",1,"Neotoma micropus",18,FALSE
+-100.804234833129,33.6215407569392,1,1,"Serology",1,"Neotoma micropus",26,FALSE
+-100.796241588344,34.0607709622664,1,1,"Serology",1,"Neotoma micropus",11,FALSE
+-100.795,33.758889,1,1,"Culture/molecular",1,"Neotoma micropus",2,FALSE
+-100.794987316275,33.7588786672732,1,1,"Serology",1,"Neotoma micropus",9,FALSE
+-100.276957,23.706363,1,1,"Serology",1,"Reithrodontomys fulvescens",4,FALSE
+-100.200771,24.515052,1,1,"Serology",1,"Neotoma micropus",2,FALSE
+-100.1818245,24.537518,1,1,"Serology",1,"Reithrodontomys megalotis",4,FALSE
+-99.615,28.35,1,1,"Culture/molecular",1,"Neotoma micropus",2,FALSE
+-99.466389,28.353333,1,1,"Culture/molecular",1,"Neotoma micropus",2,FALSE
+-99.4630020353449,28.3512098354716,3,1,"Serology",3,"Baiomys taylori, Neotoma micropus, Reithrodontomys fulvescens",357,FALSE
+-99.433721147294,28.3409658664557,3,1,"Serology",3,"Baiomys taylori, Neotoma micropus, Reithrodontomys fulvescens",323,FALSE
+-99.4275,28.349444,1,1,"Culture/molecular",1,"Neotoma micropus",1,FALSE
+-99.422778,28.339722,1,1,"Culture/molecular",1,"Neotoma micropus",1,FALSE
+-99.3535169756764,28.3100679164151,3,1,"Serology",3,"Baiomys taylori, Neotoma micropus, Reithrodontomys fulvescens",382,FALSE
+-99.346944,28.310278,1,1,"Culture/molecular",1,"Neotoma micropus",1,FALSE
+-99.342778,28.312778,1,1,"Culture/molecular",1,"Neotoma micropus",1,FALSE
+-99.258,19.04,2,2,"Culture/molecular, Serology",1,"Reithrodontomys megalotis",50,TRUE
+-99.24969,19.05939,2,2,"Culture/molecular, Serology",1,"Reithrodontomys megalotis",4,TRUE
+-99.1660046207774,23.0044941360406,2,1,"Serology",2,"Baiomys taylori, Reithrodontomys fulvescens",11,FALSE
+-98.9260673870628,18.4995702867281,1,1,"Serology",1,"Reithrodontomys fulvescens",19,FALSE
+-98.8863737268711,30.2867598911696,1,1,"Serology",1,"Baiomys taylori",14,FALSE
+-98.34415,24.010036,1,1,"Serology",1,"Baiomys taylori",1,FALSE
+-98.1443080287411,24.8505870828118,1,1,"Serology",1,"Neotoma micropus",12,FALSE
+-97.1682276666667,19.555053,1,1,"Serology",1,"Reithrodontomys megalotis",20,FALSE
+-97.156389,19.529133,1,1,"Serology",1,"Reithrodontomys fulvescens",1,FALSE
+-97.0839327080753,33.1239806257975,2,1,"Serology",2,"Baiomys taylori, Reithrodontomys fulvescens",2,FALSE
+-97.036999877201,33.1342337089234,1,1,"Serology",1,"Baiomys taylori",2,FALSE
+-96.9805444404366,33.2509204055748,2,1,"Serology",2,"Baiomys taylori, Reithrodontomys fulvescens",6,FALSE
+-96.932140683323,33.4704620081944,1,1,"Serology",1,"Baiomys taylori",1,FALSE
+-96.9184077728251,33.4360884402635,1,1,"Serology",1,"Reithrodontomys fulvescens",1,FALSE
+-96.9118456575819,33.046474201059,1,1,"Serology",1,"Reithrodontomys fulvescens",1,FALSE
+-96.8921245433464,33.0818057273025,2,1,"Serology",2,"Baiomys taylori, Reithrodontomys fulvescens",29,FALSE
+-96.8723948697851,33.1581529111227,2,1,"Serology",2,"Baiomys taylori, Reithrodontomys fulvescens",4,FALSE
+-96.8524898024349,33.8008950098992,1,1,"Serology",1,"Reithrodontomys fulvescens",1,FALSE
+-96.8513091042466,33.2355608041563,1,1,"Serology",1,"Reithrodontomys fulvescens",2,FALSE
+-96.8465478023508,33.1524584542186,1,1,"Serology",1,"Reithrodontomys fulvescens",1,FALSE
+-96.8322650130217,33.1606223177099,2,1,"Serology",2,"Baiomys taylori, Reithrodontomys fulvescens",4,FALSE
+-96.7693852874054,33.2103551004416,1,1,"Serology",1,"Baiomys taylori",1,FALSE
+-96.7555655674897,33.1895401619216,2,1,"Serology",2,"Baiomys taylori, Reithrodontomys fulvescens",2,FALSE
+-96.726551212465,17.0726435851874,1,1,"Culture/molecular",1,"Reithrodontomys megalotis",6,FALSE
+-95.7504699797837,28.987622350866,2,1,"Culture/molecular",2,"Baiomys taylori, Reithrodontomys fulvescens",11,FALSE
+-94.494505,36.204825,2,1,"Serology",1,"Reithrodontomys fulvescens",2,FALSE
+-94.486766,36.220001,2,1,"Serology",1,"Reithrodontomys fulvescens",24,FALSE
+-94.483813,36.221895,2,1,"Serology",1,"Reithrodontomys fulvescens",28,FALSE
+-94.483189,36.220177,2,1,"Serology",1,"Reithrodontomys fulvescens",26,FALSE
+-94.237823,36.067821,2,1,"Serology",1,"Reithrodontomys fulvescens",8,FALSE
+-94.236642,36.07097,2,1,"Serology",1,"Reithrodontomys fulvescens",8,FALSE
+-94.23434,36.066548,2,1,"Serology",1,"Reithrodontomys fulvescens",58,FALSE
+-94.185176,36.106388,2,1,"Serology",1,"Reithrodontomys fulvescens",76,FALSE
+-94.183221,36.091799,2,1,"Serology",1,"Reithrodontomys fulvescens",2,FALSE
+-94.181665,36.091834,2,1,"Serology",1,"Reithrodontomys fulvescens",2,FALSE
+-94.1356861406244,30.1004681716944,2,1,"Serology",2,"Baiomys taylori, Reithrodontomys fulvescens",10,FALSE
+-94.1130321947284,29.972174938934,1,1,"Serology",1,"Baiomys taylori",1,FALSE
+-94.061108,36.447213,2,1,"Serology",1,"Reithrodontomys fulvescens",4,FALSE
+-94.055339,36.453139,2,1,"Serology",1,"Reithrodontomys fulvescens",6,FALSE
+-94.013921157605,29.9443698252787,1,1,"Serology",1,"Reithrodontomys fulvescens",7,FALSE
+-80.8510811336288,7.9712467910542,1,1,"Serology",1,"Zygodontomys brevicauda",50,FALSE
+-80.37570700406,7.65176749294218,1,1,"Serology",1,"Zygodontomys brevicauda",84,FALSE
+-80.279983,7.765383,1,1,"Culture/molecular",1,"Zygodontomys brevicauda",50,FALSE
+-76.6692800413652,8.10798036743066,1,1,"Serology",1,"Zygodontomys brevicauda",5,FALSE
+-76.57,8.54,2,2,"Culture/molecular, Serology",1,"Zygodontomys brevicauda",24,TRUE
+-76.551,8.136,2,2,"Culture/molecular, Serology",1,"Zygodontomys brevicauda",2,TRUE
+-75.15725052,8.900429505,1,1,"Serology",1,"Zygodontomys brevicauda",181,FALSE
+-75.1333328333333,8.66666699999999,1,1,"Serology",1,"Zygodontomys brevicauda",44,FALSE
+-75.1326475100509,8.66433482169869,1,1,"Serology",1,"Zygodontomys brevicauda",44,FALSE
+-73.8641463993887,-40.9392297174528,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",154,FALSE
+-73.63,4.15,2,1,"Culture/molecular",1,"Zygodontomys brevicauda",16,FALSE
+-73.419,-37.706,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",9,FALSE
+-73.379,-39.905,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",31,FALSE
+-73.308,-37.796,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",9,FALSE
+-73.2979371220269,-39.8971547134448,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",23,FALSE
+-73.2916228184752,-40.0455848519415,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",51,FALSE
+-73.273,-37.916,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",33,FALSE
+-73.2666666666666,-37.9,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",33,FALSE
+-73.204,-39.824,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",13,FALSE
+-73.191,-41.416,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",15,FALSE
+-73.1833,-41.4167,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",15,FALSE
+-73.1667,-38.7,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-73.115,-40.63,2,1,"Serology",2,"Abrothrix longipilis, Abrothrix olivaceus",15,FALSE
+-73.076,-39.286,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",20,FALSE
+-73.069,-39.806,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",27,FALSE
+-73.0666668333333,-39.2833335,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",20,FALSE
+-73.012,-36.784,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",63,FALSE
+-72.956,-36.617,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-72.952,-36.799,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",20,FALSE
+-72.932,-37.342,2,1,"Serology",2,"Abrothrix longipilis, Oligoryzomys longicaudatus",13,FALSE
+-72.9175833594817,-40.1656689318339,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",48,FALSE
+-72.908,-37.142,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",17,FALSE
+-72.796,-36.641,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",38,FALSE
+-72.783,-40.772,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",39,FALSE
+-72.7666666666666,-40.7666666666666,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",44,FALSE
+-72.762,-36.689,1,1,"Serology",1,"Abrothrix longipilis",5,FALSE
+-72.722,-41.243,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",44,FALSE
+-72.7166666666666,-41.2333333333333,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",45,FALSE
+-72.688,-37.541,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",38,FALSE
+-72.63,-39.543,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",71,FALSE
+-72.6166666666666,-39.5333333333333,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",71,FALSE
+-72.612,-39.371,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",15,FALSE
+-72.5904,-38.7359,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-72.572,-36.713,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",11,FALSE
+-72.55,-36.7167,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",10,FALSE
+-72.544,-37.559,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",34,FALSE
+-72.5052931578133,-39.5764607519908,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",20,FALSE
+-72.462,-36.018,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",12,FALSE
+-72.444,-40.76,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",42,FALSE
+-72.434,-40.725,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",28,FALSE
+-72.429,-38.527,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",7,FALSE
+-72.4167,-38.5167,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",7,FALSE
+-72.4167,-37.2833,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-72.41,-40.909,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",34,FALSE
+-72.402,-39.729,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",25,FALSE
+-72.4,-39.06,2,1,"Serology",2,"Abrothrix longipilis, Abrothrix olivaceus",9,FALSE
+-72.3333,-39.6333,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",2,FALSE
+-72.315,-40.365,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",24,FALSE
+-72.308,-41.43,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",25,FALSE
+-72.3064402546838,-40.7361441516054,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",69,FALSE
+-72.303,-37.463,1,1,"Serology",1,"Abrothrix olivaceus",4,FALSE
+-72.3,-40.35,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",24,FALSE
+-72.29,-45.71,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-72.1495,-44.723,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-72.0683,-45.5712,2,1,"Culture/molecular",2,"Abrothrix longipilis, Oligoryzomys longicaudatus",2,FALSE
+-72.0667,-45.5667,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",2,FALSE
+-72.018,-41.086,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",13,FALSE
+-72,-35.6,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-71.999,-36.651,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",36,FALSE
+-71.99,-36.452,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",33,FALSE
+-71.973,-39.064,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",29,FALSE
+-71.95,-39.8,1,1,"Culture/molecular",1,"Abrothrix longipilis",1,FALSE
+-71.95,-37.4833,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",2,FALSE
+-71.9422939899132,-39.8480071434478,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",133,FALSE
+-71.94,-45.583,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",5,FALSE
+-71.93,-39.42,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-71.847,-34.99,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",13,FALSE
+-71.833,-34.971,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",7,FALSE
+-71.831,-41.532,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",52,FALSE
+-71.813,-39.527,1,1,"Serology",1,"Abrothrix longipilis",23,FALSE
+-71.794,-37.241,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",34,FALSE
+-71.7833,-37.2333,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",34,FALSE
+-71.766,-36.556,1,1,"Serology",1,"Abrothrix olivaceus",1,FALSE
+-71.75,-39.4166666666666,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",48,FALSE
+-71.744,-36.931,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",26,FALSE
+-71.74,-41.6,1,1,"Serology",1,"Oligoryzomys longicaudatus",1,FALSE
+-71.7333,-46.55,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",2,FALSE
+-71.7,-39.12,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-71.65,-33.998,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",20,FALSE
+-71.6412108888632,-40.7619679980114,2,1,"Serology",2,"Abrothrix longipilis, Oligoryzomys longicaudatus",43,FALSE
+-71.64,-40.76,1,1,"Serology",1,"Oligoryzomys longicaudatus",130,FALSE
+-71.6,-42.0615,1,1,"Serology",1,"Oligoryzomys longicaudatus",191,FALSE
+-71.589,-40.747,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",197,FALSE
+-71.563,-33.643,1,1,"Serology",1,"Oligoryzomys longicaudatus",1,FALSE
+-71.554,-34.671,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",5,FALSE
+-71.549,-35.03,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",3,FALSE
+-71.54,-41.967,1,1,"Serology",1,"Oligoryzomys longicaudatus",179,FALSE
+-71.5333,-35.0167,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",3,FALSE
+-71.529955203148,-41.9744069424501,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",135,FALSE
+-71.501,-36.017,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",11,FALSE
+-71.5,-41.58,1,1,"Serology",1,"Oligoryzomys longicaudatus",18,FALSE
+-71.5,-36.0167,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",11,FALSE
+-71.463,-37.546,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",29,FALSE
+-71.45,-42.517,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",1330,FALSE
+-71.45,-42.5166,1,1,"Serology",1,"Oligoryzomys longicaudatus",1318,FALSE
+-71.413,-36.289,2,1,"Serology",2,"Abrothrix longipilis, Oligoryzomys longicaudatus",4,FALSE
+-71.4,-36.2833,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",4,FALSE
+-71.37,-39.78,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",879,FALSE
+-71.357,-33.07,1,1,"Serology",1,"Abrothrix olivaceus",14,FALSE
+-71.346,-34.955,1,1,"Serology",1,"Oligoryzomys longicaudatus",1,FALSE
+-71.317,-34.983,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",24,FALSE
+-71.313,-41.142,1,1,"Serology",1,"Oligoryzomys longicaudatus",209,FALSE
+-71.3,-38.15,2,1,"Serology",2,"Abrothrix longipilis, Oligoryzomys longicaudatus",20,FALSE
+-71.3,-34.07,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",12,FALSE
+-71.2833,-34.0667,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",12,FALSE
+-71.2394,-34.9828,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-71.2381070401883,-39.8039037420265,2,1,"Serology",2,"Abrothrix longipilis, Oligoryzomys longicaudatus",93,FALSE
+-71.227,-35.484,1,1,"Serology",1,"Abrothrix olivaceus",2,FALSE
+-71.221,-32.87,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",16,FALSE
+-71.217,-33.735,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",12,FALSE
+-71.2167,-35.4833,1,1,"Serology",1,"Abrothrix olivaceus",2,FALSE
+-71.206,-32.908,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",4,FALSE
+-71.18,-33.673,1,1,"Serology",1,"Abrothrix olivaceus",8,FALSE
+-71.18,-33.569,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",6,FALSE
+-71.179,-33.65,1,1,"Serology",1,"Abrothrix olivaceus",4,FALSE
+-71.1691038987928,-38.8862726430322,2,1,"Serology",2,"Abrothrix longipilis, Oligoryzomys longicaudatus",5,FALSE
+-71.1623976864422,-39.8845917917761,1,1,"Serology",1,"Oligoryzomys longicaudatus",7,FALSE
+-71.147,-33.813,1,1,"Serology",1,"Abrothrix olivaceus",2,FALSE
+-71.131,-39.906,1,1,"Serology",1,"Oligoryzomys longicaudatus",13,FALSE
+-71.125,-34.967,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",12,FALSE
+-71.1167,-34.9667,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",12,FALSE
+-71.102,-30.513,2,1,"Serology",2,"Abrothrix longipilis, Abrothrix olivaceus",10,FALSE
+-71.1,-32.8167,1,1,"Serology",1,"Oligoryzomys longicaudatus",1,FALSE
+-71.089,-32.812,1,1,"Serology",1,"Oligoryzomys longicaudatus",1,FALSE
+-71.069,-34.433,1,1,"Serology",1,"Abrothrix olivaceus",2,FALSE
+-71.021,-33.436,1,1,"Serology",1,"Abrothrix olivaceus",2,FALSE
+-70.994,-34.815,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",12,FALSE
+-70.9923,-34.5857,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-70.9833333333333,-34.8,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",3,FALSE
+-70.9785746388337,-34.3034738411018,3,1,"Serology",3,"Abrothrix longipilis, Abrothrix olivaceus, Oligoryzomys longicaudatus",4458,FALSE
+-70.95,-34.29,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-70.918,-32.854,1,1,"Serology",1,"Abrothrix olivaceus",1,FALSE
+-70.9167,-32.85,1,1,"Serology",1,"Abrothrix olivaceus",1,FALSE
+-70.877,-33.681,1,1,"Serology",1,"Abrothrix olivaceus",16,FALSE
+-70.8667,-33.65,1,1,"Serology",1,"Abrothrix olivaceus",16,FALSE
+-70.845,-33.677,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",5,FALSE
+-70.837,-33.868,1,1,"Serology",1,"Abrothrix olivaceus",3,FALSE
+-70.8136,-33.4569,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",1,FALSE
+-70.776,-34.767,1,1,"Serology",1,"Abrothrix olivaceus",8,FALSE
+-70.776,-34.766,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",3,FALSE
+-70.773,-35.125,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",5,FALSE
+-70.7667,-34.7667,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",3,FALSE
+-70.72,-41.123,1,1,"Serology",1,"Oligoryzomys longicaudatus",26,FALSE
+-70.696,-33.543,1,1,"Serology",1,"Abrothrix olivaceus",3,FALSE
+-70.5918845738323,-39.5557750335837,1,1,"Serology",1,"Oligoryzomys longicaudatus",4,FALSE
+-70.534,-34.19,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",2,FALSE
+-70.5333,-34.1833,2,1,"Serology",2,"Abrothrix olivaceus, Oligoryzomys longicaudatus",2,FALSE
+-70.532,-33.564,2,1,"Serology",2,"Abrothrix longipilis, Abrothrix olivaceus",10,FALSE
+-70.517,-33.456,1,1,"Serology",1,"Abrothrix olivaceus",1,FALSE
+-70.5043,-33.4032,1,1,"Culture/molecular",1,"Oligoryzomys longicaudatus",3,FALSE
+-70.454,-33.556,1,1,"Serology",1,"Oligoryzomys longicaudatus",1,FALSE
+-70.35,-33.0667,1,1,"Serology",1,"Abrothrix olivaceus",14,FALSE
+-70.268417599426,-37.3692505387175,1,1,"Serology",1,"Oligoryzomys longicaudatus",5,FALSE
+-70.248,-33.786,1,1,"Serology",1,"Abrothrix olivaceus",1,FALSE
+-70.1333,-32.8,1,1,"Serology",1,"Abrothrix olivaceus",2,FALSE
+-69.7447259472519,9.03941708322629,1,1,"Serology",1,"Zygodontomys brevicauda",46,FALSE
+-69.533,8.267,2,2,"Culture/molecular, Serology",1,"Zygodontomys brevicauda",21,TRUE
+-69.4528530639611,8.78996647160881,1,1,"Culture/molecular",1,"Zygodontomys brevicauda",2,FALSE
+-69.45,8.8,1,1,"Serology",1,"Zygodontomys brevicauda",64,FALSE
+-69.4,8.7833,1,1,"Serology",1,"Zygodontomys brevicauda",15,FALSE
+-69.2955,9.7416,1,1,"Serology",1,"Zygodontomys brevicauda",10,FALSE
+-69.21,8.696,3,2,"Culture/molecular, Serology",1,"Zygodontomys brevicauda",192,TRUE
+-69.1861,9.477,1,1,"Serology",1,"Zygodontomys brevicauda",6,FALSE
+-69.186,9.477,1,1,"Culture/molecular",1,"Zygodontomys brevicauda",12,FALSE
+-69.1166774327561,8.35015921822497,1,1,"Serology",1,"Zygodontomys brevicauda",5,FALSE
+-69.1097705706625,-38.5956847380928,1,1,"Serology",1,"Oligoryzomys longicaudatus",2,FALSE
+-69.05,8.5833,1,1,"Serology",1,"Zygodontomys brevicauda",101,FALSE
+-69.0333333039179,8.61678337653497,1,1,"Serology",1,"Zygodontomys brevicauda",52,FALSE
+-69.0333333039151,9.05013772960031,1,1,"Serology",1,"Zygodontomys brevicauda",46,FALSE
+-69.0333,8.6167,1,1,"Serology",1,"Zygodontomys brevicauda",9,FALSE
+-69.0126853848312,9.57897321126062,1,1,"Culture/molecular",1,"Zygodontomys brevicauda",2,FALSE
+-69.0033,8.6891,1,1,"Serology",1,"Zygodontomys brevicauda",89,FALSE
+-68.9094228753071,-43.8823084135421,1,1,"Serology",1,"Oligoryzomys longicaudatus",40,FALSE
+-68.6663317268897,9.52689292099723,1,1,"Culture/molecular",1,"Zygodontomys brevicauda",3,FALSE
+-68.5914392608906,-42.0660841417265,2,1,"Serology",2,"Abrothrix longipilis, Oligoryzomys longicaudatus",18,FALSE
+-68.58,9.65,1,1,"Serology",1,"Zygodontomys brevicauda",38,FALSE
+-68.467,9.6,1,1,"Serology",1,"Zygodontomys brevicauda",1,FALSE
+-68.369615120179,8.47922732638455,1,1,"Culture/molecular",1,"Zygodontomys brevicauda",4,FALSE
+-68.2239821201512,7.78302571641666,1,1,"Culture/molecular",1,"Zygodontomys brevicauda",2,FALSE
+-68.0858506805956,-38.9487352605057,1,1,"Serology",1,"Oligoryzomys longicaudatus",88,FALSE
+-67.463372201895,-40.4697413677255,1,1,"Serology",1,"Oligoryzomys longicaudatus",195,FALSE
+-67.4339017667358,7.86705292154915,1,1,"Culture/molecular",1,"Zygodontomys brevicauda",1,FALSE
+-67.2321464947827,9.05919581677006,1,1,"Culture/molecular",1,"Zygodontomys brevicauda",2,FALSE
+-66.3171377311504,7.63547423235376,1,1,"Culture/molecular",1,"Zygodontomys brevicauda",1,FALSE
+-64.7286929497143,-21.5348174272397,1,1,"Culture/molecular",1,"Oligoryzomys flavescens",9,FALSE
+-64.33,-23.133,2,2,"Culture/molecular, Serology",1,"Oligoryzomys flavescens",4,TRUE
+-62.3670311233127,-34.2302994209571,1,1,"Serology",1,"Oligoryzomys flavescens",20,FALSE
+-61.7914141068114,-33.0890366084632,1,1,"Serology",1,"Oligoryzomys flavescens",7,FALSE
+-61.6058970053144,-33.5992435361867,1,1,"Serology",1,"Oligoryzomys flavescens",5,FALSE
+-61.1837501668552,-33.3731671839934,1,1,"Serology",1,"Oligoryzomys flavescens",6,FALSE
+-61.1702417262247,-33.0452979547531,1,1,"Serology",1,"Oligoryzomys flavescens",4,FALSE
+-61.1228062165236,-33.5412304894427,1,1,"Serology",1,"Oligoryzomys flavescens",9,FALSE
+-60.9574534585843,-33.4863693429125,1,1,"Serology",1,"Oligoryzomys flavescens",19,FALSE
+-60.95,-33.4833333333333,1,1,"Serology",1,"Oligoryzomys flavescens",359,FALSE
+-60.95,-33.48,2,1,"Serology",1,"Oligoryzomys flavescens",216,FALSE
+-60.8523161959456,-32.5734447160592,1,1,"Serology",1,"Oligoryzomys flavescens",16,FALSE
+-60.85,-32.583,1,1,"Serology",1,"Oligoryzomys flavescens",21,FALSE
+-60.705936143405,-33.265135076914,1,1,"Serology",1,"Oligoryzomys flavescens",45,FALSE
+-60.6038881330091,-31.5974586677446,1,1,"Serology",1,"Oligoryzomys flavescens",20,FALSE
+-60.5968476787509,-33.5992863341295,1,1,"Serology",1,"Oligoryzomys flavescens",20,FALSE
+-60.5833,-33.616,1,1,"Serology",1,"Oligoryzomys flavescens",103,FALSE
+-60.583,-33.916,1,1,"Serology",1,"Oligoryzomys flavescens",68,FALSE
+-60.5693788625166,-33.8893619552459,1,1,"Serology",1,"Oligoryzomys flavescens",79,FALSE
+-60.5166,-33.55,2,1,"Serology",1,"Oligoryzomys flavescens",196,FALSE
+-60.5104620757735,-33.4947201372702,1,1,"Serology",1,"Oligoryzomys flavescens",44,FALSE
+-59.8524648277828,-36.7736624924854,1,1,"Serology",1,"Oligoryzomys flavescens",3,FALSE
+-59.2234608173043,-34.2900279720969,1,1,"Serology",1,"Oligoryzomys flavescens",37,FALSE
+-59.2229192045701,-31.8735182226519,1,1,"Serology",1,"Oligoryzomys flavescens",243,FALSE
+-58.867776,-34.175146,2,1,"Serology",2,"Oligoryzomys flavescens, Oligoryzomys nigripes",127,FALSE
+-58.8,-34.1667,2,1,"Serology",2,"Oligoryzomys flavescens, Oligoryzomys nigripes",56,FALSE
+-58.4214308671232,-34.6182788568536,1,1,"Serology",1,"Oligoryzomys flavescens",170,FALSE
+-58.2204581353869,-32.2026976905132,1,1,"Serology",1,"Oligoryzomys flavescens",2,FALSE
+-57.833333,-34.316667,1,1,"Culture/molecular",1,"Oligoryzomys flavescens",15,FALSE
+-56.6880351847048,-34.5520766128259,1,1,"Serology",1,"Oligoryzomys flavescens",38,FALSE
+-56.3647412684794,-34.6135829490031,1,1,"Serology",1,"Oligoryzomys flavescens",47,FALSE
+-56.3073397979862,-34.7510168175423,1,1,"Serology",1,"Oligoryzomys flavescens",67,FALSE
+-56.216667,-34.716667,1,1,"Culture/molecular",1,"Oligoryzomys flavescens",6,FALSE
+-56.0582739728374,-34.651370916353,1,1,"Serology",1,"Oligoryzomys flavescens",42,FALSE
+-56.02,-25.47,1,1,"Serology",1,"Thaptomys nigrita",1,FALSE
+-55.899,-34.215,1,1,"Serology",1,"Oligoryzomys flavescens",4,FALSE
+-55.5786,-24.1397,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5419,-24.1281,3,2,"Culture/molecular, Serology",1,"Akodon montensis",7,TRUE
+-55.5414,-24.1277,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5412,-24.1277,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5411,-24.1272,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.541,-24.1273,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5382,-24.1318,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.538,-24.1314,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5378,-24.1314,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",21,TRUE
+-55.5376,-24.1313,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.5375,-24.1313,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.5371,-24.1309,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",4,TRUE
+-55.537,-24.1309,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Hylaeamys megacephalus",4,TRUE
+-55.537,-24.1308,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.5368,-24.1304,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5367,-24.1305,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.5367,-24.1304,2,2,"Culture/molecular, Serology",1,"Akodon montensis",6,TRUE
+-55.5367,-24.1303,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5332,-24.1356,3,1,"Serology",2,"Akodon montensis, Oligoryzomys nigripes",12,FALSE
+-55.5325,-24.1356,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5321,-24.1356,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5319,-24.1355,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5316,-24.1351,1,1,"Serology",1,"Akodon montensis",1,FALSE
+-55.5316,-24.135,1,1,"Serology",1,"Oligoryzomys nigripes",1,FALSE
+-55.5312,-24.1349,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5311,-24.1348,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.531,-24.1348,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5304,-24.1471,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5304,-24.1348,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5303,-24.1305,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",20,TRUE
+-55.5301,-24.1325,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.53,-24.1312,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.5299,-24.1321,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.5299,-24.132,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.5298,-24.1316,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5298,-24.1315,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.5294,-24.1331,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5292,-24.1305,3,2,"Culture/molecular, Serology",1,"Akodon montensis",3,TRUE
+-55.5291,-24.1268,3,2,"Culture/molecular, Serology",1,"Akodon montensis",8,TRUE
+-55.5291,-24.1262,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.529,-24.1263,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5286,-24.1397,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.5284,-24.1382,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5284,-24.138,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.5284,-24.1377,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.5283,-24.1373,3,2,"Culture/molecular, Serology",2,"Akodon montensis, Hylaeamys megacephalus",4,TRUE
+-55.5152,-24.1275,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.5152,-24.1274,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.5152,-24.1273,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",4,TRUE
+-55.5152,-24.1272,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",11,TRUE
+-55.5151,-24.1274,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5151,-24.1273,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.515,-24.1278,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",7,TRUE
+-55.5149,-24.1281,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5149,-24.1279,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",6,TRUE
+-55.5149,-24.1278,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5148,-24.1281,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",49,TRUE
+-55.5148,-24.128,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.5147,-24.1282,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",7,TRUE
+-55.5147,-24.1281,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5146,-24.1283,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",6,TRUE
+-55.5146,-24.1282,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5145,-24.1283,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5145,-24.1282,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.5145,-24.128,1,1,"Serology",1,"Oligoryzomys nigripes",1,FALSE
+-55.5144,-24.1284,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.5143,-24.1284,2,2,"Culture/molecular, Serology",1,"Akodon montensis",6,TRUE
+-55.5142,-24.1286,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5055,-24.1238,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5052,-24.1238,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.505,-24.1239,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.5049,-24.1239,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",22,TRUE
+-55.5048,-24.124,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.5048,-24.1239,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5046,-24.124,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5046,-24.1239,2,2,"Culture/molecular, Serology",1,"Akodon montensis",3,TRUE
+-55.5045,-24.1239,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5044,-24.1239,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5043,-24.124,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5042,-24.1237,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5041,-24.1234,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.5041,-24.1232,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.504,-24.1234,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5039,-24.1233,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5038,-24.1232,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.5028,-24.1322,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.5027,-24.1322,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Hylaeamys megacephalus",9,TRUE
+-55.5025,-24.132,2,1,"Serology",2,"Akodon montensis, Hylaeamys megacephalus",2,FALSE
+-55.5024,-24.132,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5022,-24.1319,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.5018,-24.1312,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4662,-24.1223,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.4662,-24.1222,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.4662,-24.1221,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4661,-24.1221,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.4661,-24.122,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.466,-24.1219,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.4659,-24.1219,3,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",3,TRUE
+-55.4658,-24.1219,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",8,TRUE
+-55.4656,-24.1217,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.4656,-24.1216,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.4656,-24.1215,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.4655,-24.1214,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4654,-24.1213,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.4653,-24.1214,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4653,-24.1213,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4653,-24.1212,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4652,-24.1212,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",54,TRUE
+-55.4651,-24.1212,2,2,"Culture/molecular, Serology",1,"Akodon montensis",8,TRUE
+-55.465,-24.1212,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.465,-24.1211,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4648,-24.1209,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4647,-24.1209,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.4646,-24.1209,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4646,-24.1207,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4646,-24.1206,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4645,-24.1208,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.4645,-24.1207,2,2,"Culture/molecular, Serology",1,"Akodon montensis",3,TRUE
+-55.4644,-24.1207,2,2,"Culture/molecular, Serology",1,"Akodon montensis",3,TRUE
+-55.447,-24.1221,4,1,"Serology",4,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys flavescens, Oligoryzomys nigripes",583,FALSE
+-55.4342,-24.1314,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",15,TRUE
+-55.4332,-24.1315,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.433,-24.1315,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.4329,-24.1316,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.4328,-24.1315,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4326,-24.1315,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.4325,-24.1314,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.4323,-24.1313,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4322,-24.1313,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.4321,-24.1313,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.4316,-24.131,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4248,-24.1426,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",11,TRUE
+-55.4246,-24.1451,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4245,-24.1445,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.4245,-24.1442,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4245,-24.1441,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4245,-24.1436,1,1,"Serology",1,"Akodon montensis",1,FALSE
+-55.4245,-24.1431,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4244,-24.1441,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.4244,-24.144,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.3921,-24.1312,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.392,-24.1312,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",27,TRUE
+-55.392,-24.1311,2,2,"Culture/molecular, Serology",1,"Akodon montensis",6,TRUE
+-55.392,-24.131,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",4,TRUE
+-55.3919,-24.132,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.3919,-24.1319,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3918,-24.132,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3916,-24.1324,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",6,TRUE
+-55.3915,-24.1327,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3914,-24.133,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3913,-24.1333,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.3912,-24.1333,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3912,-24.1332,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3858,-24.1342,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.3857,-24.1346,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3857,-24.1342,1,1,"Serology",1,"Akodon montensis",2,FALSE
+-55.3856,-24.1346,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3856,-24.1345,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3856,-24.1342,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3855,-24.1342,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",10,TRUE
+-55.3855,-24.1341,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3854,-24.1346,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3854,-24.1343,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3854,-24.1342,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",4,TRUE
+-55.3853,-24.1347,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.3853,-24.1343,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3853,-24.1342,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",3,TRUE
+-55.3852,-24.1346,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3852,-24.1345,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.3852,-24.1342,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",43,TRUE
+-55.3851,-24.1345,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.3851,-24.1343,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.385,-24.1346,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.385,-24.1345,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.385,-24.1344,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.385,-24.1343,2,2,"Culture/molecular, Serology",1,"Akodon montensis",3,TRUE
+-55.3849,-24.1346,3,2,"Culture/molecular, Serology",2,"Akodon montensis, Hylaeamys megacephalus",3,TRUE
+-55.3849,-24.1344,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3848,-24.1344,2,2,"Culture/molecular, Serology",1,"Akodon montensis",6,TRUE
+-55.3702,-24.1308,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.3665,-24.1416,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3664,-24.1416,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.3664,-24.1415,3,2,"Culture/molecular, Serology",2,"Akodon montensis, Hylaeamys megacephalus",7,TRUE
+-55.3664,-24.1414,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3664,-24.1413,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3664,-24.1412,3,2,"Culture/molecular, Serology",2,"Akodon montensis, Hylaeamys megacephalus",11,TRUE
+-55.3664,-24.141,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3663,-24.1427,2,2,"Culture/molecular, Serology",1,"Akodon montensis",6,TRUE
+-55.3663,-24.1426,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",6,TRUE
+-55.3663,-24.1425,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3663,-24.1424,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3663,-24.1421,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",65,TRUE
+-55.3663,-24.1419,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3663,-24.1413,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3663,-24.1412,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.3663,-24.1411,1,1,"Serology",1,"Akodon montensis",1,FALSE
+-55.3663,-24.141,2,2,"Culture/molecular, Serology",1,"Akodon montensis",10,TRUE
+-55.3662,-24.1429,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3662,-24.1428,2,2,"Culture/molecular, Serology",1,"Akodon montensis",6,TRUE
+-55.3662,-24.1427,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3661,-24.1429,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Hylaeamys megacephalus",10,TRUE
+-55.366,-24.1429,3,2,"Culture/molecular, Serology",2,"Akodon montensis, Hylaeamys megacephalus",11,TRUE
+-55.3659,-24.1434,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.3659,-24.1432,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.3659,-24.1431,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.3659,-24.143,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3659,-24.1421,1,1,"Serology",1,"Akodon montensis",1,FALSE
+-55.3658,-24.1434,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3658,-24.1432,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.3658,-24.1431,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.3593,-24.1412,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3592,-24.1418,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3592,-24.1412,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3591,-24.1418,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.3591,-24.1411,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.359,-24.143,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.359,-24.142,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.359,-24.1419,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.359,-24.141,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3589,-24.1431,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3589,-24.143,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Hylaeamys megacephalus",23,TRUE
+-55.3589,-24.142,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3588,-24.1424,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3588,-24.1422,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3587,-24.1425,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3586,-24.1409,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3464,-24.1419,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",21,TRUE
+-55.3464,-24.1418,2,2,"Culture/molecular, Serology",1,"Akodon montensis",4,TRUE
+-55.3464,-24.1417,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3462,-24.142,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3462,-24.1419,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3461,-24.1421,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3461,-24.142,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3459,-24.1423,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3459,-24.1422,3,2,"Culture/molecular, Serology",2,"Akodon montensis, Hylaeamys megacephalus",5,TRUE
+-55.3455,-24.1423,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3452,-24.1424,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.345,-24.1425,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3449,-24.1425,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3445,-24.1426,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3444,-24.1426,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3441,-24.1427,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.3372,-24.142,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.337,-24.1419,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3368,-24.1413,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.3368,-24.1412,5,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",11,TRUE
+-55.3368,-24.141,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Hylaeamys megacephalus",6,TRUE
+-55.3367,-24.1402,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3367,-24.1401,1,1,"Serology",1,"Akodon montensis",1,FALSE
+-55.33,-27.6,3,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",30,TRUE
+-55.3253,-24.1349,2,1,"Serology",2,"Akodon montensis, Hylaeamys megacephalus",2,FALSE
+-55.3252,-24.1351,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3252,-24.1348,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3252,-24.1347,7,2,"Culture/molecular, Serology",3,"Akodon montensis, Hylaeamys megacephalus, Oligoryzomys nigripes",23,TRUE
+-55.3252,-24.1344,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3252,-24.1343,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.3251,-24.1347,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3251,-24.1346,2,2,"Culture/molecular, Serology",1,"Hylaeamys megacephalus",2,TRUE
+-55.3251,-24.1342,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.325,-24.1341,1,1,"Serology",1,"Hylaeamys megacephalus",2,FALSE
+-55.325,-24.134,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3249,-24.1352,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3248,-24.1354,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3244,-24.1356,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-55.3231,-24.1378,2,1,"Serology",1,"Hylaeamys megacephalus",5,FALSE
+-55.3228,-24.1375,1,1,"Serology",1,"Hylaeamys megacephalus",1,FALSE
+-55.3226,-24.1367,1,1,"Serology",1,"Hylaeamys megacephalus",2,FALSE
+-55.3027,-24.1495,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3022,-24.1497,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-55.3015,-24.1497,3,2,"Culture/molecular, Serology",1,"Akodon montensis",5,TRUE
+-54.588,-25.5477,6,2,"Culture/molecular, Serology",3,"Akodon montensis, Oligoryzomys nigripes, Thaptomys nigrita",136,TRUE
+-54.57,-20.55,1,1,"Culture/molecular",1,"Hylaeamys megacephalus",2,FALSE
+-53.85,-34.35,1,1,"Culture/molecular",1,"Oligoryzomys flavescens",13,FALSE
+-53.267,-22.7723,4,2,"Culture/molecular, Serology",2,"Oligoryzomys nigripes, Thaptomys nigrita",14,TRUE
+-52.4237944444444,-22.3861111111111,1,1,"Culture/molecular",1,"Hylaeamys megacephalus",2,FALSE
+-51.7833564790414,-27.149928416731,1,1,"Culture/molecular",1,"Akodon montensis",2,FALSE
+-51.734,-19.113,1,1,"Serology",1,"Hylaeamys megacephalus",5,FALSE
+-51.733,-27.183,12,2,"Culture/molecular, Serology",4,"Akodon montensis, Oligoryzomys flavescens, Oligoryzomys nigripes, Thaptomys nigrita",1148,TRUE
+-51.404425,-26.485894,3,1,"Serology",3,"Akodon montensis, Oligoryzomys nigripes, Thaptomys nigrita",396,FALSE
+-51.39614,-26.55333,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-51.39536,-26.41025,2,2,"Culture/molecular, Serology",1,"Akodon montensis",2,TRUE
+-51.316,-26.428,7,2,"Culture/molecular, Serology",3,"Akodon montensis, Oligoryzomys nigripes, Thaptomys nigrita",225,TRUE
+-50.479,-22.973,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",50,TRUE
+-49.7058,-24.2511,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",54,TRUE
+-49.4103,-25.593,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",42,TRUE
+-49.2731,-25.428,4,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",26,TRUE
+-49.0553,-25.3056,4,2,"Culture/molecular, Serology",2,"Oligoryzomys flavescens, Thaptomys nigrita",34,TRUE
+-48.9468,-16.3824,3,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",6,TRUE
+-48.5092,-25.52,6,2,"Culture/molecular, Serology",3,"Akodon montensis, Oligoryzomys nigripes, Thaptomys nigrita",104,TRUE
+-48.29,-18.92,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",2,TRUE
+-48.277222,-18.9186108333333,1,1,"Serology",1,"Oligoryzomys nigripes",5,FALSE
+-48.0051146658719,-21.1298488781754,1,1,"Serology",1,"Oligoryzomys flavescens",3,FALSE
+-47.073263328258,-23.9336402252192,2,1,"Serology",2,"Oligoryzomys nigripes, Thaptomys nigrita",12,FALSE
+-46.9075,-22.7391666666666,3,1,"Serology",3,"Akodon montensis, Oligoryzomys flavescens, Oligoryzomys nigripes",55,FALSE
+-46.74,-22.19,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",14,TRUE
+-46.3527916666666,-23.1998083333333,1,1,"Culture/molecular",1,"Oligoryzomys nigripes",32,FALSE
+-46.0389,-23.573,4,2,"Culture/molecular, Serology",3,"Akodon montensis, Oligoryzomys nigripes, Thaptomys nigrita",29,TRUE
+-46.0383333333333,-23.4077777777777,2,1,"Culture/molecular",2,"Akodon montensis, Thaptomys nigrita",21,FALSE
+-43.379,-18.605,2,2,"Culture/molecular, Serology",1,"Oligoryzomys nigripes",4,TRUE
+-42.9692883017187,-22.4101034629181,1,1,"Serology",1,"Oligoryzomys nigripes",2,FALSE
+-42.9666666666666,-22.4,2,1,"Culture/molecular",2,"Akodon montensis, Oligoryzomys nigripes",22,FALSE
+-42.9658,-22.4119,3,2,"Culture/molecular, Serology",2,"Akodon montensis, Oligoryzomys nigripes",25,TRUE
+-42.6780816639654,-22.0476679224252,1,1,"Serology",1,"Oligoryzomys nigripes",1,FALSE
+-42.5928087492318,-22.2724074266742,1,1,"Serology",1,"Oligoryzomys nigripes",9,FALSE
+-40.6,-19.936,3,2,"Culture/molecular, Serology",2,"Oligoryzomys flavescens, Oligoryzomys nigripes",76,TRUE
+-38.1028010336287,-7.83376062979215,1,1,"Serology",1,"Oligoryzomys nigripes",9,FALSE
+-17.0335905531533,14.6174970509539,2,1,"Serology",2,"Arvicanthis niloticus, Rattus rattus",9,FALSE
+-16.64,12.45,2,1,"Serology",1,"Rattus rattus",48,FALSE
+-16.5442514461122,12.4889775084491,2,1,"Serology",2,"Arvicanthis niloticus, Rattus rattus",153,FALSE
+-16.25,12.66,2,1,"Serology",1,"Rattus rattus",42,FALSE
+-15.97,12.83,2,1,"Serology",1,"Rattus rattus",50,FALSE
+-15.68,12.57,2,1,"Serology",1,"Rattus rattus",56,FALSE
+-15.19,14.02,1,1,"Culture/molecular",1,"Rattus rattus",13,FALSE
+-14.68,13.99,1,1,"Culture/molecular",1,"Rattus rattus",8,FALSE
+-14.11,13.15,1,1,"Culture/molecular",1,"Rattus rattus",25,FALSE
+-14.08,12.93,1,1,"Culture/molecular",1,"Rattus rattus",10,FALSE
+-13.91,13.26,1,1,"Culture/molecular",1,"Rattus rattus",28,FALSE
+-13.885,10.0005555555555,2,1,"Serology",2,"Praomys rostratus, Rattus rattus",21,FALSE
+-13.6788888888888,10.0119444444444,1,1,"Serology",1,"Rattus rattus",24,FALSE
+-13.67,13.77,1,1,"Culture/molecular",1,"Rattus rattus",38,FALSE
+-13.6696473288967,13.7748977086268,1,1,"Serology",1,"Rattus rattus",77,FALSE
+-13.45,13.9,1,1,"Culture/molecular",1,"Rattus rattus",20,FALSE
+-13.37,13.37,2,1,"Serology",1,"Rattus rattus",48,FALSE
+-13.22,13.12,1,1,"Culture/molecular",1,"Rattus rattus",25,FALSE
+-13.17,13.69,1,1,"Culture/molecular",1,"Rattus rattus",36,FALSE
+-13.17,14.03,1,1,"Culture/molecular",1,"Rattus rattus",7,FALSE
+-12.8358341089499,10.0693320979164,1,1,"Serology",1,"Rattus rattus",33,FALSE
+-12.76,14.18,1,1,"Culture/molecular",1,"Rattus rattus",18,FALSE
+-12.72,13.8,1,1,"Culture/molecular",1,"Rattus rattus",21,FALSE
+-12.71,13.8,2,1,"Serology",1,"Rattus rattus",46,FALSE
+-12.7036111111111,9.9275,2,1,"Serology",2,"Lemniscomys striatus, Rattus rattus",6,FALSE
+-12.69,13.92,1,1,"Culture/molecular",1,"Rattus rattus",12,FALSE
+-12.6758333333333,10.1480555555555,1,1,"Serology",1,"Praomys rostratus",4,FALSE
+-12.67,13.68,1,1,"Culture/molecular",1,"Rattus rattus",33,FALSE
+-12.62,13.96,1,1,"Culture/molecular",1,"Rattus rattus",2,FALSE
+-12.54084,10.06606,3,1,"Culture/molecular",3,"Lemniscomys striatus, Praomys rostratus, Rattus rattus",61,FALSE
+-12.5408333333333,10.0661111111111,3,1,"Serology",3,"Lemniscomys striatus, Praomys rostratus, Rattus rattus",48,FALSE
+-12.48,13.39,2,1,"Serology",1,"Rattus rattus",58,FALSE
+-12.35,13.97,1,1,"Culture/molecular",1,"Rattus rattus",30,FALSE
+-12.2975,11.0836111111111,1,1,"Serology",1,"Praomys rostratus",9,FALSE
+-12.21,14.46,1,1,"Culture/molecular",1,"Rattus rattus",3,FALSE
+-12.17,12.55,2,1,"Serology",1,"Rattus rattus",44,FALSE
+-12.17,12.56,1,1,"Culture/molecular",1,"Rattus rattus",74,FALSE
+-11.770189,7.75703299999999,6,2,"Culture/molecular, Serology",3,"Mus setulosus, Praomys rostratus, Rattus rattus",124,TRUE
+-11.770189,7.757033,2,2,"Culture/molecular, Serology",1,"Hylomyscus alleni",4,TRUE
+-11.742564,7.762217,10,2,"Culture/molecular, Serology",5,"Hylomyscus alleni, Lemniscomys striatus, Mus setulosus, Praomys rostratus, Rattus rattus",330,TRUE
+-11.726172,7.771753,8,2,"Culture/molecular, Serology",4,"Hylomyscus alleni, Lemniscomys striatus, Praomys rostratus, Rattus rattus",184,TRUE
+-11.431461,7.945028,10,2,"Culture/molecular, Serology",5,"Hylomyscus alleni, Lemniscomys striatus, Mus setulosus, Praomys rostratus, Rattus rattus",242,TRUE
+-11.427842,8.005569,8,2,"Culture/molecular, Serology",4,"Hylomyscus alleni, Mus setulosus, Praomys rostratus, Rattus rattus",144,TRUE
+-11.3957,7.973069,10,2,"Culture/molecular, Serology",5,"Hylomyscus alleni, Lemniscomys striatus, Mus setulosus, Praomys rostratus, Rattus rattus",284,TRUE
+-11.04,9.84083333333333,2,2,"Culture/molecular, Serology",1,"Praomys rostratus",16,TRUE
+-10.9727777777777,10.0005555555555,4,2,"Culture/molecular, Serology",2,"Lemniscomys striatus, Praomys rostratus",69,TRUE
+-10.5872222222222,10.0508333333333,2,1,"Serology",2,"Lemniscomys striatus, Praomys rostratus",50,FALSE
+-10.5872222222222,10.0594444444444,3,1,"Culture/molecular",3,"Arvicanthis niloticus, Lemniscomys striatus, Praomys rostratus",72,FALSE
+-10.1078893343067,8.76523509425289,1,1,"Serology",1,"Rattus rattus",6,FALSE
+-9.48888888888888,8.56277777777777,1,1,"Serology",1,"Mus setulosus",5,FALSE
+-9.4742,8.6136,1,1,"Culture/molecular",1,"Hylomyscus alleni",1,FALSE
+-9.47416666666666,8.61361111111111,3,1,"Serology",3,"Hylomyscus alleni, Mus setulosus, Praomys rostratus",21,FALSE
+-9.26974431678255,7.74028474320967,2,1,"Serology",2,"Hylomyscus alleni, Rattus rattus",26,FALSE
+-9.02472222222222,9.03722222222222,2,1,"Serology",2,"Mus setulosus, Praomys rostratus",10,FALSE
+-9.01777777777777,10.4958333333333,1,1,"Serology",1,"Praomys rostratus",10,FALSE
+-8.94555555555555,9.64527777777777,3,1,"Serology",3,"Lemniscomys striatus, Mus setulosus, Praomys rostratus",22,FALSE
+-8.91388888888889,8.08694444444444,2,1,"Serology",2,"Mus setulosus, Praomys rostratus",15,FALSE
+-8.77472222222222,12.2994444444444,1,1,"Serology",1,"Praomys rostratus",17,FALSE
+-8.687972,38.582752,1,1,"Serology",1,"Rattus rattus",71,FALSE
+-7.296,6.794,4,2,"Culture/molecular, Serology",2,"Mus setulosus, Rattus rattus",16,TRUE
+-6.07,6.1842,2,2,"Culture/molecular, Serology",1,"Rattus rattus",32,TRUE
+-5.617,9.417,1,1,"Culture/molecular",1,"Praomys rostratus",4,FALSE
+-5.498,5.8092,4,2,"Culture/molecular, Serology",2,"Mus setulosus, Rattus rattus",74,TRUE
+-5.02,7.68,2,1,"Culture/molecular",2,"Mus setulosus, Rattus rattus",10,FALSE
+-4.9614,6.1472,2,2,"Culture/molecular, Serology",1,"Mus setulosus",6,TRUE
+-4.91667,13.3825,1,1,"Serology",1,"Arvicanthis niloticus",1,FALSE
+-4.8925,6.128,2,2,"Culture/molecular, Serology",1,"Rattus rattus",28,TRUE
+-3.71594072234143,40.4247702256638,1,1,"Serology",1,"Rattus rattus",3,FALSE
+-3.368,6.746,2,2,"Culture/molecular, Serology",1,"Mus setulosus",26,TRUE
+-3.2458,5.506,2,2,"Culture/molecular, Serology",1,"Mus setulosus",10,TRUE
+-3.1283,7.0711,2,2,"Culture/molecular, Serology",1,"Mus setulosus",4,TRUE
+-2.8844,53.2273,1,1,"Culture/molecular",1,"Apodemus flavicollis",93,FALSE
+-2.32767,7.12667,1,1,"Culture/molecular",1,"Mus setulosus",1,FALSE
+-1.79933,6.18267,1,1,"Culture/molecular",1,"Rattus rattus",1,FALSE
+-1.66217,7.96975,1,1,"Culture/molecular",1,"Rattus rattus",1,FALSE
+-0.85283,6.4495,3,1,"Culture/molecular",3,"Lemniscomys striatus, Mus setulosus, Rattus rattus",9,FALSE
+4.5131,7.5439,3,2,"Culture/molecular, Serology",1,"Mus setulosus",18,TRUE
+4.5265,7.8731,3,2,"Culture/molecular, Serology",1,"Rattus rattus",9,TRUE
+4.6194,7.6906,3,2,"Culture/molecular, Serology",1,"Mus setulosus",27,TRUE
+4.95,51.32,1,1,"Serology",1,"Sorex araneus",25,FALSE
+5.586361,6.783611,4,2,"Culture/molecular, Serology",2,"Arvicanthis niloticus, Rattus rattus",4,TRUE
+6.0924,6.773,6,2,"Culture/molecular, Serology",2,"Mus setulosus, Rattus rattus",6,TRUE
+6.104889,6.741417,4,2,"Culture/molecular, Serology",2,"Arvicanthis niloticus, Rattus rattus",38,TRUE
+6.1049,6.7414,6,2,"Culture/molecular, Serology",2,"Arvicanthis niloticus, Rattus rattus",12,TRUE
+6.181472,6.596778,8,2,"Culture/molecular, Serology",4,"Arvicanthis niloticus, Lemniscomys striatus, Mus setulosus, Rattus rattus",22,TRUE
+6.196556,6.694444,2,2,"Culture/molecular, Serology",1,"Rattus rattus",4,TRUE
+6.404222,6.611167,2,2,"Culture/molecular, Serology",1,"Lemniscomys striatus",4,TRUE
+7.133333,47.916667,1,1,"Serology",1,"Apodemus flavicollis",561,FALSE
+8.0984,6.2941,3,2,"Culture/molecular, Serology",1,"Rattus rattus",9,TRUE
+8.323,6.3628,3,2,"Culture/molecular, Serology",1,"Rattus rattus",12,TRUE
+8.4066,7.641,6,2,"Culture/molecular, Serology",2,"Lemniscomys striatus, Rattus rattus",27,TRUE
+9.03,50.62,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+9.63598692884992,47.2737101054386,1,1,"Serology",1,"Apodemus flavicollis",27,FALSE
+9.6375,46.99028,1,1,"Culture/molecular",1,"Sorex araneus",5,FALSE
+10.23,-0.688,4,2,"Culture/molecular, Serology",2,"Lemniscomys striatus, Rattus rattus",38,TRUE
+10.71,50.95,1,1,"Culture/molecular",1,"Sorex araneus",22,FALSE
+10.8979,45.81202,3,1,"Serology",1,"Apodemus flavicollis",368,FALSE
+10.9209,8.8242,3,2,"Culture/molecular, Serology",1,"Arvicanthis niloticus",9,TRUE
+10.967,46,3,1,"Serology",1,"Apodemus flavicollis",3019,FALSE
+10.967,46.15,3,1,"Serology",1,"Apodemus flavicollis",96,FALSE
+10.974,45.994,1,1,"Serology",1,"Apodemus flavicollis",2007,FALSE
+10.9758,45.9936,1,1,"Serology",1,"Apodemus flavicollis",5789,FALSE
+11.033,46.367,3,1,"Serology",1,"Apodemus flavicollis",109,FALSE
+11.0615,46.1279,3,1,"Serology",1,"Apodemus flavicollis",285,FALSE
+11.0856,7.0919,3,2,"Culture/molecular, Serology",1,"Mus setulosus",3,TRUE
+11.258,46.186,3,1,"Serology",1,"Apodemus flavicollis",287,FALSE
+11.4259,46.0105,3,1,"Serology",1,"Apodemus flavicollis",26,FALSE
+11.52,50.1,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+11.567,46.283,3,1,"Serology",1,"Apodemus flavicollis",33,FALSE
+12.47,52.8,1,1,"Culture/molecular",1,"Sorex araneus",12,FALSE
+13.1834,49.81778,4,1,"Culture/molecular",1,"Sorex araneus",4,FALSE
+13.22,54.13,1,1,"Culture/molecular",1,"Sorex araneus",108,FALSE
+13.5475,-1.6309,6,1,"Culture/molecular",2,"Lemniscomys striatus, Rattus rattus",39,FALSE
+13.5711,-1.6443,6,1,"Culture/molecular",2,"Lemniscomys striatus, Rattus rattus",12,FALSE
+13.5881,-1.6324,3,1,"Culture/molecular",1,"Lemniscomys striatus",48,FALSE
+13.5996,-1.5995,6,1,"Culture/molecular",2,"Lemniscomys striatus, Rattus rattus",36,FALSE
+13.6029,-1.6229,6,1,"Culture/molecular",2,"Lemniscomys striatus, Rattus rattus",33,FALSE
+13.6081,-1.6505,6,1,"Culture/molecular",2,"Lemniscomys striatus, Rattus rattus",36,FALSE
+13.6137,-1.6267,6,1,"Culture/molecular",2,"Lemniscomys striatus, Rattus rattus",39,FALSE
+13.8708333333333,48.8255555555555,1,1,"Serology",1,"Apodemus flavicollis",29,FALSE
+14.023267,48.931083,4,1,"Culture/molecular",1,"Sorex araneus",4,FALSE
+14.0384764167084,48.1698200933419,1,1,"Serology",1,"Apodemus flavicollis",32,FALSE
+14.166586,48.832394,4,1,"Culture/molecular",1,"Apodemus flavicollis",8,FALSE
+14.2823322025346,45.7528428856761,1,1,"Culture/molecular",1,"Sorex araneus",38,FALSE
+14.41,46.05,1,1,"Culture/molecular",1,"Apodemus flavicollis",1,FALSE
+14.455614,48.988,4,1,"Culture/molecular",1,"Apodemus flavicollis",4,FALSE
+14.47,48.97,1,1,"Culture/molecular",1,"Sorex araneus",4,FALSE
+14.487937,49.981672,4,1,"Culture/molecular",1,"Apodemus flavicollis",28,FALSE
+14.488705,48.998955,4,1,"Culture/molecular",1,"Apodemus flavicollis",32,FALSE
+14.492273,49.992866,4,1,"Culture/molecular",1,"Apodemus flavicollis",4,FALSE
+14.495839,48.985481,4,1,"Culture/molecular",1,"Apodemus flavicollis",12,FALSE
+14.49615,49.012688,4,1,"Culture/molecular",1,"Apodemus flavicollis",4,FALSE
+14.49782,48.9944,4,1,"Culture/molecular",1,"Sorex araneus",4,FALSE
+14.6177,50.9133,8,1,"Culture/molecular",2,"Apodemus agrarius, Apodemus flavicollis",28,FALSE
+14.639,45.514,3,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",216,TRUE
+14.6503648117549,49.9378757473828,3,1,"Serology",3,"Apodemus agrarius, Apodemus flavicollis, Sorex araneus",181,FALSE
+14.6744462261579,46.9362785082285,1,1,"Serology",1,"Apodemus flavicollis",12,FALSE
+14.761461,49.080952,4,1,"Culture/molecular",1,"Apodemus flavicollis",4,FALSE
+14.8594878113384,46.8919327550473,1,1,"Culture/molecular",1,"Apodemus flavicollis",287,FALSE
+15.03,49.78,1,1,"Culture/molecular",1,"Sorex araneus",2,FALSE
+15.17,45.8,1,1,"Serology",1,"Apodemus flavicollis",6,FALSE
+15.4719,59.728,2,1,"Serology",2,"Apodemus flavicollis, Sorex araneus",90,FALSE
+15.48,49.15,1,1,"Culture/molecular",1,"Sorex araneus",9,FALSE
+16.062,45.732,2,1,"Culture/molecular",2,"Apodemus flavicollis, Rattus rattus",5,FALSE
+16.079,45.939,3,1,"Serology",3,"Apodemus agrarius, Apodemus flavicollis, Sorex araneus",76,FALSE
+16.18,45.73,3,1,"Serology",3,"Apodemus agrarius, Apodemus flavicollis, Sorex araneus",61,FALSE
+16.3173214672974,48.1935234454505,1,1,"Serology",1,"Apodemus flavicollis",34,FALSE
+16.33818,48.73583,1,1,"Serology",1,"Apodemus flavicollis",10,FALSE
+16.455,45.624,4,1,"Culture/molecular",2,"Apodemus agrarius, Apodemus flavicollis",32,FALSE
+16.4650869554259,49.2243502380097,1,1,"Serology",1,"Apodemus flavicollis",189,FALSE
+16.4746361006844,45.6238566804738,2,1,"Serology",1,"Apodemus flavicollis",56,FALSE
+16.6,59.917,2,1,"Serology",2,"Apodemus flavicollis, Sorex araneus",30,FALSE
+16.65,49.01,1,1,"Culture/molecular",1,"Sorex araneus",5,FALSE
+16.6535256822488,49.175106345362,2,1,"Serology",2,"Apodemus flavicollis, Sorex araneus",23,FALSE
+16.849,48.381,3,1,"Serology",1,"Apodemus flavicollis",822,FALSE
+16.897,49.433,1,1,"Culture/molecular",1,"Sorex araneus",39,FALSE
+17.057,46.19,1,1,"Culture/molecular",1,"Apodemus flavicollis",4,FALSE
+17.0680246029214,-22.4470037355277,1,1,"Culture/molecular",1,"Aethomys chrysophilus",64,FALSE
+17.17,46.7,1,1,"Culture/molecular",1,"Apodemus agrarius",1,FALSE
+17.9017739067212,43.9612629696458,3,1,"Serology",3,"Apodemus agrarius, Apodemus flavicollis, Sorex araneus",204,FALSE
+17.9069057278843,43.9599609466663,2,1,"Serology",2,"Apodemus flavicollis, Sorex araneus",115,FALSE
+17.9146314081696,46.3912845251447,1,1,"Culture/molecular",1,"Apodemus agrarius",2,FALSE
+17.991803,49.993402,8,1,"Culture/molecular",2,"Apodemus agrarius, Apodemus flavicollis",164,FALSE
+17.996603,49.98567,8,1,"Culture/molecular",2,"Apodemus agrarius, Apodemus flavicollis",16,FALSE
+17.998871,49.985554,4,1,"Culture/molecular",1,"Apodemus agrarius",20,FALSE
+18.0598409499085,46.3974020070195,2,1,"Serology",2,"Apodemus agrarius, Sorex araneus",83,FALSE
+18.141638,46.065731,2,1,"Culture/molecular",2,"Apodemus agrarius, Apodemus flavicollis",21,FALSE
+18.2,46.07,2,1,"Culture/molecular",2,"Apodemus agrarius, Apodemus flavicollis",3,FALSE
+18.202,43.822,1,1,"Serology",1,"Apodemus flavicollis",98,FALSE
+18.2323853447475,46.0716596687459,2,1,"Culture/molecular",2,"Apodemus agrarius, Apodemus flavicollis",201,FALSE
+18.233,59.4,2,1,"Serology",2,"Apodemus flavicollis, Sorex araneus",23,FALSE
+18.3372,49.5475,3,1,"Culture/molecular",1,"Apodemus flavicollis",9,FALSE
+18.5305,49.8848,3,1,"Culture/molecular",1,"Apodemus agrarius",99,FALSE
+18.58,44.1275,1,1,"Serology",1,"Apodemus flavicollis",56,FALSE
+18.5845361257808,4.35876723517015,1,1,"Serology",1,"Rattus rattus",100,FALSE
+19.2032164709256,-22.7613435687344,1,1,"Culture/molecular",1,"Lemniscomys rosalia",2,FALSE
+19.2663,50.7355,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+19.3132,51.6524,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+19.3444444444444,44.6436111111111,1,1,"Culture/molecular",1,"Apodemus flavicollis",20,FALSE
+19.3797,51.5971,1,1,"Culture/molecular",1,"Sorex araneus",9,FALSE
+19.539722,43.896667,1,1,"Culture/molecular",1,"Apodemus flavicollis",50,FALSE
+19.5708,51.7875,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+19.6115,51.3408,1,1,"Culture/molecular",1,"Sorex araneus",10,FALSE
+19.6437,41.787,1,1,"Culture/molecular",1,"Apodemus flavicollis",2,FALSE
+19.6908,41.648,1,1,"Culture/molecular",1,"Apodemus flavicollis",2,FALSE
+19.7047,40.9369,2,1,"Culture/molecular",2,"Apodemus flavicollis, Rattus rattus",2,FALSE
+19.7058,51.6633,1,1,"Culture/molecular",1,"Sorex araneus",13,FALSE
+19.7142,41.4889,1,1,"Culture/molecular",1,"Rattus rattus",3,FALSE
+19.7925,41.5096,1,1,"Culture/molecular",1,"Apodemus flavicollis",2,FALSE
+19.8187,41.3275,1,1,"Culture/molecular",1,"Apodemus flavicollis",1,FALSE
+19.8879,42.3156,1,1,"Culture/molecular",1,"Apodemus flavicollis",2,FALSE
+19.9136,41.5808,1,1,"Culture/molecular",1,"Apodemus flavicollis",6,FALSE
+20.0233,40.2953,2,1,"Culture/molecular",2,"Apodemus flavicollis, Rattus rattus",3,FALSE
+20.05,42.383,1,1,"Culture/molecular",1,"Apodemus flavicollis",1,FALSE
+20.1,39.95,1,1,"Culture/molecular",1,"Apodemus flavicollis",3,FALSE
+20.133,40.067,2,1,"Culture/molecular",2,"Apodemus flavicollis, Rattus rattus",13,FALSE
+20.1833,40.8667,2,1,"Culture/molecular",2,"Apodemus flavicollis, Rattus rattus",6,FALSE
+20.227,40.5992,1,1,"Culture/molecular",1,"Rattus rattus",1,FALSE
+20.229,43.581,2,1,"Serology",2,"Apodemus flavicollis, Sorex araneus",26,FALSE
+20.3179,41.1917,1,1,"Culture/molecular",1,"Apodemus flavicollis",12,FALSE
+20.35,43.88,3,1,"Serology",3,"Apodemus agrarius, Apodemus flavicollis, Sorex araneus",100,FALSE
+20.3514,40.2372,1,1,"Culture/molecular",1,"Apodemus flavicollis",1,FALSE
+20.3586843288336,43.8970582839561,3,1,"Serology",3,"Apodemus agrarius, Apodemus flavicollis, Sorex araneus",78,FALSE
+20.4012,42.0447,2,1,"Culture/molecular",2,"Apodemus flavicollis, Rattus rattus",4,FALSE
+20.4164,42.0769,2,1,"Culture/molecular",2,"Apodemus flavicollis, Rattus rattus",7,FALSE
+20.4388888888888,44.7555555555555,1,1,"Culture/molecular",1,"Apodemus flavicollis",57,FALSE
+20.4628,41.691,1,1,"Culture/molecular",1,"Apodemus flavicollis",19,FALSE
+20.4966,40.298,2,1,"Culture/molecular",2,"Apodemus flavicollis, Rattus rattus",27,FALSE
+20.5205555555555,44.6886111111111,1,1,"Culture/molecular",1,"Apodemus flavicollis",32,FALSE
+20.6639,40.9011,2,1,"Culture/molecular",2,"Apodemus flavicollis, Rattus rattus",10,FALSE
+20.7667,69.0167,1,1,"Culture/molecular",1,"Sorex araneus",2,FALSE
+20.7808,40.6181,2,1,"Culture/molecular",2,"Apodemus flavicollis, Rattus rattus",27,FALSE
+20.82,39.9,1,1,"Serology",1,"Rattus rattus",51,FALSE
+20.8206616133219,39.9049827829726,1,1,"Serology",1,"Apodemus flavicollis",33,FALSE
+20.988,40.6211,1,1,"Culture/molecular",1,"Apodemus flavicollis",11,FALSE
+21.129,39.547,1,1,"Serology",1,"Rattus rattus",3,FALSE
+21.183,44.617,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",62,FALSE
+21.25,48.72,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+21.365,55.3013,4,1,"Culture/molecular",1,"Apodemus agrarius",1004,FALSE
+21.5905555555555,44.0049694444444,3,1,"Serology",3,"Apodemus agrarius, Apodemus flavicollis, Sorex araneus",67,FALSE
+21.6,49.63,3,1,"Serology",1,"Apodemus flavicollis",54,FALSE
+21.6397222222222,44.1005555555555,1,1,"Culture/molecular",1,"Apodemus flavicollis",14,FALSE
+21.6577665801853,48.8166507909958,2,1,"Culture/molecular",2,"Apodemus agrarius, Apodemus flavicollis",2,FALSE
+21.7167,63.1167,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+21.8941666666666,42.3411111111111,1,1,"Culture/molecular",1,"Apodemus flavicollis",12,FALSE
+21.92,49.42,3,1,"Serology",1,"Apodemus flavicollis",21,FALSE
+21.94,49.64,6,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",126,FALSE
+21.9929,55.5556,4,1,"Culture/molecular",1,"Apodemus agrarius",20,FALSE
+22.0061,62.9764,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+22.01,49.59,6,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",21,FALSE
+22.1,49.56,6,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",42,FALSE
+22.11,49.64,6,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",18,FALSE
+22.33,49.83,3,1,"Serology",1,"Apodemus flavicollis",30,FALSE
+22.3851479536746,58.5379113551404,1,1,"Serology",1,"Apodemus agrarius",8,FALSE
+22.4707,55.2416,4,1,"Culture/molecular",1,"Apodemus agrarius",4,FALSE
+22.4905509114071,58.2588280465956,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",59,FALSE
+22.5,58.4167,1,1,"Serology",1,"Apodemus agrarius",3,FALSE
+22.5667,62.733,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+22.6138,49.2238,1,1,"Culture/molecular",1,"Sorex araneus",18,FALSE
+22.6356875770726,58.4161823280977,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",103,FALSE
+22.6892758420308,58.5125584062484,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",22,FALSE
+22.7325873845044,58.5144255623914,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",54,FALSE
+22.8417,62.7917,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+22.9,61.3333,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+23.03695,41.28556,1,1,"Culture/molecular",1,"Apodemus flavicollis",4,FALSE
+23.058247353291,45.7754937080014,2,1,"Culture/molecular",2,"Apodemus agrarius, Apodemus flavicollis",42,FALSE
+23.0813041364259,58.5044116417014,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+23.1757,55.6065,4,1,"Culture/molecular",1,"Apodemus agrarius",120,FALSE
+23.7667,60.8,1,1,"Culture/molecular",1,"Sorex araneus",3,FALSE
+23.825,41.336,1,1,"Culture/molecular",1,"Apodemus flavicollis",8,FALSE
+23.9312,54.3979,4,1,"Culture/molecular",1,"Apodemus agrarius",32,FALSE
+23.9616,54.5435,4,1,"Culture/molecular",1,"Apodemus agrarius",84,FALSE
+23.9707,54.4184,4,1,"Culture/molecular",1,"Apodemus agrarius",12,FALSE
+23.98957601,51.26856999,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+23.99001304,51.26852104,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+23.99014204,51.26849203,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+23.99049701,51.26650502,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",2,TRUE
+23.99059298,51.26845297,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",3,TRUE
+23.990811,51.26684801,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+23.99088903,51.267164,1,1,"Serology",1,"Apodemus flavicollis",2,FALSE
+23.99094201,51.26720197,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+23.99105399,51.26720499,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+23.99106698,51.268356,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",3,TRUE
+23.99142397,51.26826304,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+23.99169101,51.26823496,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",3,TRUE
+23.99170501,51.26721396,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+23.99170602,51.26728797,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+23.99170602,51.26735,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+23.99182898,51.26822398,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+23.99229803,51.26812901,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+23.99247204,51.26815198,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+23.99378498,51.26836002,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+23.99383401,51.26899503,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+23.99389696,51.26892999,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+23.99394298,51.26904096,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+23.99399998,51.26678296,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",3,TRUE
+23.99415999,51.26678699,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+23.99417298,51.26909704,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+23.99434598,51.26684097,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+23.99451203,51.26917298,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",3,TRUE
+23.99454103,51.26689101,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",6,TRUE
+23.99474303,51.268615,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",2,TRUE
+23.99474597,51.26693501,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",3,TRUE
+23.99488402,51.26825801,1,1,"Serology",1,"Apodemus flavicollis",2,FALSE
+23.99513103,51.26685999,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+23.99523497,51.26686997,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",4,TRUE
+23.99553697,51.26679998,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",2,TRUE
+23.99570997,51.26677098,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",3,TRUE
+23.99673399,51.26650401,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",3,TRUE
+23.997413,51.26640603,3,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Apodemus flavicollis",6,TRUE
+24.0667,60.25,2,1,"Culture/molecular",1,"Sorex araneus",5,FALSE
+24.0667,68,1,1,"Culture/molecular",1,"Sorex araneus",4,FALSE
+24.08129901,51.20439604,1,1,"Serology",1,"Apodemus flavicollis",2,FALSE
+24.08137696,51.204403,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08151199,51.20440098,3,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Apodemus flavicollis",4,TRUE
+24.081615,51.20440501,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",2,FALSE
+24.08200703,51.20445396,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08211197,51.20445798,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08227701,51.20446402,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.082448,51.20441196,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",3,TRUE
+24.08252402,51.20437902,1,1,"Serology",1,"Apodemus flavicollis",2,FALSE
+24.08272301,51.20439202,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+24.08296097,51.20443996,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",2,FALSE
+24.08309801,51.20441498,3,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Apodemus flavicollis",3,TRUE
+24.08322399,51.20440702,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08365399,51.20446997,3,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Apodemus flavicollis",5,TRUE
+24.08393604,51.20448598,1,1,"Serology",1,"Apodemus flavicollis",2,FALSE
+24.084116,51.20448598,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08421499,51.20448598,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+24.08429001,51.20629798,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",4,TRUE
+24.08436997,51.20450098,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",3,FALSE
+24.08438397,51.20628197,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08454004,51.20449704,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08464598,51.20449704,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+24.08465001,51.20631197,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",3,TRUE
+24.08488101,51.20451104,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08499199,51.20451598,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08512803,51.20608902,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08516197,51.20612296,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+24.08518301,51.20624199,1,1,"Serology",1,"Apodemus agrarius",3,FALSE
+24.085195,51.20613503,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+24.08523297,51.20618599,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+24.08524898,51.20455597,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08532098,51.20585801,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+24.08551804,51.20455303,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",4,TRUE
+24.08555299,51.20582297,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08562197,51.20456904,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+24.08567,51.20583597,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08572599,51.20583002,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08574896,51.20459704,1,1,"Serology",1,"Apodemus flavicollis",2,FALSE
+24.08582699,51.20463702,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",4,FALSE
+24.08602598,51.20516097,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+24.08603202,51.20463501,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+24.08611198,51.20462604,1,1,"Serology",1,"Apodemus agrarius",2,FALSE
+24.08611701,51.20532501,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",3,TRUE
+24.08612598,51.20525502,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",2,TRUE
+24.08613201,51.20583203,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+24.08616202,51.20534697,1,1,"Serology",1,"Apodemus flavicollis",2,FALSE
+24.08620996,51.20005597,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08622203,51.20540698,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",2,TRUE
+24.08622304,51.20462998,4,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Apodemus flavicollis",4,TRUE
+24.08630904,51.19936304,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+24.08632404,51.20547202,1,1,"Serology",1,"Apodemus flavicollis",2,FALSE
+24.08633603,51.20463903,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",5,TRUE
+24.08640099,51.20554503,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",3,TRUE
+24.08652001,51.20462403,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08660299,51.20056903,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08665898,51.20068696,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08680902,51.20091403,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08684799,51.20464498,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",6,FALSE
+24.08688496,51.20095904,1,1,"Serology",1,"Apodemus flavicollis",2,FALSE
+24.08724102,51.20159699,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08736901,51.20164703,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08752299,51.20173696,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08775802,51.20198398,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08791602,51.202088,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08799799,51.20213997,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08844399,51.20243199,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08907699,51.20293801,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08915503,51.20295502,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.08946298,51.20300598,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",2,TRUE
+24.08959701,51.20293097,1,1,"Serology",1,"Apodemus flavicollis",2,FALSE
+24.08979298,51.20284002,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",3,TRUE
+24.09005801,51.202735,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+24.09029103,51.202519,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.09034601,51.202463,3,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Apodemus flavicollis",3,TRUE
+24.09045196,51.20239201,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.09055699,51.20229101,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.09081004,51.20216704,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+24.09088799,51.20213804,3,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Apodemus flavicollis",3,TRUE
+24.09125201,51.20197602,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.091466,51.20183403,2,2,"Culture/molecular, Serology",1,"Apodemus flavicollis",2,TRUE
+24.09183397,51.20156698,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.09250301,51.20081898,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.09254903,51.20041296,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.092674,51.20018103,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.09282303,51.19954099,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",2,FALSE
+24.09283401,51.19979303,1,1,"Serology",1,"Apodemus flavicollis",1,FALSE
+24.3409300450939,42.1915461657089,2,1,"Culture/molecular",2,"Apodemus agrarius, Apodemus flavicollis",267,FALSE
+24.3937,56.0782,4,1,"Culture/molecular",1,"Apodemus agrarius",4,FALSE
+24.408,55.7296,8,1,"Culture/molecular",2,"Apodemus agrarius, Apodemus flavicollis",124,FALSE
+24.6288,56.002,4,1,"Culture/molecular",1,"Apodemus agrarius",4,FALSE
+24.6701,54.1886,4,1,"Culture/molecular",1,"Apodemus agrarius",80,FALSE
+24.6967,56.1891,4,1,"Culture/molecular",1,"Apodemus agrarius",60,FALSE
+24.7191,56.01776,4,1,"Culture/molecular",1,"Apodemus agrarius",56,FALSE
+24.7556,55.3913,4,1,"Culture/molecular",1,"Apodemus agrarius",24,FALSE
+24.9334,54.6373,4,1,"Culture/molecular",1,"Apodemus agrarius",32,FALSE
+25.0324,55.5019,4,1,"Culture/molecular",1,"Apodemus agrarius",96,FALSE
+25.1,62.4167,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+25.2,61.0167,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+25.3896,56.0219,4,1,"Culture/molecular",1,"Apodemus agrarius",24,FALSE
+25.4,62.5,1,1,"Culture/molecular",1,"Sorex araneus",3,FALSE
+25.5985,54.7929,4,1,"Culture/molecular",1,"Apodemus agrarius",20,FALSE
+25.733108,-17.835756,1,1,"Culture/molecular",1,"Rattus rattus",35,FALSE
+25.867,-17.85,1,1,"Culture/molecular",1,"Rattus rattus",35,FALSE
+26.19353,55.8452,4,1,"Culture/molecular",1,"Apodemus agrarius",32,FALSE
+27.6258,-24.5914,2,1,"Culture/molecular",1,"Lemniscomys rosalia",18,FALSE
+27.6833,62.9,1,1,"Culture/molecular",1,"Sorex araneus",1,FALSE
+28.186,61.058,1,1,"Culture/molecular",1,"Sorex araneus",2,FALSE
+28.235647,-14.968367,2,1,"Culture/molecular",2,"Aethomys chrysophilus, Rattus rattus",25,FALSE
+28.268092,-15.568578,1,1,"Culture/molecular",1,"Rattus rattus",1,FALSE
+28.283,-15.416,2,1,"Culture/molecular",2,"Aethomys chrysophilus, Rattus rattus",37,FALSE
+28.436092,-15.435033,2,1,"Culture/molecular",2,"Aethomys chrysophilus, Rattus rattus",11,FALSE
+30.98,-7.52,1,1,"Culture/molecular",1,"Lemniscomys striatus",14,FALSE
+31.06,-7.29,1,1,"Culture/molecular",1,"Lemniscomys striatus",1,FALSE
+31.07,-7.29,1,1,"Culture/molecular",1,"Lemniscomys striatus",1,FALSE
+31.09,-7.63,1,1,"Culture/molecular",1,"Lemniscomys striatus",7,FALSE
+31.09,-7.62,1,1,"Culture/molecular",1,"Lemniscomys striatus",6,FALSE
+31.14,-6.61,1,1,"Culture/molecular",1,"Aethomys chrysophilus",1,FALSE
+31.15,-7.42,1,1,"Culture/molecular",1,"Lemniscomys striatus",1,FALSE
+31.15,-7.13,1,1,"Culture/molecular",1,"Aethomys chrysophilus",2,FALSE
+31.17,-7.86,1,1,"Culture/molecular",1,"Lemniscomys striatus",1,FALSE
+31.25,-7.58,2,1,"Culture/molecular",2,"Aethomys chrysophilus, Lemniscomys striatus",3,FALSE
+31.26,-7.59,1,1,"Culture/molecular",1,"Lemniscomys striatus",1,FALSE
+31.32,-7.63,1,1,"Culture/molecular",1,"Lemniscomys striatus",1,FALSE
+31.34,-7.7,1,1,"Culture/molecular",1,"Lemniscomys striatus",2,FALSE
+31.35,-7.7,1,1,"Culture/molecular",1,"Lemniscomys striatus",1,FALSE
+31.36,-7.74,1,1,"Culture/molecular",1,"Lemniscomys striatus",2,FALSE
+31.37,-7.42,1,1,"Culture/molecular",1,"Lemniscomys striatus",1,FALSE
+31.48,-7.58,1,1,"Culture/molecular",1,"Lemniscomys striatus",2,FALSE
+31.48,-7.43,1,1,"Culture/molecular",1,"Lemniscomys striatus",1,FALSE
+31.61,-7.72,1,1,"Culture/molecular",1,"Lemniscomys striatus",1,FALSE
+31.85,-8.36,1,1,"Culture/molecular",1,"Aethomys chrysophilus",1,FALSE
+32.3916455218636,41.3394402251276,2,2,"Culture/molecular, Serology",1,"Rattus rattus",9,TRUE
+32.4095995630388,41.459631954395,2,2,"Culture/molecular, Serology",1,"Rattus rattus",24,TRUE
+33.88,-9.34,1,1,"Culture/molecular",1,"Lemniscomys striatus",2,FALSE
+33.91,-9.3,1,1,"Culture/molecular",1,"Lemniscomys striatus",3,FALSE
+34.64,-2.11,1,1,"Culture/molecular",1,"Aethomys chrysophilus",1,FALSE
+34.67,-1.84,1,1,"Culture/molecular",1,"Rattus rattus",1,FALSE
+34.83,-9.02,1,1,"Culture/molecular",1,"Rattus rattus",1,FALSE
+35.35,-9.83,1,1,"Culture/molecular",1,"Rattus rattus",2,FALSE
+35.36,-9.85,1,1,"Culture/molecular",1,"Aethomys chrysophilus",2,FALSE
+35.37,-9.84,1,1,"Culture/molecular",1,"Rattus rattus",1,FALSE
+35.41,-4.48,1,1,"Culture/molecular",1,"Aethomys chrysophilus",2,FALSE
+35.48,-8.04,1,1,"Culture/molecular",1,"Rattus rattus",4,FALSE
+35.6,-3.9,1,1,"Culture/molecular",1,"Rattus rattus",1,FALSE
+35.76,-4.33,1,1,"Culture/molecular",1,"Aethomys chrysophilus",5,FALSE
+35.85,-7.76,1,1,"Culture/molecular",1,"Aethomys chrysophilus",5,FALSE
+36.13,-7.65,2,1,"Culture/molecular",2,"Aethomys chrysophilus, Lemniscomys rosalia",13,FALSE
+36.26,-7.64,1,1,"Culture/molecular",1,"Aethomys chrysophilus",6,FALSE
+36.26,-2.91,1,1,"Culture/molecular",1,"Rattus rattus",2,FALSE
+36.33,-6.1,1,1,"Culture/molecular",1,"Aethomys chrysophilus",2,FALSE
+36.46,-3.33,1,1,"Culture/molecular",1,"Lemniscomys striatus",2,FALSE
+36.53,-7.51,1,1,"Culture/molecular",1,"Rattus rattus",2,FALSE
+36.7833,-1.3167,2,1,"Serology",1,"Rattus rattus",92,FALSE
+36.83,-6.85,2,1,"Culture/molecular",2,"Lemniscomys rosalia, Rattus rattus",2,FALSE
+36.86,-6.26,1,1,"Culture/molecular",1,"Aethomys chrysophilus",2,FALSE
+36.87,-6.05,1,1,"Culture/molecular",1,"Aethomys chrysophilus",6,FALSE
+36.9,-6.14,1,1,"Culture/molecular",1,"Aethomys chrysophilus",9,FALSE
+36.93,-6.36,1,1,"Culture/molecular",1,"Rattus rattus",2,FALSE
+36.99,-7.01,1,1,"Culture/molecular",1,"Lemniscomys rosalia",2,FALSE
+36.99,-6.63,1,1,"Culture/molecular",1,"Lemniscomys rosalia",1,FALSE
+37.03,-5.34,1,1,"Culture/molecular",1,"Aethomys chrysophilus",7,FALSE
+37.04,-6.08,1,1,"Culture/molecular",1,"Aethomys chrysophilus",8,FALSE
+37.14,-6.18,3,1,"Culture/molecular",3,"Lemniscomys rosalia, Lemniscomys striatus, Rattus rattus",61,FALSE
+37.14,-6.17,1,1,"Culture/molecular",1,"Aethomys chrysophilus",1,FALSE
+37.14,-6.15,1,1,"Culture/molecular",1,"Aethomys chrysophilus",2,FALSE
+37.15,-6.19,1,1,"Culture/molecular",1,"Aethomys chrysophilus",3,FALSE
+37.15,-5.4,1,1,"Culture/molecular",1,"Aethomys chrysophilus",2,FALSE
+37.19,-6.29,1,1,"Culture/molecular",1,"Aethomys chrysophilus",2,FALSE
+37.2,-5.39,1,1,"Culture/molecular",1,"Aethomys chrysophilus",2,FALSE
+37.3,-5.55,2,1,"Culture/molecular",2,"Aethomys chrysophilus, Rattus rattus",5,FALSE
+37.4,-5.4,1,1,"Culture/molecular",1,"Aethomys chrysophilus",5,FALSE
+37.4,-5.39,1,1,"Culture/molecular",1,"Aethomys chrysophilus",1,FALSE
+37.48,-5.38,1,1,"Culture/molecular",1,"Aethomys chrysophilus",7,FALSE
+37.6,-6.62,1,1,"Culture/molecular",1,"Lemniscomys rosalia",1,FALSE
+37.61,-5.47,1,1,"Culture/molecular",1,"Lemniscomys rosalia",2,FALSE
+37.65,-6.84,4,2,"Culture/molecular, Serology",2,"Lemniscomys rosalia, Rattus rattus",11,TRUE
+37.68,-6.13,1,1,"Culture/molecular",1,"Lemniscomys rosalia",1,FALSE
+37.74,-6.78,1,1,"Culture/molecular",1,"Lemniscomys rosalia",1,FALSE
+37.76,-5.47,1,1,"Culture/molecular",1,"Lemniscomys rosalia",1,FALSE
+37.78,-5.46,1,1,"Culture/molecular",1,"Lemniscomys rosalia",1,FALSE
+37.95,-5.41,1,1,"Culture/molecular",1,"Lemniscomys rosalia",3,FALSE
+38,-5.43,1,1,"Culture/molecular",1,"Lemniscomys rosalia",1,FALSE
+38.04,-5.45,1,1,"Culture/molecular",1,"Lemniscomys rosalia",4,FALSE
+38.06,-5.5,1,1,"Culture/molecular",1,"Lemniscomys rosalia",1,FALSE
+38.08,-5.56,1,1,"Culture/molecular",1,"Lemniscomys rosalia",1,FALSE
+39.13,13.65,4,1,"Culture/molecular",2,"Arvicanthis niloticus, Rattus rattus",18,FALSE
+39.1378,13.6641,4,2,"Culture/molecular, Serology",2,"Arvicanthis niloticus, Rattus rattus",16,TRUE
+39.289111,-5.875222,1,1,"Culture/molecular",1,"Suncus murinus",2,FALSE
+39.293278,-5.871417,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+39.293722,-5.922639,1,1,"Culture/molecular",1,"Suncus murinus",4,FALSE
+39.55,12.4166,4,1,"Culture/molecular",2,"Arvicanthis niloticus, Rattus rattus",90,FALSE
+39.616,40.75,2,1,"Serology",1,"Apodemus flavicollis",6,FALSE
+39.7166,13.866,4,1,"Culture/molecular",2,"Arvicanthis niloticus, Rattus rattus",30,FALSE
+39.725,13.881,4,2,"Culture/molecular, Serology",2,"Arvicanthis niloticus, Rattus rattus",52,TRUE
+41.05,41,2,1,"Serology",1,"Apodemus flavicollis",56,FALSE
+41.8283300811226,56.1158884288416,1,1,"Serology",1,"Apodemus agrarius",47,FALSE
+42.963167,14.823694,1,1,"Culture/molecular",1,"Suncus murinus",3,FALSE
+42.975611,14.825056,1,1,"Culture/molecular",1,"Suncus murinus",5,FALSE
+44.2031667464194,54.2342174915311,3,1,"Serology",3,"Apodemus agrarius, Apodemus flavicollis, Sorex araneus",123,FALSE
+44.294170302776,-20.2992260106711,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",19,FALSE
+44.5461772752433,-19.699772221742,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",35,FALSE
+45.13716,-12.83119,1,1,"Culture/molecular",1,"Rattus rattus",23,FALSE
+45.138,-12.843,1,1,"Culture/molecular",1,"Rattus rattus",1,FALSE
+45.4573916700196,-19.5288104561276,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",73,FALSE
+46.0886912982633,-25.1755885757307,1,1,"Culture/molecular",1,"Rattus rattus",57,FALSE
+46.1285015849461,-22.4024166272212,1,1,"Culture/molecular",1,"Rattus rattus",58,FALSE
+46.335383,-15.703033,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+46.34245,-15.669233,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+46.8301033468473,-16.9488500536466,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",52,FALSE
+47.038476206715,-19.8497816694276,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",63,FALSE
+47.0948684776557,-21.4457640042426,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",61,FALSE
+47.519036646381,-19.0166687970233,1,1,"Culture/molecular",1,"Rattus rattus",30,FALSE
+47.52485,-18.932083,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+47.524867,-18.93245,1,1,"Culture/molecular",1,"Suncus murinus",6,FALSE
+47.525159,-19.067916,1,1,"Culture/molecular",1,"Suncus murinus",2,FALSE
+47.5258,-18.932267,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+47.8768298052986,-18.4002196197156,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",37,FALSE
+47.9920146276384,-14.883656814463,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",45,FALSE
+48.011171212445,46.3057084597295,2,1,"Culture/molecular",2,"Apodemus agrarius, Sorex araneus",184,FALSE
+48.016,-18.3116,1,1,"Culture/molecular",1,"Rattus rattus",231,FALSE
+48.1975,30.432222,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+48.229529573298,-18.9481479419822,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",15,FALSE
+48.238611,30.393889,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+48.2621651607695,-13.3520903638659,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",37,FALSE
+48.8305140779771,-15.8433759545533,1,1,"Culture/molecular",1,"Rattus rattus",61,FALSE
+51.534589011679,55.4414192193791,2,1,"Serology",2,"Apodemus agrarius, Apodemus flavicollis",48,FALSE
+55.532,-21.114,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",326,FALSE
+67.122992,24.947822,1,1,"Culture/molecular",1,"Suncus murinus",9,FALSE
+67.123264,24.946042,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+67.123264,24.946639,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+73.3378658612402,54.9476728837162,1,1,"Serology",1,"Apodemus agrarius",26,FALSE
+75.570207265629,13.9353710691343,1,1,"Serology",1,"Rattus rattus",64,FALSE
+75.8627543930989,25.1799047538497,1,1,"Serology",1,"Rattus rattus",41,FALSE
+79.133,12.933,8,2,"Culture/molecular, Serology",2,"Rattus rattus, Suncus murinus",108,TRUE
+80.634253,7.292478,1,1,"Culture/molecular",1,"Suncus murinus",5,FALSE
+80.638781,7.319817,1,1,"Culture/molecular",1,"Suncus murinus",5,FALSE
+82.710742852523,18.8130420330541,1,1,"Serology",1,"Rattus rattus",58,FALSE
+82.7426037137833,55.3099732670666,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+84.5863250088917,56.5067331405083,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+85.2994968830076,27.6867645717118,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",66,FALSE
+85.3035524889204,27.6928638140613,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",47,FALSE
+85.3130799440807,27.6919517994883,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",131,FALSE
+85.32,27.66,1,1,"Culture/molecular",1,"Suncus murinus",20,FALSE
+85.32,27.7,1,1,"Culture/molecular",1,"Suncus murinus",104,FALSE
+85.356082241696,27.6780426332905,2,1,"Culture/molecular",2,"Rattus rattus, Suncus murinus",104,FALSE
+85.43,27.68,1,1,"Culture/molecular",1,"Suncus murinus",10,FALSE
+87.0685388494373,23.2335765063435,1,1,"Serology",1,"Rattus rattus",27,FALSE
+91.9409924346818,53.3226619952128,1,1,"Serology",1,"Apodemus agrarius",16,FALSE
+91.974461823919,53.0400947995724,1,1,"Serology",1,"Apodemus agrarius",2,FALSE
+94.598292,16.936036,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+94.664267,16.922103,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+96.035257,16.823225,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+96.036402,16.841192,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+96.1375,16.830778,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+96.154102,19.868724,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+96.191556,21.992917,1,1,"Culture/molecular",1,"Suncus murinus",3,FALSE
+96.274667,19.839917,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+96.893944,20.737444,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+96.925222,20.662194,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+97.025611,20.848389,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+97.060361,20.804167,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+97.85183,24.01277,1,1,"Culture/molecular",1,"Rattus rattus",5,FALSE
+99.0998912533024,14.6199492732919,1,1,"Serology",1,"Rattus rattus",3,FALSE
+99.6295381273174,13.9171022386154,2,1,"Serology",2,"Rattus exulans, Rattus rattus",11,FALSE
+99.9924375126965,14.0148192649003,2,1,"Serology",2,"Rattus exulans, Rattus rattus",13,FALSE
+100.120798289334,13.9947076737743,2,1,"Serology",2,"Rattus exulans, Rattus rattus",22,FALSE
+100.231831894897,13.7303228686421,2,1,"Serology",2,"Rattus exulans, Rattus rattus",70,FALSE
+100.569281426728,13.7075439367168,1,1,"Serology",1,"Rattus rattus",55,FALSE
+100.584915553959,13.7755583929666,3,1,"Serology",3,"Rattus exulans, Rattus rattus, Suncus murinus",38,FALSE
+100.778535,18.78275,1,1,"Serology",1,"Rattus exulans",5,FALSE
+100.8,18.6845,1,1,"Serology",1,"Rattus exulans",52,FALSE
+101.528,25.046,2,2,"Culture/molecular, Serology",1,"Rattus rattus",786,TRUE
+101.647920430336,17.4255722128357,1,1,"Serology",1,"Rattus exulans",25,FALSE
+101.731717,3.288233,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+102.283,17.65,1,1,"Serology",1,"Rattus exulans",30,FALSE
+102.296028,2.216833,1,1,"Culture/molecular",1,"Suncus murinus",4,FALSE
+102.297306,2.217278,1,1,"Culture/molecular",1,"Suncus murinus",3,FALSE
+102.981101461871,14.8188604367624,1,1,"Serology",1,"Rattus exulans",72,FALSE
+103.0167,15.483,1,1,"Serology",1,"Rattus exulans",71,FALSE
+103.753532145343,24.5168148859643,1,1,"Serology",1,"Suncus murinus",2,FALSE
+103.832276788528,10.716243798454,1,1,"Serology",1,"Rattus exulans",89,FALSE
+103.833,1.283,3,1,"Serology",3,"Rattus exulans, Rattus rattus, Suncus murinus",29,FALSE
+104.3667,11.183,1,1,"Serology",1,"Rattus exulans",98,FALSE
+104.723709785238,11.4836626106627,2,1,"Serology",2,"Rattus exulans, Rattus rattus",386,FALSE
+104.9167,11.55,1,1,"Serology",1,"Rattus exulans",4,FALSE
+105.130799,19.356783,1,1,"Culture/molecular",1,"Suncus murinus",7,FALSE
+105.706528,21.349083,1,1,"Culture/molecular",1,"Suncus murinus",10,FALSE
+105.727588,21.394235,1,1,"Culture/molecular",1,"Suncus murinus",9,FALSE
+105.795928,21.182686,1,1,"Culture/molecular",1,"Suncus murinus",2,FALSE
+105.810183489746,15.1164929927779,1,1,"Serology",1,"Rattus exulans",26,FALSE
+106.301,35.546,1,1,"Serology",1,"Apodemus agrarius",8,FALSE
+106.333,15.2,1,1,"Serology",1,"Rattus exulans",115,FALSE
+106.337,35.496,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+106.356,35.454,1,1,"Serology",1,"Apodemus agrarius",5,FALSE
+106.449,35.326,1,1,"Serology",1,"Apodemus agrarius",5,FALSE
+106.69,20.867,2,2,"Culture/molecular, Serology",1,"Rattus rattus",19,TRUE
+106.733139,16.626028,1,1,"Culture/molecular",1,"Suncus murinus",2,FALSE
+106.796667,-6.624445,1,1,"Culture/molecular",1,"Suncus murinus",1,FALSE
+106.7972,-6.5966,1,1,"Culture/molecular",1,"Suncus murinus",5,FALSE
+107.047495313311,12.8162353133808,1,1,"Serology",1,"Rattus exulans",37,FALSE
+107.0625,11.383611,1,1,"Culture/molecular",1,"Suncus murinus",5,FALSE
+107.23,12.45,1,1,"Serology",1,"Rattus exulans",63,FALSE
+107.353668097252,34.4447408298993,1,1,"Culture/molecular",1,"Apodemus agrarius",29,FALSE
+108.383795599381,30.6832580638997,1,1,"Serology",1,"Apodemus agrarius",352,FALSE
+108.749589696763,34.0518831867241,1,1,"Culture/molecular",1,"Apodemus agrarius",244,FALSE
+108.94954271748,34.2752785172598,2,1,"Culture/molecular",2,"Apodemus agrarius, Rattus rattus",9,FALSE
+109.15204452254,34.2708249562227,1,1,"Culture/molecular",1,"Apodemus agrarius",773,FALSE
+109.153355050683,35.4307893194406,1,1,"Culture/molecular",1,"Apodemus agrarius",6443,FALSE
+110.4322,1.6625,1,1,"Serology",1,"Rattus rattus",8,FALSE
+110.4989,1.4594,1,1,"Serology",1,"Rattus rattus",8,FALSE
+110.5111,1.0875,1,1,"Serology",1,"Rattus rattus",3,FALSE
+111.6667,1.8333,1,1,"Serology",1,"Rattus rattus",2,FALSE
+111.72678044446,27.245405403349,1,1,"Serology",1,"Apodemus agrarius",23,FALSE
+112.241136800252,27.4932652580537,1,1,"Serology",1,"Apodemus agrarius",152,FALSE
+112.483640309152,28.1955081729363,1,1,"Serology",1,"Apodemus agrarius",176,FALSE
+113.06,23.68,1,1,"Culture/molecular",1,"Suncus murinus",5,FALSE
+114.0596,22.5415,1,1,"Culture/molecular",1,"Suncus murinus",196,FALSE
+114.3,30.59,3,2,"Culture/molecular, Serology",1,"Apodemus agrarius",456,TRUE
+114.3046,30.5934,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",2,TRUE
+114.397809860116,27.8801080363136,1,1,"Culture/molecular",1,"Apodemus agrarius",701,FALSE
+116.4,39.91,2,1,"Culture/molecular",1,"Apodemus agrarius",269,FALSE
+117.8467,30.5406,1,1,"Serology",1,"Apodemus agrarius",176,FALSE
+118.842528586746,35.2472236881017,2,1,"Culture/molecular",2,"Apodemus agrarius, Suncus murinus",50,FALSE
+119.757948972868,49.2085482049428,1,1,"Serology",1,"Apodemus agrarius",81,FALSE
+119.92,28.47,1,1,"Culture/molecular",1,"Apodemus agrarius",2,FALSE
+120.347,22.575,4,2,"Culture/molecular, Serology",2,"Rattus rattus, Suncus murinus",199,TRUE
+120.488,22.672,4,2,"Culture/molecular, Serology",2,"Rattus rattus, Suncus murinus",144,TRUE
+120.625,27.783,1,1,"Culture/molecular",1,"Apodemus agrarius",4,FALSE
+120.698797302921,27.993466729413,1,1,"Culture/molecular",1,"Suncus murinus",362,FALSE
+121.224264665859,49.5666657778615,1,1,"Serology",1,"Apodemus agrarius",132,FALSE
+121.23,30.167,1,1,"Serology",1,"Rattus rattus",10,FALSE
+121.231,25.081,4,2,"Culture/molecular, Serology",3,"Apodemus agrarius, Rattus rattus, Suncus murinus",117,TRUE
+126.452542712885,36.782920951256,1,1,"Serology",1,"Apodemus agrarius",42,FALSE
+126.53,33.38,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",182,TRUE
+126.582,33.267,1,1,"Culture/molecular",1,"Crocidura shantungensis",2,FALSE
+126.64,45.76,2,1,"Culture/molecular",2,"Apodemus agrarius, Rattus rattus",38,FALSE
+126.776693519016,37.7590190472741,1,1,"Serology",1,"Apodemus agrarius",101,FALSE
+126.777720861755,37.7602081570148,1,1,"Serology",1,"Apodemus agrarius",8,FALSE
+126.7778,37.7596,1,1,"Serology",1,"Apodemus agrarius",7,FALSE
+126.784095565122,37.4408251941258,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",19,FALSE
+126.8,37.87,2,2,"Culture/molecular, Serology",1,"Crocidura lasiura",44,TRUE
+126.8083,37.8627,1,1,"Culture/molecular",1,"Crocidura shantungensis",7,FALSE
+126.833362833606,36.708826907126,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",25,FALSE
+126.835792433154,36.6991615514079,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",226,TRUE
+126.8358,37.0692,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",180,TRUE
+126.8486,35.1653,4,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Crocidura lasiura",1122,TRUE
+126.849,35.165,1,1,"Culture/molecular",1,"Apodemus agrarius",60,FALSE
+126.85006,37.978308,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",1748,FALSE
+126.901068673171,37.1841295149966,3,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Crocidura lasiura",421,TRUE
+126.9029,37.9468,4,2,"Culture/molecular, Serology",1,"Crocidura lasiura",8,TRUE
+126.9273,37.8692,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",24,TRUE
+126.9306,37.9147,4,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Crocidura lasiura",60,TRUE
+126.98,37.53,1,1,"Serology",1,"Rattus rattus",3,FALSE
+126.991,37.5626,1,1,"Culture/molecular",1,"Crocidura shantungensis",1,FALSE
+127.006,37.287,1,1,"Culture/molecular",1,"Crocidura shantungensis",1,FALSE
+127.029707949417,36.800068480894,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",4,FALSE
+127.0412,38.0483,4,2,"Culture/molecular, Serology",1,"Crocidura lasiura",8,TRUE
+127.053630295793,37.5180057569167,1,1,"Serology",1,"Apodemus agrarius",36,FALSE
+127.069804955727,38.0257173638773,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",225,FALSE
+127.072180885827,38.0230838105484,1,1,"Serology",1,"Apodemus agrarius",39,FALSE
+127.1056,38.1668,4,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Crocidura lasiura",40,TRUE
+127.11,36.99,1,1,"Serology",1,"Apodemus agrarius",1812,FALSE
+127.11719455024,36.4821541574324,1,1,"Serology",1,"Apodemus agrarius",3,FALSE
+127.131222878429,35.8442043117436,3,2,"Culture/molecular, Serology",2,"Apodemus agrarius, Crocidura lasiura",170,TRUE
+127.1667,36.239,1,1,"Culture/molecular",1,"Crocidura shantungensis",1,FALSE
+127.2,37.89,2,2,"Culture/molecular, Serology",1,"Crocidura lasiura",56,TRUE
+127.202452754692,37.9108405306045,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",43,FALSE
+127.2041,37.8983,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",19,TRUE
+127.204263862859,37.897614072358,1,1,"Serology",1,"Apodemus agrarius",18,FALSE
+127.230767489624,38.2565287261733,3,1,"Serology",3,"Apodemus agrarius, Crocidura lasiura, Crocidura shantungensis",98,FALSE
+127.2506,37.9783,1,1,"Culture/molecular",1,"Crocidura shantungensis",10,FALSE
+127.269595325837,37.0080796825113,1,1,"Serology",1,"Apodemus agrarius",9,FALSE
+127.285,38.1778,4,2,"Culture/molecular, Serology",1,"Crocidura lasiura",4,TRUE
+127.444934635433,35.2648569780339,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",255,TRUE
+127.483,36.633,1,1,"Culture/molecular",1,"Crocidura shantungensis",1,FALSE
+127.510286820091,37.8319928933462,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",41,FALSE
+127.690204264442,36.9514120543678,1,1,"Serology",1,"Apodemus agrarius",7,FALSE
+127.699577822968,38.1277580337753,3,1,"Serology",3,"Apodemus agrarius, Crocidura lasiura, Crocidura shantungensis",138,FALSE
+127.7055,38.1056,4,2,"Culture/molecular, Serology",1,"Crocidura lasiura",12,TRUE
+127.715506079355,37.9196941410611,3,1,"Serology",3,"Apodemus agrarius, Crocidura lasiura, Crocidura shantungensis",159,FALSE
+127.715670618227,35.9350076875605,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",79,FALSE
+127.7278,37.8805,4,2,"Culture/molecular, Serology",3,"Apodemus agrarius, Crocidura lasiura, Crocidura shantungensis",44,TRUE
+127.7397,37.89974,1,1,"Culture/molecular",1,"Crocidura shantungensis",9,FALSE
+127.888736853077,37.7405383619472,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",90,FALSE
+127.896494409833,37.7763148819193,3,1,"Serology",3,"Apodemus agrarius, Crocidura lasiura, Crocidura shantungensis",66,FALSE
+127.899,35.407,1,1,"Serology",1,"Apodemus agrarius",2,FALSE
+127.926,37.3207,1,1,"Culture/molecular",1,"Crocidura shantungensis",1,FALSE
+127.98319770434,38.1282912347283,1,1,"Serology",1,"Apodemus agrarius",29,FALSE
+127.985233297906,38.10184597644,1,1,"Serology",1,"Apodemus agrarius",50,FALSE
+128.125745713775,36.7065351614225,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",11,FALSE
+128.13823,37.09273,1,1,"Culture/molecular",1,"Crocidura shantungensis",1,FALSE
+128.144,41.278,1,1,"Culture/molecular",1,"Apodemus agrarius",58,FALSE
+128.160940655998,35.594058548067,2,2,"Culture/molecular, Serology",1,"Apodemus agrarius",234,TRUE
+128.165724859812,38.0967373285147,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",165,FALSE
+128.166205992318,38.0673423738833,1,1,"Serology",1,"Apodemus agrarius",16,FALSE
+128.167164395972,38.1142586383,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",77,FALSE
+128.2638,38.0762,4,2,"Culture/molecular, Serology",1,"Crocidura lasiura",4,TRUE
+128.402480061028,37.3939106141483,3,1,"Serology",3,"Apodemus agrarius, Crocidura lasiura, Crocidura shantungensis",25,FALSE
+128.5914,37.6709,4,2,"Culture/molecular, Serology",1,"Crocidura lasiura",4,TRUE
+128.616038281993,38.0778537056479,1,1,"Serology",1,"Apodemus agrarius",16,FALSE
+128.794317212661,35.9633940825083,2,1,"Serology",2,"Apodemus agrarius, Crocidura lasiura",25,FALSE
+128.834,37.7184,1,1,"Culture/molecular",1,"Crocidura shantungensis",2,FALSE
+128.927708240132,36.9878632981432,1,1,"Serology",1,"Apodemus agrarius",1,FALSE
+129.122,37.288,1,1,"Culture/molecular",1,"Crocidura shantungensis",1,FALSE
+129.234,35.845,1,1,"Culture/molecular",1,"Crocidura shantungensis",1,FALSE
+129.63,44.55,1,1,"Culture/molecular",1,"Apodemus agrarius",21,FALSE
+130.3,46.8,1,1,"Culture/molecular",1,"Apodemus agrarius",15,FALSE
+132.009043883879,44.5195044732867,1,1,"Serology",1,"Apodemus agrarius",879,FALSE
+132.67,35.2167,2,1,"Serology",1,"Apodemus speciosus",70,FALSE
+133.354532275152,44.3709626609954,1,1,"Serology",1,"Apodemus agrarius",3750,FALSE
+134.01986,46.79899,1,1,"Culture/molecular",1,"Apodemus agrarius",5,FALSE
+134.433,34.033,1,1,"Serology",1,"Apodemus speciosus",2,FALSE
+134.771093265501,44.8832358273611,1,1,"Serology",1,"Apodemus agrarius",17,FALSE
+134.8138,48.3613,1,1,"Culture/molecular",1,"Apodemus agrarius",137,FALSE
+134.8284,48.3611,1,1,"Culture/molecular",1,"Apodemus agrarius",275,FALSE
+135.52,34.686,1,1,"Serology",1,"Apodemus speciosus",28,FALSE
+137.15,36.7167,2,1,"Serology",1,"Apodemus speciosus",227,FALSE
+138.317,34.917,1,1,"Serology",1,"Apodemus speciosus",19,FALSE
+138.617,35.617,1,1,"Serology",1,"Apodemus speciosus",7,FALSE
+138.87,37.617,1,1,"Serology",1,"Apodemus speciosus",6,FALSE
+141.51591838441,43.2289879144924,1,1,"Serology",1,"Apodemus speciosus",3,FALSE
+141.5167,43.2167,3,1,"Serology",1,"Apodemus speciosus",37,FALSE
+141.528225405887,43.0921440957132,1,1,"Serology",1,"Apodemus speciosus",24,FALSE
+141.53,43.1,1,1,"Serology",1,"Apodemus speciosus",1,FALSE
+141.65,42.8167,1,1,"Serology",1,"Apodemus speciosus",5,FALSE
+142.489101407812,43.2823975908096,1,1,"Serology",1,"Apodemus speciosus",93,FALSE
+143.782570703513,44.0276805300057,1,1,"Serology",1,"Apodemus speciosus",2,FALSE
+143.863771040482,43.8432987853256,1,1,"Serology",1,"Apodemus speciosus",3,FALSE
+144.029419000791,43.6983115819228,1,1,"Serology",1,"Apodemus speciosus",11,FALSE
+144.467139521206,43.8585243620427,1,1,"Serology",1,"Apodemus speciosus",1,FALSE
