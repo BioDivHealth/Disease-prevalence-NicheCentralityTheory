@@ -64,6 +64,7 @@ dat_clean <- dat_joined %>%
     # Group by temporal resolution - ** can use this later for including temporal effects **
     date_interval = interval(start_date, end_date),
     month_diff = date_interval %/% months(1), 
+    days_diff = date_interval %/% days(1),
     month_diff_group = case_when(
       month_diff < 1                    ~ "<1",
       month_diff >= 1 & month_diff < 3  ~ "1-3",
@@ -73,7 +74,7 @@ dat_clean <- dat_joined %>%
     month_diff_group = factor(month_diff_group, levels = c("<1", "1-3", "3-6", "6-12", ">12"))
   ) %>% 
   reframe(number_positive, number_tested, number_negative,number_inconclusive,host_family, pathogen_family,
-          assay_group, prob_occur, Marginality, Specificity, Suitability, 
+          assay_group, prob_occur, Marginality, Specificity, Suitability, month_diff_group, month_diff, date_interval, days_diff, start_date, end_date,
           Centroid_d, Boundary_d, X.1, host_record_id, host_species, study_id, pathogen_record_id, pathogen_species_cleaned, longitude, latitude) %>% 
   # Exclude rows where its group has fewer than 20 observations
   group_by(host_family, pathogen_family, assay_group) %>% 
@@ -88,12 +89,12 @@ dat_clean <- dat_joined %>%
 dat_clean_agg = dat_clean %>% 
   dplyr::select(host_family, pathogen_family, assay_group, host_species, pathogen_species_cleaned,
                                               prob_occur, Marginality, Specificity, Suitability, Centroid_d, Boundary_d,
-                                              longitude, latitude,
+                                              longitude, latitude, date_interval, days_diff,
                                               number_tested, number_positive, number_negative, number_inconclusive,
                                               host_record_id, pathogen_record_id, study_id) %>% 
   dplyr::group_by(host_family, pathogen_family, assay_group, host_species, pathogen_species_cleaned,
            prob_occur, Marginality, Specificity, Suitability, Centroid_d, Boundary_d,
-           longitude, latitude) %>% 
+           longitude, latitude, date_interval, days_diff) %>% 
   dplyr::summarise(number_tested = sum(number_tested, na.rm = TRUE),
             number_positive = sum(number_positive, na.rm = TRUE),
             number_negative = sum(number_negative, na.rm = TRUE),
@@ -103,6 +104,100 @@ dat_clean_agg = dat_clean %>%
   group_by(host_species) %>% # Keep species for which more than X rows ARTUR
   filter(n() >= 15) %>%
   ungroup()
+
+
+# 3.1.2 Temporal Resolution Diagnostics ----------------------------------------
+# These plots evaluate the distribution of sampling intervals (days_diff).
+# Since aggregation now preserves unique date intervals, we check for:
+# - Common sampling durations (e.g., 1 week, 1 month)
+# - Extreme outliers (multi-year studies)
+# - Consistency across the dataset to inform temporal covariate scaling
+
+dim(dat_clean_agg)
+# 2538 by default
+
+# Summary of sampling duration in days
+summary(dat_clean_agg$days_diff)
+
+
+df <- dat_clean_agg %>%
+  filter(!is.na(days_diff))
+
+
+# Plot 1: Distribution of shorter studies (< 1 year) using density
+p_zoom_density <- ggplot(df, aes(x = days_diff)) +
+  geom_histogram(
+    aes(y = after_stat(density)),
+    binwidth = 7, boundary = 0,
+    colour = "white", linewidth = 0.3
+  ) +
+  coord_cartesian(xlim = c(0, 370)) +
+  scale_x_continuous(
+    breaks = seq(0, 365, by = 30),
+    minor_breaks = seq(0, 365, by = 7),
+    expand = c(0, 0)
+  ) +
+  labs(
+    title = "Time between start and end dates (zoomed to 1 year)",
+    subtitle = "Histogram (7-day bins); y-axis is density",
+    x = "Days (end − start)",
+    y = "Density"
+  ) +
+  theme_classic(base_size = 13)
+
+p_zoom_density
+
+# Plot 2: Distribution of shorter studies (< 1 year) using counts
+p_zoom_count <- ggplot(df, aes(x = days_diff)) +
+  geom_histogram(
+    binwidth = 7, boundary = 0,
+    colour = "white", linewidth = 0.3, fill = "coral3"
+  ) +
+  coord_cartesian(xlim = c(0, 365)) +
+  scale_x_continuous(
+    breaks = seq(0, 365, by = 30),
+    minor_breaks = seq(0, 365, by = 7),
+    expand = c(0, 0)
+  ) +
+  labs(
+    title = "Time between start and end dates (0–365 days)",
+    subtitle = "Histogram (7-day bins)",
+    x = "Days (end − start)",
+    y = "Count"
+  ) +
+  theme_classic(base_size = 13)
+
+p_zoom_count
+
+# Plot 3: Full range distribution with yearly markers to identify multi-year studies
+max_days <- max(df$days_diff, na.rm = TRUE)
+year_breaks <- seq(0, ceiling(max_days / 365) * 365, by = 365)
+
+p_full_linear <- ggplot(df, aes(x = days_diff)) +
+  geom_histogram(
+    binwidth = 60, boundary = 0,
+    colour = "white", linewidth = 0.5, fill = "coral4"
+  ) +
+  geom_vline(
+    xintercept = year_breaks,
+    linewidth = 0.3,
+    linetype = "dashed",
+    alpha = 0.3
+  ) +
+  scale_x_continuous(
+    breaks = year_breaks,
+    labels = paste0(year_breaks / 365, "y"),
+    expand = c(0, 0)
+  ) +
+  labs(
+    title = "Time between start and end dates (full range)",
+    subtitle = "Dashed lines mark each 365-day interval",
+    x = "Days (end − start)",
+    y = "Count"
+  ) +
+  theme_classic(base_size = 13)
+
+p_full_linear
 
 table(dat_clean_agg$host_species)
 dim(table(dat_clean_agg$host_species))
@@ -635,5 +730,5 @@ a = table(dat_clean_agg$host_species)[order(table(dat_clean_agg$host_species), d
 table(dat_clean_agg$prob_occur)[order(table(dat_clean_agg$prob_occur), decreasing = TRUE)][1:30]
 
 # 4.3 Save transformed data and objects -----------------------
-saveRDS(dat_clean_agg, "Data/dat_clean_agg.rds")
-saveRDS(best_normalize_results, "Data/best_normalize_results.rds")
+saveRDS(dat_clean_agg, "Data/dat_clean_agg2.rds")
+saveRDS(best_normalize_results, "Data/best_normalize_results2.rds")
