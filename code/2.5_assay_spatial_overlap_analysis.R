@@ -127,5 +127,3 @@ print(head(species_overlap, 15))
 sink()
 
 message("\nAnalysis complete. Results saved to: ", results_dir)
-
-

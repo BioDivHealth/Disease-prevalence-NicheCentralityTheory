@@ -133,5 +133,3 @@ if (n_balanced / n_total_species > 0.5) {
 sink()
 
 message("\nAnalysis complete. Results saved to: ", results_dir)
-
-
