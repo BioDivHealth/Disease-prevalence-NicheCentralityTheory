@@ -12,14 +12,18 @@ max_period_default <- 15
 max_period_sensitivity <- c(7, 30, 60, 120)
 max_period_grid <- sort(unique(c(max_period_default, max_period_sensitivity)))
 
-# Site definition: rounding coordinates reduces false “new sites” from minor jitter.
-# Digits=2 corresponds to ~1.1 km in latitude.
+# Spatial mode: exact vs rounded coordinates
+site_mode <- "exact" # "exact" or "rounded"
+exact_round_digits <- 3
 coord_round_digits <- 2
+
+mode_tag <- if (site_mode == "exact") "exact" else paste0("rounded", coord_round_digits)
+analysis_dir <- here("Results", "analysis_metadata", mode_tag)
 
 # MODIS phenology extraction ------------------------------------------------
 # Keep opt-in: avoids re-downloading and allows temporal audit without MODIS.
 use_modis <- TRUE
-run_modis_download <- TRUE
+run_modis_download <- FALSE
 
 # Helpers ------------------------------------------------------------------
 gap_vec <- function(dates) {
@@ -80,22 +84,25 @@ dat_year <- dat_year %>%
     doy_sin = sin(2 * pi * doy / 365.25),
     doy_cos = cos(2 * pi * doy / 365.25),
     sampling_duration_days = as.numeric(days_diff),
-    lon_round = round(longitude, coord_round_digits),
-    lat_round = round(latitude, coord_round_digits)
+    lon_site = round(longitude, if_else(site_mode == "exact", exact_round_digits, coord_round_digits)),
+    lat_site = round(latitude, if_else(site_mode == "exact", exact_round_digits, coord_round_digits))
   ) %>%
   # Avoid carrying Interval columns into dplyr summarise workflows
   select(-date_interval)
 
-# 3. Site definitions (rounded coordinates) --------------------------------
+# 3. Site definitions (mode-specific coordinates) ---------------------------
 # Used for: (a) reducing MODIS API calls, (b) measuring repeat sampling at same locality
 sites <- dat_year %>%
-  distinct(lat_round, lon_round) %>%
-  arrange(lon_round, lat_round) %>%
-  mutate(site_name = paste0("site_", row_number()))
+  distinct(lat_site, lon_site) %>%
+  arrange(lon_site, lat_site) %>%
+  mutate(
+    site_id = paste(lon_site, lat_site, sep = "_"),
+    site_name = paste0("site_", row_number())
+  )
 
 # Join site_name back to main data for later merging
 dat_year <- dat_year %>%
-  left_join(sites, by = c("lat_round", "lon_round"))
+  left_join(sites, by = c("lat_site", "lon_site"))
 
 # 4. MODIS phenology metadata (MCD12Q2: MidGreenup) ------------------------
 # Notes:
@@ -111,7 +118,7 @@ message(paste("MODIS availability: 2000-present. Data includes years back to", m
 message(paste(
   "Ready to extract MODIS data for",
   nrow(sites),
-  "unique rounded sites (digits =", coord_round_digits, ") for",
+  "unique", mode_tag, "sites for",
   start_year, "to", end_year
 ))
 
@@ -119,31 +126,26 @@ message(paste(
 modis_path_round <- here("Data", paste0("modis_mcd12q2_raw_round", coord_round_digits, ".rds"))
 modis_path_exact <- here("Data", "modis_mcd12q2_raw.rds")
 
-# Prefer rounded-site cache, but fall back to the older exact-site cache if needed.
-modis_source <- dplyr::case_when(
-  file.exists(modis_path_round) ~ "rounded",
-  file.exists(modis_path_exact) ~ "exact",
-  TRUE ~ "missing"
-)
+modis_path_mode <- if (site_mode == "rounded") modis_path_round else modis_path_exact
+modis_source <- if (file.exists(modis_path_mode)) site_mode else "missing"
 
 if (isTRUE(use_modis)) {
   message(
     "MODIS input source: ", modis_source,
-    if (modis_source == "rounded") paste0(" (", basename(modis_path_round), ")") else "",
-    if (modis_source == "exact") paste0(" (", basename(modis_path_exact), ")") else ""
+    if (modis_source != "missing") paste0(" (", basename(modis_path_mode), ")") else ""
   )
 }
 
 if (isTRUE(use_modis) && isTRUE(run_modis_download)) {
   modis_res <- mt_batch_subset(
-    df = sites %>% rename(lat = lat_round, lon = lon_round),
+    df = sites %>% rename(lat = lat_site, lon = lon_site),
     product = "MCD12Q2",
     band = "MidGreenup.Num_Modes_01",
     start = paste0(start_year, "-01-01"),
     end = paste0(end_year, "-12-31")
   )
-  saveRDS(modis_res, modis_path_round)
-  modis_source <- "rounded"
+  saveRDS(modis_res, modis_path_mode)
+  modis_source <- site_mode
 }
 
 # Default: build dat_final even if MODIS is missing
@@ -158,13 +160,11 @@ dat_final <- dat_year %>%
   )
 
 if (isTRUE(use_modis) && modis_source != "missing") {
-  modis_path_in <- if (modis_source == "rounded") modis_path_round else modis_path_exact
-
   if (!exists("modis_res")) {
-    modis_res <- readRDS(modis_path_in)
+    modis_res <- readRDS(modis_path_mode)
   }
 
-  # Standardize coordinate column names for the fallback (exact) file.
+  # Standardize coordinate column names for exact-mode files.
   if (modis_source == "exact") {
     if ("latitude" %in% names(modis_res) && !("lat" %in% names(modis_res))) {
       modis_res <- dplyr::rename(modis_res, lat = latitude)
@@ -174,14 +174,14 @@ if (isTRUE(use_modis) && modis_source != "missing") {
     }
     if (!("lat" %in% names(modis_res)) || !("lon" %in% names(modis_res))) {
       stop(
-        "MODIS fallback file exists but lacks lat/lon columns: ", modis_path_in,
+        "MODIS file exists but lacks lat/lon columns: ", modis_path_mode,
         "\nExpected columns 'lat'/'lon' (or 'latitude'/'longitude')."
       )
     }
   }
 
   if (!("calendar_date" %in% names(modis_res)) || !("value" %in% names(modis_res))) {
-    stop("Unexpected MODIS file format: missing calendar_date/value in ", modis_path_in)
+    stop("Unexpected MODIS file format: missing calendar_date/value in ", modis_path_mode)
   }
 
   if (modis_source == "rounded") {
@@ -198,17 +198,15 @@ if (isTRUE(use_modis) && modis_source != "missing") {
         .groups = "drop"
       )
   } else {
-    # Fallback: use exact-site MODIS download and map it onto rounded sites.
-    # Multiple exact points can land in the same rounded cell; we average within (site_name, year).
     modis_clean <- modis_res %>%
       filter(value != 32767) %>%
       mutate(
         greenup_date = as.Date(value, origin = "1970-01-01"),
         modis_year = year(as.Date(calendar_date)),
-        lat_round = round(lat, coord_round_digits),
-        lon_round = round(lon, coord_round_digits)
+        lat_site = round(lat, exact_round_digits),
+        lon_site = round(lon, exact_round_digits)
       ) %>%
-      left_join(sites, by = c("lat_round", "lon_round")) %>%
+      left_join(sites, by = c("lat_site", "lon_site")) %>%
       filter(!is.na(site_name)) %>%
       group_by(site_name, modis_year) %>%
       summarise(
@@ -243,23 +241,29 @@ if (isTRUE(use_modis) && modis_source != "missing") {
   print(table(dat_final$pheno_source))
 } else if (isTRUE(use_modis)) {
   warning(
-    "MODIS phenology file not found. Tried:\n- ", modis_path_round,
-    "\n- ", modis_path_exact,
+    "MODIS phenology file not found for mode '", site_mode, "'. Tried:\n- ",
+    modis_path_mode,
     "\nContinuing without MODIS metadata."
   )
 }
 
 # Save temporal-only metadata product (always)
-saveRDS(dat_year, here("Data", "dat_with_temporal_metadata.rds"))
-write.csv(dat_year, here("Data", "dat_with_temporal_metadata.csv"), row.names = FALSE)
+data_temporal_rds <- here("Data", paste0("dat_with_temporal_metadata_", mode_tag, ".rds"))
+data_temporal_csv <- here("Data", paste0("dat_with_temporal_metadata_", mode_tag, ".csv"))
+
+data_modis_rds <- here("Data", paste0("dat_with_modis_metadata_", mode_tag, ".rds"))
+data_modis_csv <- here("Data", paste0("dat_with_modis_metadata_", mode_tag, ".csv"))
+
+saveRDS(dat_year, data_temporal_rds)
+write.csv(dat_year, data_temporal_csv, row.names = FALSE)
 
 # Save MODIS-enriched metadata only when MODIS is available
 # (prevents overwriting a previously-built MODIS file with NA placeholders).
 if (isTRUE(use_modis) && modis_source != "missing") {
-  saveRDS(dat_final, here("Data", "dat_with_modis_metadata.rds"))
-  write.csv(dat_final, here("Data", "dat_with_modis_metadata.csv"), row.names = FALSE)
+  saveRDS(dat_final, data_modis_rds)
+  write.csv(dat_final, data_modis_csv, row.names = FALSE)
 } else {
-  message("Skipping write of Data/dat_with_modis_metadata.* (MODIS not available).")
+  message("Skipping write of ", basename(data_modis_rds), " (MODIS not available).")
 }
 
 # 5. General temporal audit (candidates) -----------------------------------
@@ -407,8 +411,8 @@ temporal_candidates_hp_site_all <- dat_year_temporal %>%
     n_quarters = n_distinct(quarter(event_date), na.rm = TRUE),
     n_years = n_distinct(year(event_date), na.rm = TRUE),
     gaps = list(gap_vec(event_date)),
-    site_lon_round = first(lon_round),
-    site_lat_round = first(lat_round),
+    site_lon = first(lon_site),
+    site_lat = first(lat_site),
     .groups = "drop"
   ) %>%
   add_gap_summaries("gaps") %>%
@@ -420,14 +424,14 @@ pilot_hp_site <- temporal_candidates_hp_site_all %>%
   filter(n_event_days >= 30, n_quarters >= 3, !is.na(avg_gap_days))
 
 # 6. Exports ---------------------------------------------------------------
-dir.create(here("Results", "analysis_metadata"), showWarnings = FALSE, recursive = TRUE)
+dir.create(analysis_dir, showWarnings = FALSE, recursive = TRUE)
 
 # Default-period objects used by 2.1b plotting
-saveRDS(dat_year_temporal, here("Results", "analysis_metadata", "dat_year_temporal.rds"))
-saveRDS(temporal_candidates_species, here("Results", "analysis_metadata", "temporal_candidates_species.rds"))
+saveRDS(dat_year_temporal, here(analysis_dir, "dat_year_temporal.rds"))
+saveRDS(temporal_candidates_species, here(analysis_dir, "temporal_candidates_species.rds"))
 write.csv(
   temporal_candidates_species,
-  here("Results", "analysis_metadata", "temporal_candidates_species.csv"),
+  here(analysis_dir, "temporal_candidates_species.csv"),
   row.names = FALSE
 )
 
@@ -436,42 +440,42 @@ saveRDS(
   dat_year_temporal %>%
     filter(!is.na(pathogen_species_cleaned)) %>%
     mutate(host_pathogen = paste(host_species, pathogen_species_cleaned, sep = " | ")),
-  here("Results", "analysis_metadata", "dat_year_temporal_host_pathogen.rds")
+  here(analysis_dir, "dat_year_temporal_host_pathogen.rds")
 )
-saveRDS(temporal_candidates_hp, here("Results", "analysis_metadata", "temporal_candidates_host_pathogen.rds"))
+saveRDS(temporal_candidates_hp, here(analysis_dir, "temporal_candidates_host_pathogen.rds"))
 write.csv(
   temporal_candidates_hp,
-  here("Results", "analysis_metadata", "temporal_candidates_host_pathogen.csv"),
+  here(analysis_dir, "temporal_candidates_host_pathogen.csv"),
   row.names = FALSE
 )
 
 # Also export full (unfiltered) summaries for auditing
-saveRDS(temporal_candidates_species_all, here("Results", "analysis_metadata", "temporal_candidates_species_all.rds"))
+saveRDS(temporal_candidates_species_all, here(analysis_dir, "temporal_candidates_species_all.rds"))
 write.csv(
   temporal_candidates_species_all,
-  here("Results", "analysis_metadata", "temporal_candidates_species_all.csv"),
+  here(analysis_dir, "temporal_candidates_species_all.csv"),
   row.names = FALSE
 )
 
-saveRDS(temporal_candidates_hp_all, here("Results", "analysis_metadata", "temporal_candidates_host_pathogen_all.rds"))
+saveRDS(temporal_candidates_hp_all, here(analysis_dir, "temporal_candidates_host_pathogen_all.rds"))
 write.csv(
   temporal_candidates_hp_all,
-  here("Results", "analysis_metadata", "temporal_candidates_host_pathogen_all.csv"),
+  here(analysis_dir, "temporal_candidates_host_pathogen_all.csv"),
   row.names = FALSE
 )
 
 # Host-pathogen-site time series
-saveRDS(temporal_candidates_hp_site_all, here("Results", "analysis_metadata", "temporal_candidates_host_pathogen_site_all.rds"))
+saveRDS(temporal_candidates_hp_site_all, here(analysis_dir, "temporal_candidates_host_pathogen_site_all.rds"))
 write.csv(
   temporal_candidates_hp_site_all,
-  here("Results", "analysis_metadata", "temporal_candidates_host_pathogen_site_all.csv"),
+  here(analysis_dir, "temporal_candidates_host_pathogen_site_all.csv"),
   row.names = FALSE
 )
 
-saveRDS(pilot_hp_site, here("Results", "analysis_metadata", "pilot_temporal_hp_site_candidates.rds"))
+saveRDS(pilot_hp_site, here(analysis_dir, "pilot_temporal_hp_site_candidates.rds"))
 write.csv(
   pilot_hp_site,
-  here("Results", "analysis_metadata", "pilot_temporal_hp_site_candidates.csv"),
+  here(analysis_dir, "pilot_temporal_hp_site_candidates.csv"),
   row.names = FALSE
 )
 
@@ -486,7 +490,7 @@ gaps_hp_site <- dat_year_temporal %>%
 
 write.csv(
   gaps_hp_site,
-  here("Results", "analysis_metadata", "temporal_gaps_host_pathogen_site_max15.csv"),
+  here(analysis_dir, "temporal_gaps_host_pathogen_site_max15.csv"),
   row.names = FALSE
 )
 
@@ -517,12 +521,12 @@ for (a in assay_levels) {
     arrange(avg_gap_days)
 
   a_safe <- stringr::str_replace_all(a, "[^A-Za-z0-9]+", "_")
-  out_a <- here("Results", "analysis_metadata", paste0("temporal_candidates_host_pathogen_assay_", a_safe, ".csv"))
+  out_a <- here(analysis_dir, paste0("temporal_candidates_host_pathogen_assay_", a_safe, ".csv"))
   write.csv(cand_a, out_a, row.names = FALSE)
 }
 
 # Sensitivity tables for other max_period values (filtered candidates only)
-sens_dir <- here("Results", "analysis_metadata", "temporal_sensitivity")
+sens_dir <- here(analysis_dir, "temporal_sensitivity")
 dir.create(sens_dir, showWarnings = FALSE, recursive = TRUE)
 
 for (mp in max_period_grid) {

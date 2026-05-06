@@ -5,14 +5,20 @@ library(pacman)
 p_load(tidyverse, lubridate, here, maps, patchwork)
 
 # Parameters ---------------------------------------------------------------
+site_mode <- "exact" # "exact" or "rounded"
+exact_round_digits <- 3
 coord_round_digits <- 2
 max_top <- 10
 inset_pos <- list(left = 0.55, bottom = 0.75, right = 1, top = 1)
 
+mode_tag <- if (site_mode == "exact") "exact" else paste0("rounded", coord_round_digits)
+analysis_dir <- here("Results", "analysis_metadata", mode_tag)
+plots_dir <- here("Results", "plots", mode_tag)
+
 # Inputs ------------------------------------------------------------------
-path_cov_species <- here("Results", "analysis_metadata", "spatial_coverage_host_species.csv")
-path_cov_hp <- here("Results", "analysis_metadata", "spatial_coverage_host_pathogen.csv")
-path_dat_temporal <- here("Data", "dat_with_temporal_metadata.rds")
+path_cov_species <- here(analysis_dir, "spatial_coverage_host_species.csv")
+path_cov_hp <- here(analysis_dir, "spatial_coverage_host_pathogen.csv")
+path_dat_temporal <- here("Data", paste0("dat_with_temporal_metadata_", mode_tag, ".rds"))
 path_dat_fallback <- here("Data", "dat_clean_agg2.rds")
 
 stopifnot(file.exists(path_cov_species))
@@ -48,12 +54,12 @@ if (length(date_fields) > 0) {
 
 dat$year <- year_vals
 
-# Define sites using rounded coordinates to match 2.1c
+# Define sites using mode-specific coordinates to match 2.1c
 sites <- dat %>%
   mutate(
-    lon_round = round(longitude, coord_round_digits),
-    lat_round = round(latitude, coord_round_digits),
-    site_id = paste(lon_round, lat_round, sep = "_")
+    lon_site = round(longitude, if_else(site_mode == "exact", exact_round_digits, coord_round_digits)),
+    lat_site = round(latitude, if_else(site_mode == "exact", exact_round_digits, coord_round_digits)),
+    site_id = paste(lon_site, lat_site, sep = "_")
   )
 
 # Ranking helpers ----------------------------------------------------------
@@ -210,7 +216,7 @@ safe_name <- function(x) {
 }
 
 # Output directories -------------------------------------------------------
-output_root <- here("Results", "plots", "spatial_coverage")
+output_root <- here(plots_dir, "spatial_coverage")
 output_species <- here(output_root, "top_species")
 output_hp <- here(output_root, "top_host_pathogen")
 

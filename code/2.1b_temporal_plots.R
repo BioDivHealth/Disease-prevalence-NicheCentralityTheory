@@ -5,11 +5,17 @@ library(pacman)
 p_load(tidyverse, lubridate, here, maps, patchwork)
 
 # Inputs written by 2.1a
-path_dat_final <- here("Data", "dat_with_modis_metadata.rds")
-path_dat_year_temporal <- here("Results", "analysis_metadata", "dat_year_temporal.rds")
-path_candidates_species <- here("Results", "analysis_metadata", "temporal_candidates_species.rds")
-path_dat_year_temporal_hp <- here("Results", "analysis_metadata", "dat_year_temporal_host_pathogen.rds")
-path_candidates_hp <- here("Results", "analysis_metadata", "temporal_candidates_host_pathogen.rds")
+site_mode <- "exact" # "exact" or "rounded"
+coord_round_digits <- 2
+mode_tag <- if (site_mode == "exact") "exact" else paste0("rounded", coord_round_digits)
+analysis_dir <- here("Results", "analysis_metadata", mode_tag)
+plots_dir <- here("Results", "plots", mode_tag)
+
+path_dat_final <- here("Data", paste0("dat_with_modis_metadata_", mode_tag, ".rds"))
+path_dat_year_temporal <- here(analysis_dir, "dat_year_temporal.rds")
+path_candidates_species <- here(analysis_dir, "temporal_candidates_species.rds")
+path_dat_year_temporal_hp <- here(analysis_dir, "dat_year_temporal_host_pathogen.rds")
+path_candidates_hp <- here(analysis_dir, "temporal_candidates_host_pathogen.rds")
 
 stopifnot(file.exists(path_dat_year_temporal))
 stopifnot(file.exists(path_candidates_species))
@@ -25,7 +31,7 @@ dat_year_temporal_hp <- readRDS(path_dat_year_temporal_hp)
 temporal_candidates_hp <- readRDS(path_candidates_hp)
 
 # Output folder
-out_dir <- here("Results", "plots")
+out_dir <- plots_dir
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
 # 1. Histogram: time between start and end dates ----
@@ -49,7 +55,7 @@ p_zoom_count <- ggplot(dat_year_temporal, aes(x = days_diff)) +
   theme_classic(base_size = 13)
 
 ggsave(
-  filename = here("Results", "plots", "temporal_window_histogram.png"),
+  filename = here(out_dir, "temporal_window_histogram.png"),
   plot = p_zoom_count,
   width = 8,
   height = 4.5,
@@ -75,7 +81,7 @@ if (file.exists(path_dat_final)) {
     theme_minimal()
 
   ggsave(
-    filename = here("Results", "plots", "phenology_days_since_midgreenup.png"),
+    filename = here(out_dir, "phenology_days_since_midgreenup.png"),
     plot = p_pheno_qa,
     width = 8,
     height = 4.5,
@@ -102,7 +108,7 @@ p_temporal_coverage <- dat_year_temporal %>%
   theme_minimal()
 
 ggsave(
-  filename = here("Results", "plots", "temporal_coverage_top10_species.png"),
+  filename = here(out_dir, "temporal_coverage_top10_species.png"),
   plot = p_temporal_coverage,
   width = 10,
   height = 4.8,
@@ -127,7 +133,7 @@ p_temporal_coverage_hp <- dat_year_temporal_hp %>%
   theme(axis.text.y = element_text(size = 7))
 
 ggsave(
-  filename = here("Results", "plots", "temporal_coverage_top10_host_pathogen.png"),
+  filename = here(out_dir, "temporal_coverage_top10_host_pathogen.png"),
   plot = p_temporal_coverage_hp,
   width = 10,
   height = 5.5,
@@ -201,7 +207,7 @@ p_temporal_pathogen_facets <- ggplot(top_10_data, aes(x = event_date, y = host_s
   )
 
 ggsave(
-  filename = here("Results", "plots", "temporal_facets_by_pathogen_top10.png"),
+  filename = here(out_dir, "temporal_facets_by_pathogen_top10.png"),
   plot = p_temporal_pathogen_facets,
   width = 10,
   height = 10,
@@ -249,7 +255,7 @@ p_hp_ranges <- ggplot(hp_ranges, aes(y = host_species)) +
   )
 
 ggsave(
-  filename = here("Results", "plots", "temporal_date_ranges_by_pathogen_top10.png"),
+  filename = here(out_dir, "temporal_date_ranges_by_pathogen_top10.png"),
   plot = p_hp_ranges,
   width = 10,
   height = 10,
@@ -349,7 +355,7 @@ if (make_spatial_maps) {
     )
 
   ggsave(
-    here("Results", "plots", "top_hp_spatial_distribution.png"),
+    here(out_dir, "top_hp_spatial_distribution.png"),
     p_spatial_dist_inset,
     width = 12,
     height = 12,
@@ -365,7 +371,7 @@ if (make_all_hp_maps) {
   all_hp_data <- dat_year_temporal_hp
   all_hp_combos <- sort(unique(all_hp_data$host_pathogen))
 
-  out_all <- here("Results", "plots", "all_hp_maps")
+  out_all <- here(out_dir, "all_hp_maps")
   dir.create(out_all, showWarnings = FALSE, recursive = TRUE)
 
   create_inset_map <- function(hp_name, data, world_data) {
@@ -409,7 +415,7 @@ if (make_all_hp_maps) {
   for (i in seq_along(all_hp_combos)) {
     hp_name <- all_hp_combos[i]
     hp_safe <- str_replace_all(hp_name, "[^A-Za-z0-9]+", "_")
-    out_path <- here("Results", "plots", "all_hp_maps", paste0("map_", hp_safe, ".png"))
+    out_path <- here(out_dir, "all_hp_maps", paste0("map_", hp_safe, ".png"))
 
     tryCatch(
       {

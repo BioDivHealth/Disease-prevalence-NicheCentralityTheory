@@ -3,12 +3,6 @@
 #--------------------------------------#
 # Predict zoonotic pathogen prevalence #
 #--------------------------------------#
-
-# CODEX CONVERSATIONS:
-# Variable scaling: codex resume 019a5e7a-b5ff-7ec1-849a-8980cdc55294
-# Priors discussions: codex resume 019a5f74-5ed5-7c52-94a5-f635e3e4c5c1
-
-
 # 0. Script purpose ----
 # - Load SDM estimates, host & pathogen data
 # - Clean & format data

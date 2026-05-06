@@ -6,28 +6,55 @@ library(pacman)
 p_load(tidyverse, here)
 
 # Parameters ---------------------------------------------------------------
+site_mode <- "exact" # "exact" or "rounded"
+exact_round_digits <- 3
 coord_round_digits <- 2 # ~1.1 km latitude
 
+mode_tag <- if (site_mode == "exact") "exact" else paste0("rounded", coord_round_digits)
+analysis_dir <- here("Results", "analysis_metadata", mode_tag)
+
 # 1. Load data -------------------------------------------------------------
-dat <- readRDS(here("Data", "dat_clean_agg2.rds")) %>%
+path_dat_temporal <- here("Data", paste0("dat_with_temporal_metadata_", mode_tag, ".rds"))
+path_dat_fallback <- here("Data", "dat_clean_agg2.rds")
+
+dat <- if (file.exists(path_dat_temporal)) {
+  readRDS(path_dat_temporal)
+} else {
+  readRDS(path_dat_fallback)
+} %>%
   select(-any_of("date_interval"))
 
 # Define sites using rounded coordinates to avoid artificial inflation of n_sites
 # from small coordinate jitter across studies.
-dat_sites <- dat %>%
-  mutate(
-    lon_round = round(longitude, coord_round_digits),
-    lat_round = round(latitude, coord_round_digits),
-    site_id = paste(lon_round, lat_round, sep = "_")
-  )
+use_site_name <- site_mode != "exact" &&
+  all(c("site_name", "lon_round", "lat_round") %in% names(dat))
+
+dat_sites <- if (use_site_name) {
+  dat %>%
+    mutate(
+      lon_site = coalesce(lon_round, round(longitude, coord_round_digits)),
+      lat_site = coalesce(lat_round, round(latitude, coord_round_digits)),
+      site_id = if_else(!is.na(site_name) & nzchar(site_name), site_name,
+                        paste(lon_site, lat_site, sep = "_"))
+    )
+} else {
+  dat %>%
+    mutate(
+      lon_site = round(longitude, if_else(site_mode == "exact", exact_round_digits, coord_round_digits)),
+      lat_site = round(latitude, if_else(site_mode == "exact", exact_round_digits, coord_round_digits)),
+      site_id = paste(lon_site, lat_site, sep = "_")
+    )
+}
 
 site_lut <- dat_sites %>%
-  distinct(site_id, lon_round, lat_round) %>%
-  arrange(lon_round, lat_round) %>%
+  distinct(site_id, lon_site, lat_site) %>%
+  arrange(lon_site, lat_site) %>%
   mutate(site_name = paste0("site_", row_number()))
 
 dat_sites <- dat_sites %>%
-  left_join(site_lut, by = c("site_id", "lon_round", "lat_round"))
+  left_join(site_lut, by = c("site_id", "lon_site", "lat_site")) %>%
+  mutate(site_name = coalesce(site_name.y, site_name.x)) %>%
+  select(-any_of(c("site_name.x", "site_name.y")))
 
 # 2. Spatial extent helpers ------------------------------------------------
 # Rough geographic scaling for quick “extent” summaries.
@@ -106,7 +133,7 @@ spatial_coverage_hp <- dat_sites %>%
   arrange(desc(n_sites))
 
 # 5. Export ---------------------------------------------------------------
-out_dir <- here("Results", "analysis_metadata")
+out_dir <- analysis_dir
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
 write.csv(
