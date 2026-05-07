@@ -1,10 +1,11 @@
 # 2.1b_temporal_plots
-# Goal: plotting + figure export for temporal audit outputs from 2.1a.
+# Goal: plotting + figure export for temporal audit outputs from
+# 2.1a_temporal_candidates.R.
 
 library(pacman)
 p_load(tidyverse, lubridate, here, maps, patchwork)
 
-# Inputs written by 2.1a
+# Inputs written by 2.1a_temporal_candidates.R
 site_mode <- "exact" # "exact" or "rounded"
 coord_round_digits <- 2
 mode_tag <- if (site_mode == "exact") "exact" else paste0("rounded", coord_round_digits)
@@ -106,6 +107,8 @@ p_temporal_coverage <- dat_year_temporal %>%
   ) +
   scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
   theme_minimal()
+
+p_temporal_coverage
 
 ggsave(
   filename = here(out_dir, "temporal_coverage_top10_species.png"),
