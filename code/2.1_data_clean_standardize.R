@@ -94,10 +94,19 @@ dat_clean_agg = dat_clean %>%
             number_negative = sum(number_negative, na.rm = TRUE),
             number_inconclusive = sum(number_inconclusive, na.rm = TRUE),
             rows = n(),
+            study_id = first(study_id),
+            n_study_ids = n_distinct(study_id),
             .groups = "drop") %>% 
   group_by(host_species) %>% # Keep species for which more than X rows ARTUR
   filter(n() >= 15) %>%
   ungroup()
+
+if (any(dat_clean_agg$n_study_ids > 1)) {
+  stop("Some aggregated rows map to multiple study_id values; inspect before saving dat_clean_agg2.rds.")
+}
+
+dat_clean_agg <- dat_clean_agg %>%
+  select(-n_study_ids)
 
 
 # 3.1.2 Temporal Resolution Diagnostics ----------------------------------------
